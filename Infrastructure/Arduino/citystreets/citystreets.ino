@@ -1,7 +1,10 @@
 #include "shared/BLEServiceRunner.cpp"
 #include "shared/MatrixR4.cpp"
-#include "shared/ServoMotor.cpp"
+//#include "shared/ServoMotor.cpp"
 #include "shared/Lighting.cpp"
+#include "shared/RFIDReader.cpp"
+
+#include <SPI.h>
 
 #include <TaskScheduler.h>
 
@@ -9,17 +12,21 @@ Scheduler _runner;
 BLEServiceRunner _ble("City Streets");
 MatrixR4 _matrixR4(_ble);
 Lighting _lighting(_ble, {{3, true}, {0, false}}, A0);
-ServoMotor _servoMotor(_ble, 9);
+//ServoMotor _servoMotor(_ble, 9);
+RFIDReader _rfidReader(_ble, 10, 9);
 
 void setup()
 {
   Serial.begin(9600);
   while (!Serial);
 
+  SPI.begin();
+
   _ble.begin(_runner);
   _matrixR4.begin();
   _lighting.begin(_runner);
-  _servoMotor.begin();
+  //_servoMotor.begin();
+  _rfidReader.begin(_runner);
 }
 
 void loop()

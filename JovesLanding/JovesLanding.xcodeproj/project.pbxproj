@@ -11,70 +11,46 @@
 		55002C562D8F0FCC003B9952 /* BatteryIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55002C4E2D8F0FCC003B9952 /* BatteryIndicatorView.swift */; };
 		55002C572D8F0FCC003B9952 /* LightIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55002C512D8F0FCC003B9952 /* LightIndicatorView.swift */; };
 		55002C582D8F0FCC003B9952 /* MotorIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55002C522D8F0FCC003B9952 /* MotorIndicatorView.swift */; };
-		55002C5A2D8F0FCC003B9952 /* ConnectionIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55002C4F2D8F0FCC003B9952 /* ConnectionIndicatorView.swift */; };
-		55002C5B2D8F0FCC003B9952 /* BatteryIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55002C4E2D8F0FCC003B9952 /* BatteryIndicatorView.swift */; };
-		55002C5C2D8F0FCC003B9952 /* LightIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55002C512D8F0FCC003B9952 /* LightIndicatorView.swift */; };
-		55002C5D2D8F0FCC003B9952 /* MotorIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55002C522D8F0FCC003B9952 /* MotorIndicatorView.swift */; };
 		55002C5F2D8F0FCC003B9952 /* ConnectionIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55002C4F2D8F0FCC003B9952 /* ConnectionIndicatorView.swift */; };
 		55002C602D8F0FCC003B9952 /* BatteryIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55002C4E2D8F0FCC003B9952 /* BatteryIndicatorView.swift */; };
 		55002C612D8F0FCC003B9952 /* LightIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55002C512D8F0FCC003B9952 /* LightIndicatorView.swift */; };
 		55002C622D8F0FCC003B9952 /* MotorIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55002C522D8F0FCC003B9952 /* MotorIndicatorView.swift */; };
 		550F95062DA0503600C0A34B /* ArduinoDisplayControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550F95042DA0503400C0A34B /* ArduinoDisplayControlView.swift */; };
-		550F95072DA0503600C0A34B /* ArduinoDisplayControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550F95042DA0503400C0A34B /* ArduinoDisplayControlView.swift */; };
 		55268B87294B7BF200BA9AC6 /* FacilitiesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55268B86294B7BF200BA9AC6 /* FacilitiesListView.swift */; };
 		554740DC2954F4AC00948BBB /* Infrastructure in Frameworks */ = {isa = PBXBuildFile; productRef = 554740DB2954F4AC00948BBB /* Infrastructure */; };
 		554740E02954F4BC00948BBB /* Infrastructure in Frameworks */ = {isa = PBXBuildFile; productRef = 554740DF2954F4BC00948BBB /* Infrastructure */; };
-		554740E42954F4C500948BBB /* Infrastructure in Frameworks */ = {isa = PBXBuildFile; productRef = 554740E32954F4C500948BBB /* Infrastructure */; };
+		554A5C422F12AB1E00FE2E9D /* Untitled.swift in Sources */ = {isa = PBXBuildFile; fileRef = 554A5C412F12AB1D00FE2E9D /* Untitled.swift */; };
+		554A5C432F12AB1E00FE2E9D /* Untitled.swift in Sources */ = {isa = PBXBuildFile; fileRef = 554A5C412F12AB1D00FE2E9D /* Untitled.swift */; };
 		555C8AD22D8F044700EA33E0 /* MotorizedFacilityGauageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555C8AD12D8F044700EA33E0 /* MotorizedFacilityGauageView.swift */; };
 		555C8AD32D8F044700EA33E0 /* MotorizedFacilityGauageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555C8AD12D8F044700EA33E0 /* MotorizedFacilityGauageView.swift */; };
-		555C8AD42D8F044700EA33E0 /* MotorizedFacilityGauageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555C8AD12D8F044700EA33E0 /* MotorizedFacilityGauageView.swift */; };
-		556E65CC294D1DD500FCEFD6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 556E65CB294D1DD500FCEFD6 /* Assets.xcassets */; };
-		556E65CF294D1DD500FCEFD6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 556E65CE294D1DD500FCEFD6 /* Preview Assets.xcassets */; };
-		556E65D3294D1DF600FCEFD6 /* FacilitiesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F2842A2944455800047EF5 /* FacilitiesListView.swift */; };
 		557513512DA8531800E73784 /* SbjGauge in Frameworks */ = {isa = PBXBuildFile; productRef = 557513502DA8531800E73784 /* SbjGauge */; };
 		557513532DA8532C00E73784 /* SbjGauge in Frameworks */ = {isa = PBXBuildFile; productRef = 557513522DA8532C00E73784 /* SbjGauge */; };
-		557513552DA8533500E73784 /* SbjGauge in Frameworks */ = {isa = PBXBuildFile; productRef = 557513542DA8533500E73784 /* SbjGauge */; };
-		557513582DA87B9C00E73784 /* BLEByJove in Frameworks */ = {isa = PBXBuildFile; productRef = 557513572DA87B9C00E73784 /* BLEByJove */; };
 		5575135A2DA87BA800E73784 /* BLEByJove in Frameworks */ = {isa = PBXBuildFile; productRef = 557513592DA87BA800E73784 /* BLEByJove */; };
 		5575135C2DA87BB400E73784 /* BLEByJove in Frameworks */ = {isa = PBXBuildFile; productRef = 5575135B2DA87BB400E73784 /* BLEByJove */; };
+		557A2E072EFD90550052A30F /* SBJKit in Frameworks */ = {isa = PBXBuildFile; productRef = 557A2E062EFD90550052A30F /* SBJKit */; };
+		557A2E092EFD90600052A30F /* SBJKit in Frameworks */ = {isa = PBXBuildFile; productRef = 557A2E082EFD90600052A30F /* SBJKit */; };
 		559AB9E02DA08EC000666C1A /* CityStreetsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559AB9DF2DA08EC000666C1A /* CityStreetsView.swift */; };
-		559AB9E12DA08EC000666C1A /* CityStreetsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559AB9DF2DA08EC000666C1A /* CityStreetsView.swift */; };
 		559AB9E52DA08F8400666C1A /* ConductedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559AB9E42DA08F8400666C1A /* ConductedView.swift */; };
-		559E02402D9447CD00CA3953 /* MotorState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559E023F2D9447CD00CA3953 /* MotorState.swift */; };
 		559E02412D9447CD00CA3953 /* MotorState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559E023F2D9447CD00CA3953 /* MotorState.swift */; };
 		559E02422D9447CD00CA3953 /* MotorState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559E023F2D9447CD00CA3953 /* MotorState.swift */; };
-		55A0DE882D9EFF6100FCA504 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A0DE852D9EFF6000FCA504 /* ImagePicker.swift */; };
-		55A0DE8A2D9F08BA00FCA504 /* HVStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A0DE892D9F08B900FCA504 /* HVStack.swift */; };
 		55A0DE8B2D9F08BA00FCA504 /* HVStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A0DE892D9F08B900FCA504 /* HVStack.swift */; };
 		55A0DE8C2D9F08BA00FCA504 /* HVStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A0DE892D9F08B900FCA504 /* HVStack.swift */; };
-		55A730742D9B4738005CA3C1 /* FacilityConnectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A730732D9B4738005CA3C1 /* FacilityConnectionView.swift */; };
 		55A730752D9B4738005CA3C1 /* FacilityConnectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A730732D9B4738005CA3C1 /* FacilityConnectionView.swift */; };
 		55D0C7A62DD8E7210028BFFE /* ViewDidLoadModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D1A2D9294EB39F003381C3 /* ViewDidLoadModifier.swift */; };
 		55D0C7A72DD8E7210028BFFE /* ViewDidLoadModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D1A2D9294EB39F003381C3 /* ViewDidLoadModifier.swift */; };
-		55D0C7A82DD8E7210028BFFE /* ViewDidLoadModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D1A2D9294EB39F003381C3 /* ViewDidLoadModifier.swift */; };
 		55D0C7B52DD8EBA40028BFFE /* JoveExpressControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D0C7B12DD8EBA40028BFFE /* JoveExpressControlsView.swift */; };
-		55D0C7B72DD8EBA40028BFFE /* JoveExpressControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D0C7B12DD8EBA40028BFFE /* JoveExpressControlsView.swift */; };
 		55D0C7BA2DD8EC6A0028BFFE /* JoveExpressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D0C7B92DD8EC6A0028BFFE /* JoveExpressView.swift */; };
-		55D0C7BB2DD8EC6A0028BFFE /* JoveExpressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D0C7B92DD8EC6A0028BFFE /* JoveExpressView.swift */; };
 		55D1A2F3294EB39F003381C3 /* FacilityDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D1A2D1294EB39F003381C3 /* FacilityDetailView.swift */; };
-		55D1A2F4294EB39F003381C3 /* FacilityDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D1A2D1294EB39F003381C3 /* FacilityDetailView.swift */; };
 		55D1A2F5294EB39F003381C3 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55D1A2D2294EB39F003381C3 /* Media.xcassets */; };
-		55D1A2F7294EB39F003381C3 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55D1A2D2294EB39F003381C3 /* Media.xcassets */; };
 		55D1A30C294EB39F003381C3 /* GaugeIndicatorsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D1A2DF294EB39F003381C3 /* GaugeIndicatorsView.swift */; };
-		55D1A30D294EB39F003381C3 /* GaugeIndicatorsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D1A2DF294EB39F003381C3 /* GaugeIndicatorsView.swift */; };
 		55D1A34A294EB516003381C3 /* JovesLandingApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D1A349294EB516003381C3 /* JovesLandingApp.swift */; };
-		55D1A34B294EB516003381C3 /* JovesLandingApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D1A349294EB516003381C3 /* JovesLandingApp.swift */; };
 		55D1A34C294EB55F003381C3 /* JovesLandingApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D1A349294EB516003381C3 /* JovesLandingApp.swift */; };
 		55D1A34D294EB564003381C3 /* FacilityDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D1A2D1294EB39F003381C3 /* FacilityDetailView.swift */; };
 		55D1A34E294EB56B003381C3 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55D1A2D2294EB39F003381C3 /* Media.xcassets */; };
 		55D1A359294EB57A003381C3 /* GaugeIndicatorsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D1A2DF294EB39F003381C3 /* GaugeIndicatorsView.swift */; };
 		55D1A360294EB616003381C3 /* JoveMetroLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D1A35F294EB616003381C3 /* JoveMetroLineView.swift */; };
 		55E4E6862DDB89E2003DB69D /* ESPCamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E4E6852DDB89D8003DB69D /* ESPCamView.swift */; };
-		55E4E6872DDB89E2003DB69D /* ESPCamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E4E6852DDB89D8003DB69D /* ESPCamView.swift */; };
-		55E50AE029501CC500FC0773 /* JoveMetroLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D1A35F294EB616003381C3 /* JoveMetroLineView.swift */; };
-		55E949722D933CDC00D79246 /* CityStreetsControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E949702D933CDB00D79246 /* CityStreetsControlsView.swift */; };
 		55E949732D933CDC00D79246 /* CityStreetsControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E949702D933CDB00D79246 /* CityStreetsControlsView.swift */; };
-		55E9497E2D93400100D79246 /* JoveMetroLineControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E9497C2D93400000D79246 /* JoveMetroLineControlsView.swift */; };
 		55E9497F2D93400100D79246 /* JoveMetroLineControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E9497C2D93400000D79246 /* JoveMetroLineControlsView.swift */; };
 		55F284202944452800047EF5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55F2841F2944452800047EF5 /* Assets.xcassets */; };
 		55F284232944452800047EF5 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55F284222944452800047EF5 /* Preview Assets.xcassets */; };
@@ -117,14 +93,13 @@
 		55268B86294B7BF200BA9AC6 /* FacilitiesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacilitiesListView.swift; sourceTree = "<group>"; };
 		554740D82954F49B00948BBB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		55490BD52DAFE74C00D7E433 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		554A5C412F12AB1D00FE2E9D /* Untitled.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Untitled.swift; sourceTree = "<group>"; };
 		555C8AD12D8F044700EA33E0 /* MotorizedFacilityGauageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotorizedFacilityGauageView.swift; sourceTree = "<group>"; };
-		556E65C5294D1DD500FCEFD6 /* JovesControl.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JovesControl.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		556E65CB294D1DD500FCEFD6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		556E65CE294D1DD500FCEFD6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		559AB9DF2DA08EC000666C1A /* CityStreetsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityStreetsView.swift; sourceTree = "<group>"; };
 		559AB9E42DA08F8400666C1A /* ConductedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConductedView.swift; sourceTree = "<group>"; };
 		559E023F2D9447CD00CA3953 /* MotorState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotorState.swift; sourceTree = "<group>"; };
-		55A0DE852D9EFF6000FCA504 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		55A0DE892D9F08B900FCA504 /* HVStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HVStack.swift; sourceTree = "<group>"; };
 		55A730732D9B4738005CA3C1 /* FacilityConnectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacilityConnectionView.swift; sourceTree = "<group>"; };
 		55D0C7B12DD8EBA40028BFFE /* JoveExpressControlsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoveExpressControlsView.swift; sourceTree = "<group>"; };
@@ -158,21 +133,12 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		556E65C2294D1DD500FCEFD6 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				554740E42954F4C500948BBB /* Infrastructure in Frameworks */,
-				557513582DA87B9C00E73784 /* BLEByJove in Frameworks */,
-				557513552DA8533500E73784 /* SbjGauge in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		55F284152944452700047EF5 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				554740DC2954F4AC00948BBB /* Infrastructure in Frameworks */,
+				557A2E072EFD90550052A30F /* SBJKit in Frameworks */,
 				5575135A2DA87BA800E73784 /* BLEByJove in Frameworks */,
 				557513512DA8531800E73784 /* SbjGauge in Frameworks */,
 			);
@@ -183,6 +149,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				554740E02954F4BC00948BBB /* Infrastructure in Frameworks */,
+				557A2E092EFD90600052A30F /* SBJKit in Frameworks */,
 				5575135C2DA87BB400E73784 /* BLEByJove in Frameworks */,
 				557513532DA8532C00E73784 /* SbjGauge in Frameworks */,
 			);
@@ -236,7 +203,6 @@
 				555C8AD12D8F044700EA33E0 /* MotorizedFacilityGauageView.swift */,
 				55D1A2D1294EB39F003381C3 /* FacilityDetailView.swift */,
 				55A0DE892D9F08B900FCA504 /* HVStack.swift */,
-				55A0DE852D9EFF6000FCA504 /* ImagePicker.swift */,
 				55A730732D9B4738005CA3C1 /* FacilityConnectionView.swift */,
 				55002C532D8F0FCC003B9952 /* Indicators */,
 				55D1A2D2294EB39F003381C3 /* Media.xcassets */,
@@ -280,6 +246,7 @@
 		55F2840F2944452700047EF5 = {
 			isa = PBXGroup;
 			children = (
+				554A5C412F12AB1D00FE2E9D /* Untitled.swift */,
 				55490BD52DAFE74C00D7E433 /* README.md */,
 				55E9496B2D933C3000D79246 /* CityStreats */,
 				55E949802D93400800D79246 /* JoveMetroLine */,
@@ -301,7 +268,6 @@
 				55F284182944452700047EF5 /* JovesLanding.app */,
 				55F2845E29444DD100047EF5 /* TrainConductor.app */,
 				55F2846329444DD100047EF5 /* TrainConductor Watch App.app */,
-				556E65C5294D1DD500FCEFD6 /* JovesControl.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -358,28 +324,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		556E65C4294D1DD500FCEFD6 /* JovesControl */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 556E65D2294D1DD500FCEFD6 /* Build configuration list for PBXNativeTarget "JovesControl" */;
-			buildPhases = (
-				556E65C1294D1DD500FCEFD6 /* Sources */,
-				556E65C2294D1DD500FCEFD6 /* Frameworks */,
-				556E65C3294D1DD500FCEFD6 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = JovesControl;
-			packageProductDependencies = (
-				554740E32954F4C500948BBB /* Infrastructure */,
-				557513542DA8533500E73784 /* SbjGauge */,
-				557513572DA87B9C00E73784 /* BLEByJove */,
-			);
-			productName = JovesControl;
-			productReference = 556E65C5294D1DD500FCEFD6 /* JovesControl.app */;
-			productType = "com.apple.product-type.application";
-		};
 		55F284172944452700047EF5 /* JovesLanding */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 55F284262944452800047EF5 /* Build configuration list for PBXNativeTarget "JovesLanding" */;
@@ -397,6 +341,7 @@
 				554740DB2954F4AC00948BBB /* Infrastructure */,
 				557513502DA8531800E73784 /* SbjGauge */,
 				557513592DA87BA800E73784 /* BLEByJove */,
+				557A2E062EFD90550052A30F /* SBJKit */,
 			);
 			productName = JovesLanding;
 			productReference = 55F284182944452700047EF5 /* JovesLanding.app */;
@@ -436,6 +381,7 @@
 				554740DF2954F4BC00948BBB /* Infrastructure */,
 				557513522DA8532C00E73784 /* SbjGauge */,
 				5575135B2DA87BB400E73784 /* BLEByJove */,
+				557A2E082EFD90600052A30F /* SBJKit */,
 			);
 			productName = "TrainConductor Watch App";
 			productReference = 55F2846329444DD100047EF5 /* TrainConductor Watch App.app */;
@@ -449,11 +395,8 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1420;
-				LastUpgradeCheck = 1630;
+				LastUpgradeCheck = 2620;
 				TargetAttributes = {
-					556E65C4294D1DD500FCEFD6 = {
-						CreatedOnToolsVersion = 14.2;
-					};
 					55F284172944452700047EF5 = {
 						CreatedOnToolsVersion = 14.1;
 						LastSwiftMigration = 1410;
@@ -480,6 +423,7 @@
 				55268BC1294C1C8500BA9AC6 /* XCRemoteSwiftPackageReference "swift-collections" */,
 				5575134F2DA8521500E73784 /* XCLocalSwiftPackageReference "../../../GitHub/SbjGauge" */,
 				557513562DA87B8500E73784 /* XCLocalSwiftPackageReference "../../../GitHub/BLEByJove" */,
+				557A2E052EFD90460052A30F /* XCLocalSwiftPackageReference "../../SBJKit" */,
 			);
 			productRefGroup = 55F284192944452700047EF5 /* Products */;
 			projectDirPath = "";
@@ -488,22 +432,11 @@
 				55F284172944452700047EF5 /* JovesLanding */,
 				55F2845D29444DD100047EF5 /* TrainConductor */,
 				55F2846229444DD100047EF5 /* TrainConductor Watch App */,
-				556E65C4294D1DD500FCEFD6 /* JovesControl */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		556E65C3294D1DD500FCEFD6 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				556E65CF294D1DD500FCEFD6 /* Preview Assets.xcassets in Resources */,
-				55D1A2F7294EB39F003381C3 /* Media.xcassets in Resources */,
-				556E65CC294D1DD500FCEFD6 /* Assets.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		55F284162944452700047EF5 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -534,34 +467,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		556E65C1294D1DD500FCEFD6 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				55E9497E2D93400100D79246 /* JoveMetroLineControlsView.swift in Sources */,
-				55D1A2F4294EB39F003381C3 /* FacilityDetailView.swift in Sources */,
-				55A0DE8A2D9F08BA00FCA504 /* HVStack.swift in Sources */,
-				55E50AE029501CC500FC0773 /* JoveMetroLineView.swift in Sources */,
-				556E65D3294D1DF600FCEFD6 /* FacilitiesListView.swift in Sources */,
-				559E02402D9447CD00CA3953 /* MotorState.swift in Sources */,
-				55A730742D9B4738005CA3C1 /* FacilityConnectionView.swift in Sources */,
-				55D0C7B72DD8EBA40028BFFE /* JoveExpressControlsView.swift in Sources */,
-				55E949722D933CDC00D79246 /* CityStreetsControlsView.swift in Sources */,
-				55E4E6872DDB89E2003DB69D /* ESPCamView.swift in Sources */,
-				55D1A30D294EB39F003381C3 /* GaugeIndicatorsView.swift in Sources */,
-				55D0C7BB2DD8EC6A0028BFFE /* JoveExpressView.swift in Sources */,
-				55002C5A2D8F0FCC003B9952 /* ConnectionIndicatorView.swift in Sources */,
-				55002C5B2D8F0FCC003B9952 /* BatteryIndicatorView.swift in Sources */,
-				55002C5C2D8F0FCC003B9952 /* LightIndicatorView.swift in Sources */,
-				55002C5D2D8F0FCC003B9952 /* MotorIndicatorView.swift in Sources */,
-				555C8AD42D8F044700EA33E0 /* MotorizedFacilityGauageView.swift in Sources */,
-				550F95072DA0503600C0A34B /* ArduinoDisplayControlView.swift in Sources */,
-				55D0C7A82DD8E7210028BFFE /* ViewDidLoadModifier.swift in Sources */,
-				559AB9E12DA08EC000666C1A /* CityStreetsView.swift in Sources */,
-				55D1A34B294EB516003381C3 /* JovesLandingApp.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		55F284142944452700047EF5 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -571,7 +476,6 @@
 				55D0C7A62DD8E7210028BFFE /* ViewDidLoadModifier.swift in Sources */,
 				55E9497F2D93400100D79246 /* JoveMetroLineControlsView.swift in Sources */,
 				55D0C7BA2DD8EC6A0028BFFE /* JoveExpressView.swift in Sources */,
-				55A0DE882D9EFF6100FCA504 /* ImagePicker.swift in Sources */,
 				55D1A2F3294EB39F003381C3 /* FacilityDetailView.swift in Sources */,
 				55A0DE8B2D9F08BA00FCA504 /* HVStack.swift in Sources */,
 				55F284342944455800047EF5 /* FacilitiesListView.swift in Sources */,
@@ -585,6 +489,7 @@
 				55002C622D8F0FCC003B9952 /* MotorIndicatorView.swift in Sources */,
 				555C8AD22D8F044700EA33E0 /* MotorizedFacilityGauageView.swift in Sources */,
 				550F95062DA0503600C0A34B /* ArduinoDisplayControlView.swift in Sources */,
+				554A5C422F12AB1E00FE2E9D /* Untitled.swift in Sources */,
 				559AB9E02DA08EC000666C1A /* CityStreetsView.swift in Sources */,
 				55D0C7B52DD8EBA40028BFFE /* JoveExpressControlsView.swift in Sources */,
 				55D1A34A294EB516003381C3 /* JovesLandingApp.swift in Sources */,
@@ -597,6 +502,7 @@
 			files = (
 				555C8AD32D8F044700EA33E0 /* MotorizedFacilityGauageView.swift in Sources */,
 				55A0DE8C2D9F08BA00FCA504 /* HVStack.swift in Sources */,
+				554A5C432F12AB1E00FE2E9D /* Untitled.swift in Sources */,
 				55D1A34D294EB564003381C3 /* FacilityDetailView.swift in Sources */,
 				559AB9E52DA08F8400666C1A /* ConductedView.swift in Sources */,
 				559E02422D9447CD00CA3953 /* MotorState.swift in Sources */,
@@ -622,60 +528,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		556E65D0294D1DD500FCEFD6 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"JovesControl/Preview Content\"";
-				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UIUserInterfaceStyle = Automatic;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.softwarebyjove.JovesControl;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = appletvos;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 16.1;
-			};
-			name = Debug;
-		};
-		556E65D1294D1DD500FCEFD6 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"JovesControl/Preview Content\"";
-				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UIUserInterfaceStyle = Automatic;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.softwarebyjove.JovesControl;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = appletvos;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 16.1;
-			};
-			name = Release;
-		};
 		55F284242944452800047EF5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -734,6 +586,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				WATCHOS_DEPLOYMENT_TARGET = 8.1;
@@ -791,6 +644,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				VALIDATE_PRODUCT = YES;
@@ -815,6 +669,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -846,6 +701,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -925,6 +781,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_KEY_CFBundleDisplayName = TrainConductor;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -944,6 +801,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_KEY_CFBundleDisplayName = TrainConductor;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -959,15 +817,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		556E65D2294D1DD500FCEFD6 /* Build configuration list for PBXNativeTarget "JovesControl" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				556E65D0294D1DD500FCEFD6 /* Debug */,
-				556E65D1294D1DD500FCEFD6 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		55F284132944452700047EF5 /* Build configuration list for PBXProject "JovesLanding" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1015,6 +864,10 @@
 			isa = XCLocalSwiftPackageReference;
 			relativePath = ../../../GitHub/BLEByJove;
 		};
+		557A2E052EFD90460052A30F /* XCLocalSwiftPackageReference "../../SBJKit" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../../SBJKit;
+		};
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCRemoteSwiftPackageReference section */
@@ -1037,10 +890,6 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = Infrastructure;
 		};
-		554740E32954F4C500948BBB /* Infrastructure */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = Infrastructure;
-		};
 		557513502DA8531800E73784 /* SbjGauge */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 5575134F2DA8521500E73784 /* XCLocalSwiftPackageReference "../../../GitHub/SbjGauge" */;
@@ -1051,16 +900,6 @@
 			package = 5575134F2DA8521500E73784 /* XCLocalSwiftPackageReference "../../../GitHub/SbjGauge" */;
 			productName = SbjGauge;
 		};
-		557513542DA8533500E73784 /* SbjGauge */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 5575134F2DA8521500E73784 /* XCLocalSwiftPackageReference "../../../GitHub/SbjGauge" */;
-			productName = SbjGauge;
-		};
-		557513572DA87B9C00E73784 /* BLEByJove */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 557513562DA87B8500E73784 /* XCLocalSwiftPackageReference "../../../GitHub/BLEByJove" */;
-			productName = BLEByJove;
-		};
 		557513592DA87BA800E73784 /* BLEByJove */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 557513562DA87B8500E73784 /* XCLocalSwiftPackageReference "../../../GitHub/BLEByJove" */;
@@ -1070,6 +909,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 557513562DA87B8500E73784 /* XCLocalSwiftPackageReference "../../../GitHub/BLEByJove" */;
 			productName = BLEByJove;
+		};
+		557A2E062EFD90550052A30F /* SBJKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 557A2E052EFD90460052A30F /* XCLocalSwiftPackageReference "../../SBJKit" */;
+			productName = SBJKit;
+		};
+		557A2E082EFD90600052A30F /* SBJKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 557A2E052EFD90460052A30F /* XCLocalSwiftPackageReference "../../SBJKit" */;
+			productName = SBJKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

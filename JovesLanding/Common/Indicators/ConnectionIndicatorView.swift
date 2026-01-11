@@ -41,7 +41,7 @@ struct ConnectionIndicatorView: View {
 				.scaleEffect(scale)
 				.animation(.easeInOut(duration: 0.75), value: scale)
 		}
-		.onChange(of: heartBeat) { newValue in
+		.onChange(of: heartBeat) { _, newValue in
 			if newValue >= 0 {
 				scale = 1.0
 				DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {

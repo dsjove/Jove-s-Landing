@@ -53,7 +53,7 @@ struct FacilitiesListView: View {
 				.navigationBarTitleDisplayMode(.inline)
 #endif
 		}
-		.onChange(of: device) { [device] newValue in
+		.onChange(of: device) { [device] _, newValue in
 			if device?.id != newValue?.id {
 				newValue?.facility.connect()
 			}
