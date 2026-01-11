@@ -11,12 +11,6 @@ import BLEByJove
 
 struct CityStreetsView: View {
 	@ObservedObject var facility: CityStreets
-	@ObservedObject var sensedTrain: TrainRail.TrainID
-
-	 init(facility: CityStreets) {
-		 self.facility = facility
-		 self.sensedTrain = facility.rail.sensedTrain
-	}
 
 	var body: some View {
 		ZStack {
@@ -32,10 +26,10 @@ struct CityStreetsView: View {
 			.padding(8)
 		}
 		.navigationBarTitle(
-			sensedTrain.feedback.isZero ? facility.name : sensedTrain.feedback.description )
-		.onChange(of: sensedTrain.feedback) { _, newValue in
-			if newValue.isZero { return }
-			SoundPlayer.shared.play(assetName: "TrainHorn")
+			facility.currentTrain?.name ?? facility.name)
+		.onChange(of: facility.currentTrain) { _, newValue in
+			guard let reg = newValue else { return }
+			SoundPlayer.shared.play(assetName: reg.sound)
 		}
 	}
 }

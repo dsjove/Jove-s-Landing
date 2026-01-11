@@ -10,6 +10,12 @@ import Combine
 import SwiftUI
 import BLEByJove
 
+public struct TrainRegistration: Equatable {
+	public let name: String
+	public let sound: String
+	public let symbol: ArduinoR4Matrix?
+}
+
 public class CityStreets: ObservableObject, MotorizedFacility {
 	public static let Service = BTServiceIdentity(name: "City Streets")
 	public var id: UUID { device.id }
@@ -21,6 +27,30 @@ public class CityStreets: ObservableObject, MotorizedFacility {
 	public private(set) var display: ArduinoDisplay;
 	public private(set) var rail: TrainRail;
 
+	@Published
+	public private(set) var connectionState: ConnectionState {
+		didSet {
+			switch connectionState {
+				case .connected:
+					break
+				case .connecting:
+					break
+				case .disconnected:
+					reset()
+			}
+		}
+	}
+
+	@Published
+	public private(set) var currentTrain: TrainRegistration?
+
+	private func updateCurrentTrain(for id: Data) {
+		self.currentTrain = self.registration[id]
+		if let symbol = self.currentTrain?.symbol {
+			display.power.control = symbol
+		}
+	}
+
 	public init(device: BTDevice) {
 		self.device = device
 		self.connectionState = device.connectionState
@@ -28,10 +58,31 @@ public class CityStreets: ObservableObject, MotorizedFacility {
 		self.lighting = BTLighting(device: device)
 		self.display = ArduinoDisplay(device: device)
 		self.rail = TrainRail(device: device)
+        
+        self.currentTrain = self.registration[self.rail.sensedTrain.feedback.id]
 
 		device.$connectionState.dropFirst().sink { [weak self] in
 			self?.connectionState = $0
 		}.store(in: &sink)
+
+		rail.sensedTrain.$feedback
+			.map { $0.id }
+			.removeDuplicates()
+			.receive(on: DispatchQueue.main)
+			.sink { [weak self] id in
+				self?.updateCurrentTrain(for: id)
+			}
+			.store(in: &sink)
+	}
+
+	public private(set) var registration : [Data: TrainRegistration] = [
+		Data([0xC0, 0x05, 0x1F, 0x3B]) :
+			TrainRegistration(name: "Maersk", sound: "TrainHorn", symbol: nil)]
+
+	var train: TrainRegistration? {
+		get {
+			self.registration[rail.sensedTrain.feedback.id]
+		}
 	}
 
 	public convenience init() {
@@ -50,25 +101,12 @@ public class CityStreets: ObservableObject, MotorizedFacility {
 		device.disconnect()
 	}
 
-	@Published
-	public private(set) var connectionState: ConnectionState {
-		didSet {
-			switch connectionState {
-				case .connected:
-					break
-				case .connecting:
-					break
-				case .disconnected:
-					reset()
-			}
-		}
-	}
-
 	public func reset() {
 		self.motor.reset()
 		self.lighting.reset()
 		self.display.reset()
 		self.rail.reset()
+        self.currentTrain = nil
 	}
 
 	public func fullStop() {
@@ -76,5 +114,7 @@ public class CityStreets: ObservableObject, MotorizedFacility {
 		self.lighting.fullStop()
 		self.display.fullStop()
 		self.rail.fullStop()
+        self.currentTrain = nil
 	}
 }
+

@@ -17,7 +17,6 @@ RFIDReader::RFIDReader(BLEServiceRunner& ble, int ss_pin, int rst_pin)
 
 void RFIDReader::begin(Scheduler& scheduler)
 {
-  Serial.println(_idFeedbackChar.uuid());
   _rfid.PCD_Init();
   scheduler.addTask(_rfidTask);
   _rfidTask.enable();
@@ -40,12 +39,12 @@ void RFIDReader::readId()
     if (_wasPresent != 1) 
     {
       _wasPresent = 1;
-      Serial.print("+");
+      //Serial.print("+");
     }
     // Don't span the reader and bluetooth
     if (now < _cooldownUntilMs)
     {
-      Serial.print("O");
+      //Serial.print("O");
       return;
     }
     // Read the serial number
@@ -67,7 +66,7 @@ void RFIDReader::readId()
       }
       else
       {
-        Serial.println("=");
+        //Serial.println("=");
       }
       // Start cooldown after a successful publish
       // Same card as last publish: still start cooldown to avoid rapid repeats
@@ -77,7 +76,7 @@ void RFIDReader::readId()
     else 
     {
         //Failed to read card serial
-        Serial.println("!");
+        //Serial.println("!");
     }
   }
   else 
@@ -86,7 +85,7 @@ void RFIDReader::readId()
     if (_wasPresent != 0) 
     {
       _wasPresent = 0;
-      Serial.println("X");
+      //Serial.println("X");
     }
   }
 }
