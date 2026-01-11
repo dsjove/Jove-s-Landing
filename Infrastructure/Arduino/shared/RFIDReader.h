@@ -18,7 +18,7 @@ private:
 
   int _wasPresent;
   Value _lastID;
-  uint32_t _cooldownUntilMs;
+  uint32_t _timeStamp;
 
   BLECharacteristic _idFeedbackChar;
 

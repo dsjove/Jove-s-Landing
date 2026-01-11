@@ -8,16 +8,35 @@
 import SwiftUI
 import BLEByJove
 import Infrastructure
+import SBJKit
 
 struct ArduinoDisplayControlView: View {
 	@ObservedObject var display: ArduinoDisplay.Power
 	@State private var isScrolling = false
 
+	enum ExportLanguage: String, CaseIterable, Identifiable {
+		case cpp = "C++"
+		case swift = "Swift"
+		case json = "JSON"
+		var id: String { rawValue }
+	}
+	@State private var exportName: String = ""
+	@State private var exportLanguage: ExportLanguage = .cpp
+
+	enum ActiveSheet: Identifiable {
+		case export
+		case share
+		var id: Int { hashValue }
+	}
+	@State private var activeSheet: ActiveSheet? = nil
+
 	var body: some View {
 		VStack {
 			HStack() {
-				ShareButtonView() {
-					display.control.export(name: $0);
+				Button(action: {
+					activeSheet = .export
+				}) {
+					Image(systemName: "square.and.arrow.up").font(.title)
 				}
 				Button("Fill") {
 					display.control.fill(.on)
@@ -51,6 +70,62 @@ struct ArduinoDisplayControlView: View {
 			ArduinoR4MatrixView(value: display.feedback, interactive: isScrolling ? .scroll : .draw) {
 				display.control = $0
 			}
+			.sheet(item: $activeSheet) { sheet in
+				let text = {
+					let sanitized = exportName.sanitizeCVariableName
+					return switch exportLanguage {
+					case .cpp:
+						display.control.exportCPP(name: sanitized)
+					case .swift:
+						display.control.exportSwift(name: sanitized)
+					case .json:
+						display.control.exportJSON(name: sanitized)
+					}
+				}()
+				switch sheet {
+				case .share:
+					SBJKit.ShareSheet(activityItems: [text])
+				case .export:
+					NavigationStack {
+						Form {
+							Section(header: Text("Name")) {
+								TextField("Variable name", text: $exportName)
+									.textInputAutocapitalization(.never)
+									.autocorrectionDisabled(true)
+							}
+							Section(header: Text("Language")) {
+								Picker("Language", selection: $exportLanguage) {
+									ForEach(ExportLanguage.allCases) { lang in
+										Text(lang.rawValue).tag(lang)
+									}
+								}
+								.pickerStyle(.segmented)
+							}
+							Section(header: Text("Preview")) {
+								ScrollView {
+									Text(text)
+										.font(.system(.body, design: .monospaced))
+										.textSelection(.enabled)
+										.frame(maxWidth: .infinity, alignment: .leading)
+										.padding(.vertical, 4)
+								}
+								.frame(minHeight: 120)
+							}
+						}
+						.toolbar {
+							ToolbarItem(placement: .cancellationAction) {
+								Button("Cancel") { activeSheet = nil }
+							}
+							ToolbarItem(placement: .confirmationAction) {
+								Button("Share") {
+									activeSheet = .share
+								}
+								.disabled(text.isEmpty)
+							}
+						}
+					}
+				}
+			}
 		}
 	}
 }
@@ -60,97 +135,4 @@ struct ArduinoDisplayControlView: View {
 			broadcaster: BTDevice(preview: "Sample"),
 			characteristic: BTCharacteristicIdentity(),
 			transfomer: .init()))
-}
-
-struct ShareButtonView: View {
-	@State private var isAlertPresented = false
-	@State private var enteredName = ""
-	let generateContent: (String) -> String
-	let fileExtension = ".h"
-
-	var body: some View {
-		Button(action: {
-			isAlertPresented = true
-		}) {
-			Image(systemName: "square.and.arrow.up").font(.title)
-		}
-		.alert("Enter Name", isPresented: $isAlertPresented) {
-			TextField("Name", text: $enteredName)
-			Button("Cancel", role: .cancel) {
-				enteredName = ""
-			}
-#if !os(tvOS)
-			Button("Share") {
-				share()
-			}
-#endif
-		} message: {
-		}
-	}
-
-#if !os(tvOS)
-	func share() {
-		let santiziedName = sanitizeCString(enteredName)
-		let content = generateContent(santiziedName)
-		let fileName = fileExtension.isEmpty ? "" : santiziedName + fileExtension
-		presentShareSheet(fileName: fileName, content: content)
-	}
-#endif
-
-	func isValidCVariableName(_ name: String) -> Bool {
-		let regex = "^[a-zA-Z_][a-zA-Z0-9_]*$"
-		return NSPredicate(format: "SELF MATCHES %@", regex).evaluate(with: name)
-	}
-
-	func sanitizeCString(_ input: String) -> String {
-		if isValidCVariableName(input) {
-			return input
-		}
-
-		var sanitizedName = ""
-		if let first = input.first, String(first).range(of: "^[a-zA-Z_]$", options: .regularExpression) != nil {
-			sanitizedName.append(first)
-		}
-		else {
-			sanitizedName.append("_") // Default to '_' if invalid first character
-		}
-		let validSubsequentRegex = "[a-zA-Z0-9_]"
-		for char in input.dropFirst() {
-			if String(char).range(of: validSubsequentRegex, options: .regularExpression) != nil {
-				sanitizedName.append(char)
-			}
-			else {
-				sanitizedName.append("_")
-			}
-		}
-		return sanitizedName
-	}
-
-#if !os(tvOS)
-	func presentShareSheet(fileName: String, content: String) {
-		var activityItems: [Any] = [content]
-		do {
-			if !fileName.isEmpty {
-				let temporaryURL = FileManager.default.temporaryDirectory.appendingPathComponent(fileName)
-				try content.write(to: temporaryURL, atomically: true, encoding: .utf8)
-				activityItems.append(temporaryURL)
-			}
-		}
-		catch {
-		}
-		let activityController = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
-		topViewController().present(activityController, animated: true, completion: nil)
-	}
-#endif
-
-	func topViewController() -> UIViewController! {
-		guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene, let rootController = windowScene.windows.first?.rootViewController else {
-			return nil
-		}
-		var topController = rootController
-		while let presentedController = topController.presentedViewController {
-			topController = presentedController
-		}
-		return topController
-	}
 }

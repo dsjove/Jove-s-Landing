@@ -16,6 +16,11 @@ public struct TrainRegistration: Equatable {
 	public let symbol: ArduinoR4Matrix?
 }
 
+public struct TrainDetection: Equatable {
+	public let registration: TrainRegistration
+	public let date: UInt32
+}
+
 public class CityStreets: ObservableObject, MotorizedFacility {
 	public static let Service = BTServiceIdentity(name: "City Streets")
 	public var id: UUID { device.id }
@@ -42,12 +47,18 @@ public class CityStreets: ObservableObject, MotorizedFacility {
 	}
 
 	@Published
-	public private(set) var currentTrain: TrainRegistration?
+	public private(set) var currentTrain: TrainDetection?
 
-	private func updateCurrentTrain(for id: Data) {
-		self.currentTrain = self.registration[id]
-		if let symbol = self.currentTrain?.symbol {
-			display.power.control = symbol
+	private func updateCurrentTrain(for detection: RFIDDetection) {
+		if detection.id.isZero {
+			self.currentTrain = nil
+		}
+		else {
+			let registration = self.registration[detection.id.id] ?? self.registration[Data()]!
+			self.currentTrain = .init(registration: registration, date: detection.timeStamp)
+			if let symbol = registration.symbol {
+				display.power.control = symbol
+			}
 		}
 	}
 
@@ -58,30 +69,46 @@ public class CityStreets: ObservableObject, MotorizedFacility {
 		self.lighting = BTLighting(device: device)
 		self.display = ArduinoDisplay(device: device)
 		self.rail = TrainRail(device: device)
-        
-        self.currentTrain = self.registration[self.rail.sensedTrain.feedback.id]
+
+		updateCurrentTrain(for: self.rail.sensedTrain.feedback)
 
 		device.$connectionState.dropFirst().sink { [weak self] in
 			self?.connectionState = $0
 		}.store(in: &sink)
 
 		rail.sensedTrain.$feedback
-			.map { $0.id }
 			.removeDuplicates()
 			.receive(on: DispatchQueue.main)
-			.sink { [weak self] id in
-				self?.updateCurrentTrain(for: id)
+			.sink { [weak self] detection in
+				self?.updateCurrentTrain(for: detection)
 			}
 			.store(in: &sink)
 	}
 
 	public private(set) var registration : [Data: TrainRegistration] = [
 		Data([0xC0, 0x05, 0x1F, 0x3B]) :
-			TrainRegistration(name: "Maersk", sound: "TrainHorn", symbol: nil)]
+			TrainRegistration(
+				name: "Maersk",
+				sound: "TrainHorn",
+				symbol: try? .init(packed: [0xe07f0fd9, 0xbcf3c63c, 0x03c03c03])
+			),
+		Data([0xF0, 0xBE, 0x1F, 0x3B]) :
+			TrainRegistration(
+				name: "Bare Necessities",
+				sound: "CatCallWhistle",
+				symbol: try? .init(packed: [0x20440280, 0x1801861a, 0x6549230c])
+			),
+		Data([]) :
+			TrainRegistration(
+				name: "Unknown",
+				sound: "",
+				symbol: try? .init(packed: [0x0f01f811, 0x80180700, 0x60000060])
+			),
+	]
 
 	var train: TrainRegistration? {
 		get {
-			self.registration[rail.sensedTrain.feedback.id]
+			self.registration[rail.sensedTrain.feedback.id.id]
 		}
 	}
 
