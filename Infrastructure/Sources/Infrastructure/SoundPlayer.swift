@@ -2,12 +2,13 @@ import AVFoundation
 import UIKit
 import AudioToolbox
 
-final class SoundPlayer: NSObject, AVAudioPlayerDelegate {
+final public class SoundPlayer: NSObject, AVAudioPlayerDelegate {
 	@MainActor static let shared = SoundPlayer()
 
 	private var activePlayers: [AVAudioPlayer] = []
 
-	enum Source {
+	public enum Source {
+		case none
 		case asset(String, AVFileType = .mp3)
 		case system(Int?)
 
@@ -18,6 +19,8 @@ final class SoundPlayer: NSObject, AVAudioPlayerDelegate {
 				return (dataAsset.data, type)
 			case .system:
 				return nil
+			case .none:
+				return nil
 			}
 		}
 
@@ -27,6 +30,8 @@ final class SoundPlayer: NSObject, AVAudioPlayerDelegate {
 				return nil
 			case let .system(number):
 				return number
+			case .none:
+				return nil
 			}
 		}
 	}
@@ -51,7 +56,7 @@ final class SoundPlayer: NSObject, AVAudioPlayerDelegate {
 		}
 	}
 
-	func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
+	public func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
 		activePlayers.removeAll { $0 === player }
 	}
 }

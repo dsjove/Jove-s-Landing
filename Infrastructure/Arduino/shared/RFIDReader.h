@@ -4,12 +4,23 @@
 
 class RFIDReader {
 public:
-  using Value = std::array<uint8_t, 11>;
-
-  RFIDReader(BLEServiceRunner& ble, int ss_pin, int rst_pin);
+  RFIDReader(BLEServiceRunner& ble, uint32_t number, int ss_pin = 10, int rst_pin = 9);
   void begin(Scheduler& scheduler);
 
 private:
+  struct RFID {
+    using Value = std::array<uint8_t, 4 + 4 + 1 + 10>;
+
+    RFID(uint32_t number);
+    void encode(const MFRC522::Uid& u, uint32_t timestamp);
+    size_t size() const;
+    const uint8_t* data() const;
+    void print() const;
+
+  private:
+    Value _value;
+  };
+
   BLEServiceRunner& _ble;
   const int _ss_pin;
   const int _rst_pin;
@@ -17,7 +28,7 @@ private:
   MFRC522 _rfid;
 
   int _wasPresent;
-  Value _lastID;
+  RFID _lastID;
   uint32_t _timeStamp;
 
   BLECharacteristic _idFeedbackChar;
@@ -29,7 +40,4 @@ private:
   static void readId_task();
   void readId();
   void resetRc522();
-  static Value toMemento(const MFRC522::Uid& u);
-  static bool sameValue(const Value& a, const Value& b);
-  static void printUid(const Value& u);
 };

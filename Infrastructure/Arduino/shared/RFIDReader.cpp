@@ -1,7 +1,7 @@
 #include "RFIDReader.h"
 
 #include <stdint.h>
-
+/*
 // Max bytes for a 64-bit ULEB128 / protobuf varint
 static constexpr size_t kMaxVarint64Bytes = 10;
 
@@ -67,7 +67,7 @@ bool decodeULEB128_u64(const uint8_t* buffer, size_t bufferLen,
   // If we consumed 10 bytes and still had continuation, it's malformed.
   return false;
 }
-
+*/
 /*
 uint8_t buf[10];
 uint64_t original = 300ULL;
@@ -81,15 +81,15 @@ bool ok = decodeULEB128_u64(buf, n, decoded, consumed);
 
 static RFIDReader* rfidReaderRef = NULL;
 
-RFIDReader::RFIDReader(BLEServiceRunner& ble, int ss_pin, int rst_pin)
+RFIDReader::RFIDReader(BLEServiceRunner& ble, uint32_t number, int ss_pin, int rst_pin)
 : _ble(ble)
 , _ss_pin(ss_pin)
 , _rst_pin(rst_pin)
 , _rfid(ss_pin, rst_pin)
 , _wasPresent(-1)
-, _lastID({0})
+, _lastID(number)
 , _timeStamp(0)
-, _idFeedbackChar(ble.characteristic("05040002", &_lastID))
+, _idFeedbackChar(ble.characteristic("05040002", _lastID.size(), _lastID.data(), NULL))
 , _rfidTask(20, TASK_FOREVER, &readId_task)
 , _lastGoodReadMs(0)
 , _failReadCount(0)   
@@ -147,7 +147,7 @@ void RFIDReader::readId()
       _lastGoodReadMs = now;
       _failReadCount = 0;
 
-      Value newID = toMemento(_rfid.uid);
+      _lastID.encode(_rfid.uid, now);
 
       // Always end the (read) conversation with the tag
       _rfid.PICC_HaltA();
@@ -156,27 +156,9 @@ void RFIDReader::readId()
       // Start cooldown after successful read
       _timeStamp = now + kCooldownMs;
 
-      printUid(newID);
-      _lastID = newID;
+      _lastID.print();
 
-      std::array<uint8_t, 4 + 11> blePayload;
-      const uint8_t valueBytes = 1 + _lastID[0];
-      const uint8_t totalLen = 4 + valueBytes;
-
-      const uint32_t ts = now;
-      std::copy(
-        reinterpret_cast<const uint8_t*>(&ts),
-        reinterpret_cast<const uint8_t*>(&ts) + sizeof(ts),
-        blePayload.begin()
-      );
-
-      std::copy(
-        _lastID.begin(),
-        _lastID.begin() + valueBytes,
-        blePayload.begin() + sizeof(ts)
-      );
-
-      _idFeedbackChar.writeValue(blePayload.data(), totalLen);
+      _idFeedbackChar.writeValue(_lastID.data(), _lastID.size());
     }
     else 
     {
@@ -221,35 +203,50 @@ void RFIDReader::resetRc522()
   //Do not reset _lastGoodReadMs
 }
 
-RFIDReader::Value RFIDReader::toMemento(const MFRC522::Uid& u)
+RFIDReader::RFID::RFID(uint32_t _number)
 {
-  Value value;
-  //value.fill(0); Not necessary
+  _value.fill(0);
+  const uint32_t number = _number;
+  std::copy(
+    reinterpret_cast<const uint8_t*>(&number),
+    reinterpret_cast<const uint8_t*>(&number) + sizeof(number),
+    _value.begin()
+  );
+  _value[8] = 4;
+}
+
+size_t RFIDReader::RFID::size() const
+{
+  return 4 + 4 + 1 + _value[8];
+}
+
+const uint8_t* RFIDReader::RFID::data() const
+{
+  return _value.data();
+}
+
+void RFIDReader::RFID::encode(const MFRC522::Uid& u, uint32_t timestamp)
+{
+  const uint32_t ts = timestamp;
+  std::copy(
+    reinterpret_cast<const uint8_t*>(&ts),
+    reinterpret_cast<const uint8_t*>(&ts) + sizeof(ts),
+    _value.begin() + 4
+  );
   const uint8_t len = (u.size > 10) ? 10 : u.size;
-  value[0] = len;
-  std::copy(u.uidByte, u.uidByte + len, value.begin() + 1);
-  return value;
+  _value[8] = len;
+  std::copy(u.uidByte, u.uidByte + len, _value.begin() + 9);
 }
 
-bool RFIDReader::sameValue(const Value& a, const Value& b)
-{
-  if (a[0] != b[0]) return false;
-  const uint8_t len = (a[0] > 10) ? 10 : a[0];
-  for (uint8_t i = 0; i < len; i++)
-  {
-    if (a[i + 1] != b[i + 1]) return false;
-  }
-  return true;
-}
+void RFIDReader::RFID::print() const {
 
-void RFIDReader::printUid(const Value& u) {
   Serial.print("RFID: UID (");
-  Serial.print(u[0]);
+  Serial.print(size());
   Serial.print("): ");
-  for (size_t i = 1; i <= u[0]; i++) {
-    if (u[i] < 0x10) Serial.print('0');
-    Serial.print(u[i], HEX);
-    Serial.print(' ');
+  for (size_t i = 0; i < size(); i++) {
+    if (_value[i] < 0x10) Serial.print('0');
+    Serial.print(_value[i], HEX);
+    Serial.print(i == 3 || i == 7 || i == 8 ? '.' : ' ');
   }
   Serial.println();
 }

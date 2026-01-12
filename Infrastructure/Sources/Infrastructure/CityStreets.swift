@@ -11,14 +11,14 @@ import SwiftUI
 import BLEByJove
 import AudioToolbox
 
-public struct TrainRegistration: Equatable {
+public struct TrainRegistration {
 	public let id: Data
 	public let name: String
-	public let sound: String
+	public let sound: SoundPlayer.Source
 	public let symbol: ArduinoR4Matrix?
 }
 
-public struct TrainDetection: Equatable {
+public struct TrainDetection {
 	public let registration: TrainRegistration
 	public let timestampMS: UInt32
 }
@@ -33,6 +33,30 @@ public class CityStreets: ObservableObject, MotorizedFacility {
 	public private(set) var lighting: BTLighting;
 	public private(set) var display: ArduinoDisplay;
 	public private(set) var rail: TrainRail;
+
+	private let trains : [Data: TrainRegistration] = {
+		let registrations: [TrainRegistration] = [
+			TrainRegistration(
+				id: Data(),
+				name: "Unknown",
+				sound: .none,
+				symbol: try? .init(packed: [0x0f01f811, 0x80180700, 0x60000060])
+			),
+			TrainRegistration(
+				id: Data([0xC0, 0x05, 0x1F, 0x3B]),
+				name: "Maersk",
+				sound: .asset("TrainHorn"),
+				symbol: try? .init(packed: [0xe07f0fd9, 0xbcf3cf3c, 0x63c63c63])
+			),
+			TrainRegistration(
+				id: Data([0xF0, 0xBE, 0x1F, 0x3B]),
+				name: "Bare Necessities",
+				sound: .asset("CatCallWhistle"),
+				symbol: try? .init(packed: [0x20440280, 0x1801a658, 0x6149230c])
+			),
+		]
+		return Dictionary(uniqueKeysWithValues: registrations.map { ($0.id, $0) })
+	}()
 
 	@Published
 	public private(set) var connectionState: ConnectionState {
@@ -57,7 +81,7 @@ public class CityStreets: ObservableObject, MotorizedFacility {
 			self.currentTrain = .init(registration: registration, timestampMS: timestampMS)
 			if let symbol = registration.symbol {
 				self.display.power.control = symbol
-				SoundPlayer.shared.play(.asset(registration.sound))
+				SoundPlayer.shared.play(registration.sound)
 			}
 		}
 		if detection.id.isZero {
@@ -78,7 +102,7 @@ public class CityStreets: ObservableObject, MotorizedFacility {
 		}
 		else {
 			//print("New")
-			let registration = self.registration[detection.id.id] ?? self.registration[Data()]!
+			let registration = self.trains[detection.id.id] ?? self.trains[Data()]!
 			announce(registration, detection.timestampMS)
 		}
 	}
@@ -106,33 +130,9 @@ public class CityStreets: ObservableObject, MotorizedFacility {
 			.store(in: &sink)
 	}
 
-	public private(set) var registration : [Data: TrainRegistration] = {
-		let registrations: [TrainRegistration] = [
-			TrainRegistration(
-				id: Data([0xC0, 0x05, 0x1F, 0x3B]),
-				name: "Maersk",
-				sound: "TrainHorn",
-				symbol: try? .init(packed: [0xe07f0fd9, 0xbcf3cf3c, 0x63c63c63])
-			),
-			TrainRegistration(
-				id: Data([0xF0, 0xBE, 0x1F, 0x3B]),
-				name: "Bare Necessities",
-				sound: "CatCallWhistle",
-				symbol: try? .init(packed: [0x20440280, 0x1801a658, 0x6149230c])
-			),
-			TrainRegistration(
-				id: Data(),
-				name: "Unknown",
-				sound: "",
-				symbol: try? .init(packed: [0x0f01f811, 0x80180700, 0x60000060])
-			),
-		]
-		return Dictionary(uniqueKeysWithValues: registrations.map { ($0.id, $0) })
-	}()
-
 	var train: TrainRegistration? {
 		get {
-			self.registration[rail.sensedTrain.feedback.id.id]
+			self.trains[rail.sensedTrain.feedback.id.id]
 		}
 	}
 
