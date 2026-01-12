@@ -135,35 +135,28 @@ void RFIDReader::readId()
       _rfid.PICC_HaltA();
       _rfid.PCD_StopCrypto1();
 
-      // If it is a different tag then broadcast
-      if (!sameValue(newID, _lastID))
-      {
-        printUid(newID);
-        _lastID = newID;
-
-        std::array<uint8_t, 4 + 11> blePayload;
-        const uint8_t valueBytes = 1 + _lastID[0];
-        const uint8_t totalLen = 4 + valueBytes;
-        std::copy(
-          reinterpret_cast<const uint8_t*>(&_timeStamp),
-          reinterpret_cast<const uint8_t*>(&_timeStamp) + sizeof(_timeStamp),
-          blePayload.begin()
-        );
-        std::copy(
-          _lastID.begin(),
-          _lastID.begin() + valueBytes,
-          blePayload.begin() + 4
-        );
-        _idFeedbackChar.writeValue(blePayload.data(), totalLen);
-      }
-      else
-      {
-        //Serial.println("=");
-      }
       // Start cooldown after a successful publish
       // Same card as last publish: still start cooldown to avoid rapid repeats
       static constexpr uint32_t kCooldownMs = 800; // tune for your train speed
       _timeStamp = now + kCooldownMs;
+
+      printUid(newID);
+      _lastID = newID;
+
+      std::array<uint8_t, 4 + 11> blePayload;
+      const uint8_t valueBytes = 1 + _lastID[0];
+      const uint8_t totalLen = 4 + valueBytes;
+      std::copy(
+        reinterpret_cast<const uint8_t*>(&_timeStamp),
+        reinterpret_cast<const uint8_t*>(&_timeStamp) + sizeof(_timeStamp),
+        blePayload.begin()
+      );
+      std::copy(
+        _lastID.begin(),
+        _lastID.begin() + valueBytes,
+        blePayload.begin() + 4
+      );
+      _idFeedbackChar.writeValue(blePayload.data(), totalLen);
     }
     else 
     {

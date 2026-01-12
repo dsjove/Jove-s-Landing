@@ -25,12 +25,7 @@ struct CityStreetsView: View {
 			}
 			.padding(8)
 		}
-		.navigationBarTitle(
-			facility.currentTrain?.registration.name ?? facility.name)
-		.onChange(of: facility.currentTrain) { _, newValue in
-			guard let detected = newValue else { return }
-			SoundPlayer.shared.play(assetName: detected.registration.sound)
-		}
+		.navigationBarTitle(facility.currentTrain?.registration.name ?? facility.name)
 	}
 }
 

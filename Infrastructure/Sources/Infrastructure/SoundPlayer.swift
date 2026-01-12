@@ -7,6 +7,9 @@ final class SoundPlayer: NSObject, AVAudioPlayerDelegate {
 	private var activePlayers: [AVAudioPlayer] = []
 
 	func play(assetName: String, fileType: AVFileType = .mp3) {
+		guard !assetName.isEmpty else {
+			return
+		}
 		guard let asset = NSDataAsset(name: assetName) else {
 			return
 		}

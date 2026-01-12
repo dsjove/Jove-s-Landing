@@ -53,10 +53,8 @@ struct FacilitiesListView: View {
 				.navigationBarTitleDisplayMode(.inline)
 #endif
 		}
-		.onChange(of: device) { [device] _, newValue in
-			if device?.id != newValue?.id {
-				newValue?.facility.connect()
-			}
+		.onChange(of: device) { _, newValue in
+			newValue?.facility.connect()
 			visibility = newValue != nil ? .detailOnly : .all
 		}
 		.onLoad {

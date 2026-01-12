@@ -10,25 +10,25 @@ import Foundation
 import BLEByJove
 
 public struct RFIDDetection: Equatable, Hashable, BTSerializable {
-	public let timeStamp: UInt32
+	public let timestampMS: UInt32
 	public let id: CountedBytes
 
 	public var packedSize: Int {
-		timeStamp.packedSize + id.packedSize
+		timestampMS.packedSize + id.packedSize
 	}
 	
 	public init() {
-		timeStamp = 0
+		timestampMS = 0
 		id = .init()
 	}
 
 	public func pack(btData data: inout Data) {
-		timeStamp.pack(btData: &data)
+		timestampMS.pack(btData: &data)
 		id.pack(btData: &data)
 	}
 	
 	public init(unpack data: Data, _ cursor: inout Int) throws {
-		timeStamp = try .init(unpack: data, &cursor)
+		timestampMS = try .init(unpack: data, &cursor)
 		id = try .init(unpack: data, &cursor)
 	}
 }

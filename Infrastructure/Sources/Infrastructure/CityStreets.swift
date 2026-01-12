@@ -11,6 +11,7 @@ import SwiftUI
 import BLEByJove
 
 public struct TrainRegistration: Equatable {
+	public let id: Data
 	public let name: String
 	public let sound: String
 	public let symbol: ArduinoR4Matrix?
@@ -18,7 +19,7 @@ public struct TrainRegistration: Equatable {
 
 public struct TrainDetection: Equatable {
 	public let registration: TrainRegistration
-	public let date: UInt32
+	public let timestampMS: UInt32
 }
 
 public class CityStreets: ObservableObject, MotorizedFacility {
@@ -50,15 +51,32 @@ public class CityStreets: ObservableObject, MotorizedFacility {
 	public private(set) var currentTrain: TrainDetection?
 
 	private func updateCurrentTrain(for detection: RFIDDetection) {
+		let announce: (TrainRegistration, UInt32)->() = { registration, timestampMS in
+			print("Annnouncing")
+			self.currentTrain = .init(registration: registration, timestampMS: timestampMS)
+			if let symbol = registration.symbol {
+				self.display.power.control = symbol
+				SoundPlayer.shared.play(assetName: registration.sound)
+			}
+		}
 		if detection.id.isZero {
+			print("Gone")
 			self.currentTrain = nil
 		}
-		else {
-			let registration = self.registration[detection.id.id] ?? self.registration[Data()]!
-			self.currentTrain = .init(registration: registration, date: detection.timeStamp)
-			if let symbol = registration.symbol {
-				display.power.control = symbol
+		else if let current = currentTrain, detection.id.id == current.registration.id {
+			let timrDiff = detection.timestampMS - current.timestampMS
+			print("Same \(timrDiff)")
+			if timrDiff > 5000 {
+				announce(current.registration, detection.timestampMS)
 			}
+			else {
+				self.currentTrain = .init(registration: current.registration, timestampMS: detection.timestampMS)
+			}
+		}
+		else {
+			print("New")
+			let registration = self.registration[detection.id.id] ?? self.registration[Data()]!
+			announce(registration, detection.timestampMS)
 		}
 	}
 
@@ -85,26 +103,29 @@ public class CityStreets: ObservableObject, MotorizedFacility {
 			.store(in: &sink)
 	}
 
-	public private(set) var registration : [Data: TrainRegistration] = [
-		Data([0xC0, 0x05, 0x1F, 0x3B]) :
+	public private(set) var registration : [Data: TrainRegistration] = {
+		let registrations: [TrainRegistration] = [
 			TrainRegistration(
+				id: Data([0xC0, 0x05, 0x1F, 0x3B]),
 				name: "Maersk",
 				sound: "TrainHorn",
-				symbol: try? .init(packed: [0xe07f0fd9, 0xbcf3c63c, 0x03c03c03])
+				symbol: try? .init(packed: [0xe07f0fd9, 0xbcf3cf3c, 0x63c63c63])
 			),
-		Data([0xF0, 0xBE, 0x1F, 0x3B]) :
 			TrainRegistration(
+				id: Data([0xF0, 0xBE, 0x1F, 0x3B]),
 				name: "Bare Necessities",
 				sound: "CatCallWhistle",
-				symbol: try? .init(packed: [0x20440280, 0x1801861a, 0x6549230c])
+				symbol: try? .init(packed: [0x20440280, 0x1801a658, 0x6149230c])
 			),
-		Data([]) :
 			TrainRegistration(
+				id: Data(),
 				name: "Unknown",
 				sound: "",
 				symbol: try? .init(packed: [0x0f01f811, 0x80180700, 0x60000060])
 			),
-	]
+		]
+		return Dictionary(uniqueKeysWithValues: registrations.map { ($0.id, $0) })
+	}()
 
 	var train: TrainRegistration? {
 		get {

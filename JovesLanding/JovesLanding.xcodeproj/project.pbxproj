@@ -19,8 +19,6 @@
 		55268B87294B7BF200BA9AC6 /* FacilitiesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55268B86294B7BF200BA9AC6 /* FacilitiesListView.swift */; };
 		554740DC2954F4AC00948BBB /* Infrastructure in Frameworks */ = {isa = PBXBuildFile; productRef = 554740DB2954F4AC00948BBB /* Infrastructure */; };
 		554740E02954F4BC00948BBB /* Infrastructure in Frameworks */ = {isa = PBXBuildFile; productRef = 554740DF2954F4BC00948BBB /* Infrastructure */; };
-		554A5C422F12AB1E00FE2E9D /* Untitled.swift in Sources */ = {isa = PBXBuildFile; fileRef = 554A5C412F12AB1D00FE2E9D /* Untitled.swift */; };
-		554A5C432F12AB1E00FE2E9D /* Untitled.swift in Sources */ = {isa = PBXBuildFile; fileRef = 554A5C412F12AB1D00FE2E9D /* Untitled.swift */; };
 		555C8AD22D8F044700EA33E0 /* MotorizedFacilityGauageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555C8AD12D8F044700EA33E0 /* MotorizedFacilityGauageView.swift */; };
 		555C8AD32D8F044700EA33E0 /* MotorizedFacilityGauageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555C8AD12D8F044700EA33E0 /* MotorizedFacilityGauageView.swift */; };
 		557513512DA8531800E73784 /* SbjGauge in Frameworks */ = {isa = PBXBuildFile; productRef = 557513502DA8531800E73784 /* SbjGauge */; };
@@ -93,7 +91,6 @@
 		55268B86294B7BF200BA9AC6 /* FacilitiesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacilitiesListView.swift; sourceTree = "<group>"; };
 		554740D82954F49B00948BBB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		55490BD52DAFE74C00D7E433 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		554A5C412F12AB1D00FE2E9D /* Untitled.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Untitled.swift; sourceTree = "<group>"; };
 		555C8AD12D8F044700EA33E0 /* MotorizedFacilityGauageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotorizedFacilityGauageView.swift; sourceTree = "<group>"; };
 		556E65CB294D1DD500FCEFD6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		556E65CE294D1DD500FCEFD6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -246,7 +243,6 @@
 		55F2840F2944452700047EF5 = {
 			isa = PBXGroup;
 			children = (
-				554A5C412F12AB1D00FE2E9D /* Untitled.swift */,
 				55490BD52DAFE74C00D7E433 /* README.md */,
 				55E9496B2D933C3000D79246 /* CityStreats */,
 				55E949802D93400800D79246 /* JoveMetroLine */,
@@ -489,7 +485,6 @@
 				55002C622D8F0FCC003B9952 /* MotorIndicatorView.swift in Sources */,
 				555C8AD22D8F044700EA33E0 /* MotorizedFacilityGauageView.swift in Sources */,
 				550F95062DA0503600C0A34B /* ArduinoDisplayControlView.swift in Sources */,
-				554A5C422F12AB1E00FE2E9D /* Untitled.swift in Sources */,
 				559AB9E02DA08EC000666C1A /* CityStreetsView.swift in Sources */,
 				55D0C7B52DD8EBA40028BFFE /* JoveExpressControlsView.swift in Sources */,
 				55D1A34A294EB516003381C3 /* JovesLandingApp.swift in Sources */,
@@ -502,7 +497,6 @@
 			files = (
 				555C8AD32D8F044700EA33E0 /* MotorizedFacilityGauageView.swift in Sources */,
 				55A0DE8C2D9F08BA00FCA504 /* HVStack.swift in Sources */,
-				554A5C432F12AB1E00FE2E9D /* Untitled.swift in Sources */,
 				55D1A34D294EB564003381C3 /* FacilityDetailView.swift in Sources */,
 				559AB9E52DA08F8400666C1A /* ConductedView.swift in Sources */,
 				559E02422D9447CD00CA3953 /* MotorState.swift in Sources */,
