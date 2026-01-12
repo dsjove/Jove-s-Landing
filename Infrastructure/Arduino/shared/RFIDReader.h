@@ -21,11 +21,14 @@ private:
   uint32_t _timeStamp;
 
   BLECharacteristic _idFeedbackChar;
-
   Task _rfidTask;
+
+  uint32_t _lastGoodReadMs;
+  uint32_t _failReadCount;
+
   static void readId_task();
   void readId();
-
+  void resetRc522();
   static Value toMemento(const MFRC522::Uid& u);
   static bool sameValue(const Value& a, const Value& b);
   static void printUid(const Value& u);

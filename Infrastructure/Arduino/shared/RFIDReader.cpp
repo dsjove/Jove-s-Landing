@@ -85,17 +85,22 @@ RFIDReader::RFIDReader(BLEServiceRunner& ble, int ss_pin, int rst_pin)
 : _ble(ble)
 , _ss_pin(ss_pin)
 , _rst_pin(rst_pin)
+, _rfid(ss_pin, rst_pin)
 , _wasPresent(-1)
 , _lastID({0})
 , _timeStamp(0)
 , _idFeedbackChar(ble.characteristic("05040002", &_lastID))
 , _rfidTask(20, TASK_FOREVER, &readId_task)
+, _lastGoodReadMs(0)
+, _failReadCount(0)   
 {
   rfidReaderRef = this;
 }
 
 void RFIDReader::begin(Scheduler& scheduler)
 {
+  pinMode(_rst_pin, OUTPUT);
+  digitalWrite(_rst_pin, HIGH);
   _rfid.PCD_Init();
   scheduler.addTask(_rfidTask);
   _rfidTask.enable();
@@ -109,8 +114,17 @@ void RFIDReader::readId_task()
 void RFIDReader::readId()
 {
   const uint32_t now = millis();
+  static constexpr uint32_t kCooldownMs = 800; // tune for tag movement speed
+  static constexpr uint32_t kReinitAfterMs = 30000; // MFRC522 goes bad after a while
+  static constexpr uint8_t kFailResetCount = 5; // Reset after a failure count
 
-  Value newID = { 0 };
+  // Re-init after long inactivity without a successful read
+  if (_lastGoodReadMs != 0 && (now - _lastGoodReadMs) > kReinitAfterMs)
+  {
+    //Serial.println("RFID: Inactivity Reset");
+    resetRc522();
+    _lastGoodReadMs = now;
+  }
 
   if (_rfid.PICC_IsNewCardPresent())
   {
@@ -118,26 +132,28 @@ void RFIDReader::readId()
     if (_wasPresent != 1) 
     {
       _wasPresent = 1;
-      //Serial.print("+");
+       //Serial.println("RFID: New Card");
     }
-    // Don't span the reader and bluetooth
+    // Cooldown gate (prevents spamming reads/ble)
     if (now < _timeStamp)
     {
-      //Serial.print("O");
+      //Serial.println("RFID: Cooldown");
       return;
     }
     // Read the serial number
     if (_rfid.PICC_ReadCardSerial()) 
     {
-      newID = toMemento(_rfid.uid);
+      // Record a good read time
+      _lastGoodReadMs = now;
+      _failReadCount = 0;
+
+      Value newID = toMemento(_rfid.uid);
 
       // Always end the (read) conversation with the tag
       _rfid.PICC_HaltA();
       _rfid.PCD_StopCrypto1();
 
-      // Start cooldown after a successful publish
-      // Same card as last publish: still start cooldown to avoid rapid repeats
-      static constexpr uint32_t kCooldownMs = 800; // tune for your train speed
+      // Start cooldown after successful read
       _timeStamp = now + kCooldownMs;
 
       printUid(newID);
@@ -146,22 +162,37 @@ void RFIDReader::readId()
       std::array<uint8_t, 4 + 11> blePayload;
       const uint8_t valueBytes = 1 + _lastID[0];
       const uint8_t totalLen = 4 + valueBytes;
+
+      const uint32_t ts = now;
       std::copy(
-        reinterpret_cast<const uint8_t*>(&_timeStamp),
-        reinterpret_cast<const uint8_t*>(&_timeStamp) + sizeof(_timeStamp),
+        reinterpret_cast<const uint8_t*>(&ts),
+        reinterpret_cast<const uint8_t*>(&ts) + sizeof(ts),
         blePayload.begin()
       );
+
       std::copy(
         _lastID.begin(),
         _lastID.begin() + valueBytes,
-        blePayload.begin() + 4
+        blePayload.begin() + sizeof(ts)
       );
+
       _idFeedbackChar.writeValue(blePayload.data(), totalLen);
     }
     else 
     {
-        //Failed to read card serial
-        //Serial.println("!");
+      Serial.println("RFID: Read Failed");
+      // Cleanup even on failed read (prevents wedged state)
+      _rfid.PCD_StopCrypto1();
+      _rfid.PICC_HaltA();
+
+      _failReadCount++;
+
+      // Hard reset after repeated failures
+      if (_failReadCount >= kFailResetCount)
+      {
+        Serial.println("RFID: Fail Count Reset");
+        resetRc522();
+      }
     }
   }
   else 
@@ -170,23 +201,40 @@ void RFIDReader::readId()
     if (_wasPresent != 0) 
     {
       _wasPresent = 0;
-      //Serial.println("X");
+      // Serial.println("RFID: Removed Card");
     }
   }
+}
+
+void RFIDReader::resetRc522()
+{
+  // Hard reset the RC522 using its RST pin
+  digitalWrite(_rst_pin, LOW);
+  delay(5);
+  digitalWrite(_rst_pin, HIGH);
+  delay(5);
+
+  _rfid.PCD_Init();
+  // Optional: max gain can improve marginal reads
+  _rfid.PCD_SetAntennaGain(_rfid.RxGain_max);
+  _failReadCount = 0;
+  //Do not reset _lastGoodReadMs
 }
 
 RFIDReader::Value RFIDReader::toMemento(const MFRC522::Uid& u)
 {
   Value value;
-  value[0] = u.size;
-  std::copy(u.uidByte, u.uidByte + u.size, value.begin() + 1);
+  //value.fill(0); Not necessary
+  const uint8_t len = (u.size > 10) ? 10 : u.size;
+  value[0] = len;
+  std::copy(u.uidByte, u.uidByte + len, value.begin() + 1);
   return value;
 }
 
 bool RFIDReader::sameValue(const Value& a, const Value& b)
 {
   if (a[0] != b[0]) return false;
-  const uint8_t len = a[0];
+  const uint8_t len = (a[0] > 10) ? 10 : a[0];
   for (uint8_t i = 0; i < len; i++)
   {
     if (a[i + 1] != b[i + 1]) return false;
@@ -195,7 +243,7 @@ bool RFIDReader::sameValue(const Value& a, const Value& b)
 }
 
 void RFIDReader::printUid(const Value& u) {
-  Serial.print("RFID UID (");
+  Serial.print("RFID: UID (");
   Serial.print(u[0]);
   Serial.print("): ");
   for (size_t i = 1; i <= u[0]; i++) {

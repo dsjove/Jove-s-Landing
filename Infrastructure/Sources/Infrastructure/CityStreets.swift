@@ -9,6 +9,7 @@ import Foundation
 import Combine
 import SwiftUI
 import BLEByJove
+import AudioToolbox
 
 public struct TrainRegistration: Equatable {
 	public let id: Data
@@ -52,29 +53,31 @@ public class CityStreets: ObservableObject, MotorizedFacility {
 
 	private func updateCurrentTrain(for detection: RFIDDetection) {
 		let announce: (TrainRegistration, UInt32)->() = { registration, timestampMS in
-			print("Annnouncing")
+			//print("Annnouncing")
 			self.currentTrain = .init(registration: registration, timestampMS: timestampMS)
 			if let symbol = registration.symbol {
 				self.display.power.control = symbol
-				SoundPlayer.shared.play(assetName: registration.sound)
+				SoundPlayer.shared.play(.asset(registration.sound))
 			}
 		}
 		if detection.id.isZero {
-			print("Gone")
+			//print("Gone")
 			self.currentTrain = nil
 		}
 		else if let current = currentTrain, detection.id.id == current.registration.id {
-			let timrDiff = detection.timestampMS - current.timestampMS
-			print("Same \(timrDiff)")
-			if timrDiff > 5000 {
+			let timeDiff = detection.timestampMS - current.timestampMS
+			if timeDiff > 5000 {
+				//print("Same \(timeDiff) announcing")
 				announce(current.registration, detection.timestampMS)
 			}
 			else {
+				//print("Same \(timeDiff) updating")
 				self.currentTrain = .init(registration: current.registration, timestampMS: detection.timestampMS)
+				SoundPlayer.shared.play(.system(1306))
 			}
 		}
 		else {
-			print("New")
+			//print("New")
 			let registration = self.registration[detection.id.id] ?? self.registration[Data()]!
 			announce(registration, detection.timestampMS)
 		}

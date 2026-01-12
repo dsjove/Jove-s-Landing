@@ -7,7 +7,7 @@ class MatrixR4
 public:
   using Value = std::array<uint32_t, 3>;
 
-  MatrixR4(BLEServiceRunner& ble, const Value& value = {0xB194a444, 0x44042081, 0x100a0841});
+  MatrixR4(BLEServiceRunner& ble, const Value& value = {0, 0, 0});
 
   void begin();
 

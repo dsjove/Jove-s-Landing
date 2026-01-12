@@ -9,7 +9,7 @@
 
 Scheduler _runner;
 BLEServiceRunner _ble("City Streets");
-MatrixR4 _matrixR4(_ble);
+MatrixR4 _matrixR4(_ble); // {0xB194a444, 0x44042081, 0x100a0841}
 Lighting _lighting(_ble, {{3, true}, {0, false}}, A0);
 RFIDReader _rfidReader(_ble, 10, 9);
 
