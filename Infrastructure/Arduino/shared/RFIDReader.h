@@ -27,7 +27,6 @@ private:
   Task _rfidTask;
 
   RFID _lastID;
-  int _wasPresent;
   uint32_t _cooldownLimitMs;
   uint32_t _lastGoodReadMs;
   uint32_t _failReadCount;

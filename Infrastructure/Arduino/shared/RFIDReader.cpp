@@ -14,7 +14,6 @@ RFIDReader::RFIDReader(BLEServiceRunner& ble, uint32_t number, int ss_pin, int r
 , _rfid(ss_pin, rst_pin)
 , _rfidTask(kTaskFrequency, TASK_FOREVER, &readId_task)
 , _lastID(number)
-, _wasPresent(-1)
 , _cooldownLimitMs(0)
 , _lastGoodReadMs(0)
 , _failReadCount(0)  
@@ -53,11 +52,8 @@ void RFIDReader::readId()
   if (_rfid.PICC_IsNewCardPresent())
   {
     // Reader tells new card is present
-    if (_wasPresent != 1) 
-    {
-      _wasPresent = 1;
-       //Serial.println("RFID: New Card");
-    }
+	//Serial.println("RFID: New Card");
+
     // Cooldown gate (prevents spamming rf reads and ble writes)
     if (now < _cooldownLimitMs)
     {
@@ -100,16 +96,7 @@ void RFIDReader::readId()
         resetRc522();
       }
     }
-  }
-  else 
-  {
-    // Reader had provided events
-    if (_wasPresent != 0)
-    {
-      _wasPresent = 0;
-      // Serial.println("RFID: Removed Card");
-    }
-  }
+  } // else Hovering not detectable.
 }
 
 void RFIDReader::resetRc522()
@@ -163,7 +150,6 @@ void RFIDReader::RFID::encode(const MFRC522::Uid& u, uint32_t timestamp)
 }
 
 void RFIDReader::RFID::print() const {
-
   Serial.print("RFID: UID (");
   Serial.print(size());
   Serial.print("): ");

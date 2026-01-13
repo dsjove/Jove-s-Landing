@@ -18,7 +18,7 @@ struct CityStreetsControlsView: View {
 	@ObservedObject var lightCalibration: CityStreets.Lighting.Value
 	@ObservedObject var lightSensed: CityStreets.Lighting.Value
 	@ObservedObject var display: ArduinoDisplay.Power
-	@ObservedObject var rail: TrainRail.TrainID
+	@ObservedObject var rail: TrainRail
 
 	@State private var showOverlay = false
 
@@ -30,7 +30,7 @@ struct CityStreetsControlsView: View {
 		self.lightCalibration = facility.lighting.calibration
 		self.lightSensed = facility.lighting.sensed
 		self.display = facility.display.power
-		self.rail = facility.rail.sensedTrain
+		self.rail = facility.rail
 	}
 
 	var body: some View {
