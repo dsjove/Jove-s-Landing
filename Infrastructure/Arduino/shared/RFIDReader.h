@@ -20,22 +20,19 @@ private:
   private:
     Value _value;
   };
-
-  BLEServiceRunner& _ble;
+  
   const int _ss_pin;
   const int _rst_pin;
-
   MFRC522 _rfid;
-
-  int _wasPresent;
-  RFID _lastID;
-  uint32_t _timeStamp;
-
-  BLECharacteristic _idFeedbackChar;
   Task _rfidTask;
 
+  RFID _lastID;
+  int _wasPresent;
+  uint32_t _cooldownLimitMs;
   uint32_t _lastGoodReadMs;
   uint32_t _failReadCount;
+
+  BLECharacteristic _idFeedbackChar;
 
   static void readId_task();
   void readId();

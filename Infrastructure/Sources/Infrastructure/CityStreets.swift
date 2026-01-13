@@ -19,8 +19,13 @@ public struct TrainRegistration {
 }
 
 public struct TrainDetection {
+	public let count: Int
 	public let registration: TrainRegistration
-	public let timestampMS: UInt32
+	public let detection: RFIDDetection
+
+	public var title: String {
+		"\(registration.name) (\(count))"
+	}
 }
 
 public class CityStreets: ObservableObject, MotorizedFacility {
@@ -59,6 +64,9 @@ public class CityStreets: ObservableObject, MotorizedFacility {
 	}()
 
 	@Published
+	public private(set) var currentTrain: TrainDetection?
+
+	@Published
 	public private(set) var connectionState: ConnectionState {
 		didSet {
 			switch connectionState {
@@ -72,38 +80,36 @@ public class CityStreets: ObservableObject, MotorizedFacility {
 		}
 	}
 
-	@Published
-	public private(set) var currentTrain: TrainDetection?
-
 	private func updateCurrentTrain(for detection: RFIDDetection) {
-		let announce: (TrainRegistration, UInt32)->() = { registration, timestampMS in
-			//print("Annnouncing")
-			self.currentTrain = .init(registration: registration, timestampMS: timestampMS)
-			if let symbol = registration.symbol {
-				self.display.power.control = symbol
-				SoundPlayer.shared.play(registration.sound)
-			}
-		}
+		let sound: SoundPlayer.Source
+		let symbol: ArduinoR4Matrix?
 		if detection.id.isZero {
-			//print("Gone")
 			self.currentTrain = nil
+			sound = .none
+			symbol = ArduinoR4Matrix()
 		}
-		else if let current = currentTrain, detection.id.id == current.registration.id {
-			let timeDiff = detection.timestampMS - current.timestampMS
-			if timeDiff > 5000 {
-				//print("Same \(timeDiff) announcing")
-				announce(current.registration, detection.timestampMS)
-			}
-			else {
-				//print("Same \(timeDiff) updating")
-				self.currentTrain = .init(registration: current.registration, timestampMS: detection.timestampMS)
-				SoundPlayer.shared.play(.system(1306))
-			}
+		else if let currentTrain, currentTrain.registration.id == detection.id.id {
+			let timeDiff = detection.timestampMS - currentTrain.detection.timestampMS
+			let anotherRound = timeDiff > 5000
+			self.currentTrain = .init(
+				count: currentTrain.count + (anotherRound ? 1 : 0),
+				registration: currentTrain.registration,
+				detection: detection)
+			sound = anotherRound ? currentTrain.registration.sound : .system(1306)
+			symbol = nil
 		}
 		else {
-			//print("New")
 			let registration = self.trains[detection.id.id] ?? self.trains[Data()]!
-			announce(registration, detection.timestampMS)
+			self.currentTrain = .init(
+				count: 1,
+				registration: registration,
+				detection: detection)
+			sound = registration.sound
+			symbol = registration.symbol
+		}
+		SoundPlayer.shared.play(sound)
+		if let symbol {
+			self.display.power.control = symbol
 		}
 	}
 

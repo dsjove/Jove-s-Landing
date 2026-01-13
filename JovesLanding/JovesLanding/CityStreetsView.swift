@@ -25,7 +25,7 @@ struct CityStreetsView: View {
 			}
 			.padding(8)
 		}
-		.navigationBarTitle(facility.currentTrain?.registration.name ?? facility.name)
+		.navigationBarTitle(facility.currentTrain?.title ?? facility.name)
 	}
 }
 
