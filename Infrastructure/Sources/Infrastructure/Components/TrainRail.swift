@@ -14,6 +14,7 @@ public struct TrainRegistration {
 	public let name: String
 	public let sound: SoundPlayer.Source
 	public let symbol: ArduinoR4Matrix?
+	public let powerFunction: PFCommand?
 }
 
 public struct TrainDetection {
@@ -30,12 +31,14 @@ public struct TrainDetection {
 
 public class TrainRail: ObservableObject {
 	private typealias TrainID = BTProperty<BTValueTransformer<RFIDDetection>>
+	private typealias PowerFuction = BTProperty<BTValueTransformer<PFCommand>>
 	private var sensedTrain: TrainID
+	private var powerFunction: PowerFuction
 	private var sink: Set<AnyCancellable> = []
 	private var staleTimer: Timer?
 
-    private let noiseThresholdMS = 5000
-    private let silenceThresholdSecs: TimeInterval = 180.0
+	private let noiseThresholdMS = 3000
+	private let silenceThresholdSecs: TimeInterval = 180.0
 
 	private let trains : [Data: TrainRegistration] = {
 		let registrations: [TrainRegistration] = [
@@ -43,19 +46,22 @@ public class TrainRail: ObservableObject {
 				id: Data(),
 				name: "Unknown",
 				sound: .none,
-				symbol: try? .init(packed: [0x0f01f811, 0x80180700, 0x60000060])
+				symbol: try? .init(packed: [0x0f01f811, 0x80180700, 0x60000060]),
+				powerFunction: nil
 			),
 			TrainRegistration(
 				id: Data([0xC0, 0x05, 0x1F, 0x3B]),
 				name: "Maersk",
 				sound: .asset("TrainHorn"),
-				symbol: try? .init(packed: [0xe07f0fd9, 0xbcf3cf3c, 0x63c63c63])
+				symbol: try? .init(packed: [0xe07f0fd9, 0xbcf3cf3c, 0x63c63c63]),
+				powerFunction: .init(power: 11)
 			),
 			TrainRegistration(
 				id: Data([0xF0, 0xBE, 0x1F, 0x3B]),
 				name: "Bare Necessities",
 				sound: .asset("CatCallWhistle"),
-				symbol: try? .init(packed: [0x20440280, 0x1801a658, 0x6149230c])
+				symbol: try? .init(packed: [0x20440280, 0x1801a658, 0x6149230c]),
+				powerFunction: nil
 			),
 		]
 		return Dictionary(uniqueKeysWithValues: registrations.map { ($0.id, $0) })
@@ -65,12 +71,17 @@ public class TrainRail: ObservableObject {
 	public private(set) var currentTrain: TrainDetection?
 
 	public init(device: any BTBroadcaster) {
-		self.sensedTrain = TrainID(
+		self.sensedTrain = .init(
 			broadcaster: device,
 			characteristic: BTCharacteristicIdentity(
 				component: FacilityPropComponent.motion,
-				category: FacilityPropCategory.sensed,
+				category: FacilityPropCategory.address,
 				channel: BTPropChannel.feedback))
+		self.powerFunction = .init(
+			broadcaster: device,
+			characteristic: BTCharacteristicIdentity(
+				component: FacilityPropComponent.motion,
+				category: FacilityPropCategory.power))
 
 		sensedTrain.$feedback
 			.removeDuplicates()
@@ -79,7 +90,6 @@ public class TrainRail: ObservableObject {
 				self?.updateCurrentTrain(for: detection)
  			}
  			.store(in: &sink)
-
 
 		updateCurrentTrain(for: sensedTrain.feedback)
 	}
@@ -110,6 +120,9 @@ public class TrainRail: ObservableObject {
 				rfid: detection)
 		}
 		let train = self.currentTrain
+		if let pf = train?.registration.powerFunction {
+			self.powerFunction.control = pf
+		}
 		DispatchQueue.main.async { [weak self] in
 			self?.startStaleCheck(train)
 		}

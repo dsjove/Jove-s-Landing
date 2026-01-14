@@ -2,6 +2,7 @@
 #include "shared/MatrixR4.cpp"
 #include "shared/Lighting.cpp"
 #include "shared/RFIDReader.cpp"
+#include "shared/LEGOPFTransmitter.cpp"
 
 #include <SPI.h>
 
@@ -12,6 +13,7 @@ BLEServiceRunner _ble("City Streets");
 MatrixR4 _matrixR4(_ble); // {0xB194a444, 0x44042081, 0x100a0841}
 Lighting _lighting(_ble, {{3, true}, {0, false}}, A0);
 RFIDReader _rfidReader(_ble, 1);
+LEGOPFTransmitter _pfTransmitter(_ble, 16);
 
 void setup()
 {
@@ -24,6 +26,7 @@ void setup()
   _matrixR4.begin();
   _lighting.begin(_runner);
   _rfidReader.begin(_runner);
+  _pfTransmitter.begin();
 }
 
 void loop()

@@ -17,7 +17,7 @@ RFIDReader::RFIDReader(BLEServiceRunner& ble, uint32_t number, int ss_pin, int r
 , _cooldownLimitMs(0)
 , _lastGoodReadMs(0)
 , _failReadCount(0)  
-, _idFeedbackChar(ble.characteristic("05040002", _lastID.size(), _lastID.data(), NULL)) 
+, _idFeedbackChar(ble.characteristic("05000002", _lastID.size(), _lastID.data(), NULL))
 {
   rfidReaderRef = this;
 }

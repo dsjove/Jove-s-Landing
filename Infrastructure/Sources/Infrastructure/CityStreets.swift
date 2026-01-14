@@ -17,7 +17,7 @@ public class CityStreets: ObservableObject, MotorizedFacility {
 	private let device: BTDevice
 	private var sink: Set<AnyCancellable> = []
 
-	public private(set) var motor: BTMotor;
+	public private(set) var motor: BTMotor; // todo: street power
 	public private(set) var lighting: BTLighting;
 	public private(set) var display: ArduinoDisplay;
 	public private(set) var rail: TrainRail;
@@ -105,7 +105,7 @@ public class CityStreets: ObservableObject, MotorizedFacility {
 		self.lighting.reset()
 		self.display.reset()
 		self.rail.reset()
-        self.currentTrain = nil
+		self.currentTrain = nil
 	}
 
 	public func fullStop() {
@@ -113,7 +113,6 @@ public class CityStreets: ObservableObject, MotorizedFacility {
 		self.lighting.fullStop()
 		self.display.fullStop()
 		self.rail.fullStop()
-        self.currentTrain = nil
+		self.currentTrain = nil
 	}
 }
-
