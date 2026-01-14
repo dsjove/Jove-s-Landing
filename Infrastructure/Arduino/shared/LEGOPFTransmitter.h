@@ -1,7 +1,6 @@
 #pragma once
 #include "BLEServiceRunner.h"
-
-struct PFCommand;
+#include "LegoPFIR.h"
 
 class LEGOPFTransmitter {
 public:
@@ -9,11 +8,8 @@ public:
   void begin();
 
 private:
-  int _pin;
-  uint8_t _gA[4];
-  uint8_t _gB[4];
+  LegoPFIR _ir;
 
   BLECharacteristic _transmitChar;
   static void transmit(BLEDevice device, BLECharacteristic characteristic);
-  void transmit(const PFCommand& command);
 };

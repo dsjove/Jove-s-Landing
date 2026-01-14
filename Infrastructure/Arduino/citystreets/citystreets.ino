@@ -3,6 +3,7 @@
 #include "shared/Lighting.cpp"
 #include "shared/RFIDReader.cpp"
 #include "shared/LEGOPFTransmitter.cpp"
+#include "shared/LegoPFIR.cpp"
 
 #include <SPI.h>
 
