@@ -3,6 +3,13 @@
 #include <ArduinoBLE.h>
 #include <TaskScheduler.h>
 
+//Arduino's characteristics do not have a userData and expect static callbacks.
+//Arduino mangles the UUID. We cannot depend on that for 'userData'.
+//So if we want multiple instances of the characteristic owner,
+//we do not have a way to differentiate characteristic owners on callback.
+//Maybe this can be done with macros/genrics to create a function per instance.
+//We don't want runtime dynamic instance count.
+
 class BLEServiceRunner
 {
 public:
