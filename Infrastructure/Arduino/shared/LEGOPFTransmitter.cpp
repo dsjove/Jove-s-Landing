@@ -17,7 +17,7 @@ void LEGOPFTransmitter::begin()
 void LEGOPFTransmitter::transmit(BLEDevice, BLECharacteristic characteristic)
 {
   std::array<uint8_t, 3> value;
-  characteristic.readValue(value.data(), sizeof(value));
+  characteristic.readValue(value.data(), value.size());
   LegoPFIR::Command command = { value[0], (LegoPFIR::Port)value[1], value[2] };
   pfTranbsmitterRef->_ir.apply(command);
 	Serial.println(command.channel);

@@ -1,15 +1,14 @@
 #pragma once
 #include "BLEServiceRunner.h"
-#include "LegoPFIR.h"
+#include "core/LegoPFIR.h"
 
 class LEGOPFTransmitter {
 public:
-  LEGOPFTransmitter(BLEServiceRunner& ble, int pin);
+  LEGOPFTransmitter(BLEServiceRunner& ble, int pin = 8);
   void begin();
 
 private:
   LegoPFIR _ir;
-
   BLECharacteristic _transmitChar;
   static void transmit(BLEDevice device, BLECharacteristic characteristic);
 };

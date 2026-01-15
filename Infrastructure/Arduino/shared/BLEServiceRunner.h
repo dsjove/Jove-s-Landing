@@ -17,6 +17,12 @@ public:
   }
 
   template <typename T, std::size_t N>
+  BLECharacteristic characteristic(const std::string& id, const std::array<T, N>& value, BLECharacteristicEventHandler eventHandler = NULL)
+  {
+    return characteristic(id, value.size(), value.data(), eventHandler);
+  }
+
+  template <typename T, std::size_t N>
   BLECharacteristic characteristic(const std::string& id, const std::array<T, N>* value, BLECharacteristicEventHandler eventHandler = NULL)
   {
     return characteristic(id, sizeof(const std::array<T, N>), value && N > 0 ? value->data() : NULL, eventHandler);

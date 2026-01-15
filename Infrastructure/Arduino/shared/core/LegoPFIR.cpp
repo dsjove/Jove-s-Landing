@@ -18,8 +18,10 @@ bool LegoPFIR::apply(const Command& cmd, uint8_t repeats, uint16_t repeatDelayMs
   if (cmd.value > 15) return false;
 
   const uint8_t idx = cmd.channel - 1;
-  if (cmd.port == Port::A) _a[idx] = cmd.value;
-  else                     _b[idx] = cmd.value;
+  if (cmd.port == Port::A)
+    _a[idx] = cmd.value;
+  else
+    _b[idx] = cmd.value;
 
   return sendChannel(cmd.channel, repeats, repeatDelayMs);
 }
@@ -57,8 +59,10 @@ bool LegoPFIR::setCached(const Command& cmd) {
   if (cmd.value > 15) return false;
 
   const uint8_t idx = cmd.channel - 1;
-  if (cmd.port == Port::A) _a[idx] = cmd.value;
-  else                     _b[idx] = cmd.value;
+  if (cmd.port == Port::A)
+    _a[idx] = cmd.value;
+  else
+    _b[idx] = cmd.value;
 
   return true;
 }

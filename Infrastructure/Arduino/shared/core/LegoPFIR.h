@@ -1,13 +1,5 @@
 #pragma once
-#include "BLEServiceRunner.h"
-
-/*
-  BLECharacteristic _transmitChar;
-  static void transmit(BLEDevice device, BLECharacteristic characteristic);
-static LEGOPFTransmitter* pfTranbsmitterRef = NULL;
-  pfTranbsmitterRef = this;
-, _transmitChar(ble.characteristic("05020000", 3, NULL, transmit))
- */
+#include <Arduino.h>
 
 class LegoPFIR {
 public:

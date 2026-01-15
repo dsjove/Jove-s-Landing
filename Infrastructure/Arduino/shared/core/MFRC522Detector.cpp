@@ -1,44 +1,37 @@
-#include "RFIDReader.h"
-
-static RFIDReader* rfidReaderRef = NULL;
+#include "MFRC522Detector.h"
 
 // Timing constants
-static constexpr uint32_t kTaskFrequency = 20;
 static constexpr uint32_t kCooldownMs = 800; // Tune for tag movement speed
 static constexpr uint32_t kReinitAfterMs = 30000; // MFRC522 goes bad after a while
 static constexpr uint8_t kFailResetCount = 5; // Reset after a failure count
 
-RFIDReader::RFIDReader(BLEServiceRunner& ble, uint32_t number, int ss_pin, int rst_pin)
+MFRC522Detector::MFRC522Detector(uint32_t number, int ss_pin, int rst_pin)
 : _ss_pin(ss_pin)
 , _rst_pin(rst_pin)
 , _rfid(ss_pin, rst_pin)
-, _rfidTask(kTaskFrequency, TASK_FOREVER, &readId_task)
 , _lastID(number)
 , _cooldownLimitMs(0)
 , _lastGoodReadMs(0)
 , _failReadCount(0)  
-, _idFeedbackChar(ble.characteristic("05000002", _lastID.size(), _lastID.data(), NULL))
 {
-  rfidReaderRef = this;
 }
 
-void RFIDReader::begin(Scheduler& scheduler)
+MFRC522Detector::RFID::RFID(uint32_t number)
+: _number(number)
+, _timestamp(0)
+, _length(0)
+, _uuid({0})
 {
-  _lastID.print();
+}
+
+void MFRC522Detector::begin()
+{
   pinMode(_rst_pin, OUTPUT);
   digitalWrite(_rst_pin, HIGH);
   _rfid.PCD_Init();
-  scheduler.addTask(_rfidTask);
-  _rfidTask.enable();
 }
 
-void RFIDReader::readId_task()
-{
-  rfidReaderRef->readId();
-}
-
-void RFIDReader::readId()
-{
+const MFRC522Detector::RFID* MFRC522Detector::loop() {
   const uint32_t now = millis();
 
   // Re-init after long inactivity without a successful read
@@ -58,7 +51,7 @@ void RFIDReader::readId()
     if (now < _cooldownLimitMs)
     {
       //Serial.println("RFID: Cooldown");
-      return;
+      return NULL;
     }
     // Read the serial number
     if (_rfid.PICC_ReadCardSerial()) 
@@ -67,7 +60,7 @@ void RFIDReader::readId()
       _lastGoodReadMs = now;
       _failReadCount = 0;
 
-      _lastID.encode(_rfid.uid, now);
+      _lastID.update(_rfid.uid, now);
 
       // Always end the (read) conversation with the tag
       _rfid.PICC_HaltA();
@@ -77,8 +70,7 @@ void RFIDReader::readId()
       _cooldownLimitMs = now + kCooldownMs;
 
       // Report change ID or timestamp
-      _lastID.print();
-      _idFeedbackChar.writeValue(_lastID.data(), _lastID.size());
+      return &_lastID;
     }
     else 
     {
@@ -96,10 +88,65 @@ void RFIDReader::readId()
         resetRc522();
       }
     }
-  } // else Hovering not detectable.
+  }
+  // Hovering not detectable.
+  return NULL;
 }
 
-void RFIDReader::resetRc522()
+void MFRC522Detector::RFID::update(const MFRC522::Uid& u, uint32_t timestamp)
+{
+  _timestamp = timestamp;
+  const uint8_t len = (u.size > 10) ? 10 : u.size;
+  _length = len;
+  std::copy(u.uidByte, u.uidByte + len, _uuid.begin());
+}
+
+void MFRC522Detector::RFID::print() const
+{
+  Serial.print(_number);
+  Serial.print("-");
+  Serial.print(_timestamp);
+  Serial.print("-");
+  Serial.print(_length);
+  if (_length) {
+    Serial.print("-");
+    for (uint8_t i = 0; i < _length; i++) {
+      if (_uuid[i] < 0x10) Serial.print('0');
+      Serial.print(_uuid[i], HEX);
+      if (i < _length-1) Serial.print('.');
+    }
+  }
+}
+
+MFRC522Detector::RFID::Encoded MFRC522Detector::RFID::encode() const
+{
+  Encoded encoded;
+  const uint32_t number = _number;
+  std::copy(
+    reinterpret_cast<const uint8_t*>(&number),
+    reinterpret_cast<const uint8_t*>(&number) + sizeof(number),
+    encoded.begin()
+  );
+  const uint32_t ts = _timestamp;
+  std::copy(
+    reinterpret_cast<const uint8_t*>(&ts),
+    reinterpret_cast<const uint8_t*>(&ts) + sizeof(ts),
+    encoded.begin() + 4
+  );
+  encoded[8] = _length;
+  std::copy(_uuid.begin(), _uuid.begin() + _length, encoded.begin() + 9);
+  return encoded;
+}
+
+void MFRC522Detector::RFID::print(const Encoded& encoded) {
+  for (size_t i = 0; i < size_t(4 + 4 + 1 + encoded[8]); i++) {
+    if (encoded[i] < 0x10) Serial.print('0');
+    Serial.print(encoded[i], HEX);
+    if (i == 3 || i == 7 || i == 8) Serial.print('-');
+  }
+}
+
+void MFRC522Detector::resetRc522()
 {
   // Hard reset the RC522 using its RST pin
   digitalWrite(_rst_pin, LOW);
@@ -112,51 +159,4 @@ void RFIDReader::resetRc522()
   _rfid.PCD_SetAntennaGain(_rfid.RxGain_max);
   _failReadCount = 0;
   //Do not reset _lastGoodReadMs
-}
-
-RFIDReader::RFID::RFID(uint32_t _number)
-{
-  _value.fill(0);
-  const uint32_t number = _number;
-  std::copy(
-    reinterpret_cast<const uint8_t*>(&number),
-    reinterpret_cast<const uint8_t*>(&number) + sizeof(number),
-    _value.begin()
-  );
-  _value[8] = 10;
-}
-
-size_t RFIDReader::RFID::size() const
-{
-  return 4 + 4 + 1 + _value[8];
-}
-
-const uint8_t* RFIDReader::RFID::data() const
-{
-  return _value.data();
-}
-
-void RFIDReader::RFID::encode(const MFRC522::Uid& u, uint32_t timestamp)
-{
-  const uint32_t ts = timestamp;
-  std::copy(
-    reinterpret_cast<const uint8_t*>(&ts),
-    reinterpret_cast<const uint8_t*>(&ts) + sizeof(ts),
-    _value.begin() + 4
-  );
-  const uint8_t len = (u.size > 10) ? 10 : u.size;
-  _value[8] = len;
-  std::copy(u.uidByte, u.uidByte + len, _value.begin() + 9);
-}
-
-void RFIDReader::RFID::print() const {
-  Serial.print("RFID: UID (");
-  Serial.print(size());
-  Serial.print("): ");
-  for (size_t i = 0; i < size(); i++) {
-    if (_value[i] < 0x10) Serial.print('0');
-    Serial.print(_value[i], HEX);
-    if (i == 3 || i == 7 || i == 8) Serial.print('-');
-  }
-  Serial.println();
 }
