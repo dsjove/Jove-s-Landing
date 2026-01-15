@@ -1,13 +1,9 @@
 #include "MFRC522Detector.h"
 
-// Timing constants
-static constexpr uint32_t kCooldownMs = 800; // Tune for tag movement speed
-static constexpr uint32_t kReinitAfterMs = 30000; // MFRC522 goes bad after a while
-static constexpr uint8_t kFailResetCount = 5; // Reset after a failure count
-
-MFRC522Detector::MFRC522Detector(uint32_t number, int ss_pin, int rst_pin)
+MFRC522Detector::MFRC522Detector(uint32_t number, int ss_pin, int rst_pin, MFRC522Detector::Timing timing)
 : _ss_pin(ss_pin)
 , _rst_pin(rst_pin)
+, _timing(timing)
 , _rfid(ss_pin, rst_pin)
 , _lastID(number)
 , _cooldownLimitMs(0)
@@ -35,7 +31,7 @@ const MFRC522Detector::RFID* MFRC522Detector::loop() {
   const uint32_t now = millis();
 
   // Re-init after long inactivity without a successful read
-  if (_lastGoodReadMs != 0 && (now - _lastGoodReadMs) > kReinitAfterMs)
+  if (_lastGoodReadMs != 0 && (now - _lastGoodReadMs) > _timing.reinitAfterMs)
   {
     //Serial.println("RFID: Inactivity Reset");
     resetRc522();
@@ -67,7 +63,7 @@ const MFRC522Detector::RFID* MFRC522Detector::loop() {
       _rfid.PCD_StopCrypto1();
 
       // Start cooldown after successful read
-      _cooldownLimitMs = now + kCooldownMs;
+      _cooldownLimitMs = now + _timing.cooldownMs;
 
       // Report change ID or timestamp
       return &_lastID;
@@ -82,7 +78,7 @@ const MFRC522Detector::RFID* MFRC522Detector::loop() {
       _failReadCount++;
 
       // Hard reset after repeated failures
-      if (_failReadCount >= kFailResetCount)
+      if (_failReadCount >= _timing.failResetCount)
       {
         Serial.println("RFID: Fail Count Reset");
         resetRc522();
@@ -91,6 +87,21 @@ const MFRC522Detector::RFID* MFRC522Detector::loop() {
   }
   // Hovering not detectable.
   return NULL;
+}
+
+void MFRC522Detector::resetRc522()
+{
+  // Hard reset the RC522 using its RST pin
+  digitalWrite(_rst_pin, LOW);
+  delay(5);
+  digitalWrite(_rst_pin, HIGH);
+  delay(5);
+
+  _rfid.PCD_Init();
+  // Optional: max gain can improve marginal reads
+  _rfid.PCD_SetAntennaGain(_rfid.RxGain_max);
+  _failReadCount = 0;
+  //Do not reset _lastGoodReadMs
 }
 
 void MFRC522Detector::RFID::update(const MFRC522::Uid& u, uint32_t timestamp)
@@ -144,19 +155,4 @@ void MFRC522Detector::RFID::print(const Encoded& encoded) {
     Serial.print(encoded[i], HEX);
     if (i == 3 || i == 7 || i == 8) Serial.print('-');
   }
-}
-
-void MFRC522Detector::resetRc522()
-{
-  // Hard reset the RC522 using its RST pin
-  digitalWrite(_rst_pin, LOW);
-  delay(5);
-  digitalWrite(_rst_pin, HIGH);
-  delay(5);
-
-  _rfid.PCD_Init();
-  // Optional: max gain can improve marginal reads
-  _rfid.PCD_SetAntennaGain(_rfid.RxGain_max);
-  _failReadCount = 0;
-  //Do not reset _lastGoodReadMs
 }

@@ -4,7 +4,7 @@ static RFIDBroadcaster* RFIDBroadcasterRef = NULL;
 
 RFIDBroadcaster::RFIDBroadcaster(BLEServiceRunner& ble, uint32_t number, int ss_pin, int rst_pin)
 : _rfid(number, ss_pin, rst_pin)
-, _rfidTask(MFRC522Detector::kTaskFrequency, TASK_FOREVER, &readId_task)
+, _rfidTask(_rfid.timing().taskFrequency, TASK_FOREVER, &readId_task)
 , _idFeedbackChar(ble.characteristic("05000002", _rfid.lastID().encode()))
 {
   RFIDBroadcasterRef = this;

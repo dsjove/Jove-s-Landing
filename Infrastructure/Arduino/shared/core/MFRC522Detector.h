@@ -3,7 +3,13 @@
 
 class MFRC522Detector {
 public:
-  static constexpr uint32_t kTaskFrequency = 20;
+  struct Timing {
+    Timing() {}
+    uint32_t taskFrequency = 20; // Use for loop call frequency
+    uint32_t cooldownMs = 800; // Tune for tag movement speed
+    uint32_t reinitAfterMs = 30000; // MFRC522 goes bad after a while
+    uint8_t failResetCount = 5; // Reset after a failure count
+  };
 
   struct RFID {
     using Encoded = std::array<uint8_t, 4 + 4 + 1 + 10>;
@@ -23,17 +29,19 @@ public:
     static void print(const Encoded& encoded);
   };
 
-  MFRC522Detector(uint32_t number, int ss_pin = 10, int rst_pin = 9);
+  MFRC522Detector(uint32_t number, int ss_pin = 10, int rst_pin = 9, Timing timing = Timing());
 
   void begin();
 
   const RFID* loop();
 
+  const Timing& timing() const { return _timing; }
   const RFID& lastID() const { return _lastID; }
 
 private:
   const int _ss_pin;
   const int _rst_pin;
+  const Timing _timing;
   MFRC522 _rfid;
   RFID _lastID;
   uint32_t _cooldownLimitMs;
