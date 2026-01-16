@@ -31,7 +31,7 @@ public struct TrainDetection {
 
 public class TrainRail: ObservableObject {
 	private typealias TrainID = BTProperty<BTValueTransformer<RFIDDetection>>
-	private typealias PowerFuction = BTProperty<BTValueTransformer<PFCommand>>
+	private typealias PowerFuction = (PFCommand)->()
 	private var sensedTrain: TrainID
 	private var powerFunction: PowerFuction
 	private var sink: Set<AnyCancellable> = []
@@ -77,11 +77,12 @@ public class TrainRail: ObservableObject {
 				component: FacilityPropComponent.motion,
 				category: FacilityPropCategory.address,
 				channel: BTPropChannel.feedback))
-		self.powerFunction = .init(
-			broadcaster: device,
-			characteristic: BTCharacteristicIdentity(
+		let pfChar = BTCharacteristicIdentity(
 				component: FacilityPropComponent.motion,
-				category: FacilityPropCategory.power))
+				category: FacilityPropCategory.power)
+		self.powerFunction = {
+			device.send(data: $0.pack(), to: pfChar)
+		}
 
 		sensedTrain.$feedback
 			.removeDuplicates()
@@ -121,7 +122,7 @@ public class TrainRail: ObservableObject {
 		}
 		let train = self.currentTrain
 		if let pf = train?.registration.powerFunction {
-			self.powerFunction.control = pf
+			self.powerFunction(pf)
 		}
 		DispatchQueue.main.async { [weak self] in
 			self?.startStaleCheck(train)
