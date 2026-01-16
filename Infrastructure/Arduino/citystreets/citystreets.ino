@@ -1,3 +1,4 @@
+#include "shared/core/TaskThunk.cpp"
 #include "shared/core/BLEServiceRunner.cpp"
 #include "shared/core/IDBTCharacteristic.cpp"
 #include "shared/MatrixR4.cpp"
@@ -12,10 +13,10 @@
 #include <TaskScheduler.h>
 
 Scheduler _runner;
-BLEServiceRunner _ble("City Streets");
+BLEServiceRunner _ble(_runner, "City Streets");
 MatrixR4 _matrixR4(_ble); // {0xB194a444, 0x44042081, 0x100a0841}
-Lighting _lighting(_ble, {{3, true}, {0, false}}, A0);
-RFIDBroadcaster _RFIDBroadcaster(_ble, 1);
+Lighting _lighting(_runner, _ble, {{3, true}, {0, false}}, A0);
+RFIDBroadcaster _RFIDBroadcaster(_runner, _ble, 1);
 LEGOPFTransmitter _pfTransmitter(_ble, 16);
 
 void setup()
@@ -25,10 +26,10 @@ void setup()
 
   SPI.begin();
 
-  _ble.begin(_runner);
+  _ble.begin();
   _matrixR4.begin();
-  _lighting.begin(_runner);
-  _RFIDBroadcaster.begin(_runner);
+  _lighting.begin();
+  _RFIDBroadcaster.begin();
   _pfTransmitter.begin();
 }
 

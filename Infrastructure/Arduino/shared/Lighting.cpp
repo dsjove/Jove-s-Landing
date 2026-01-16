@@ -2,7 +2,7 @@
 
 static Lighting* lightingRef = NULL;
 
-Lighting::Lighting(BLEServiceRunner& ble, std::vector<LightOutput> output, int sensor)
+Lighting::Lighting(Scheduler& scheduler, BLEServiceRunner& ble, std::vector<LightOutput> output, int sensor)
 : _output(output)
 , _sensor(sensor)
 , _currentPower(0)
@@ -13,22 +13,17 @@ Lighting::Lighting(BLEServiceRunner& ble, std::vector<LightOutput> output, int s
 , _powerFeedbackChar(ble, "03020002", &_currentPower)
 , _calibrationChar(ble, "03010000", &_currentCalibration, updateCalibration)
 , _sensedFeedbackChar(ble, "03040002", &_currentAmbient, sensor != -1 ? updateSensed : NULL)
-, _lightingTask(1000, TASK_FOREVER, &senseAmbient_task)
+, _lightingTask(scheduler, 1000, this, sensor != -1)
 {
   lightingRef = this;
 }
 
-void Lighting::begin(Scheduler& scheduler)
+void Lighting::begin()
 {
   for (LightOutput light : _output)
   {  
     pinMode(light.pin, OUTPUT);
   }
-  if (_sensor != -1)
-  {
-    scheduler.addTask(_lightingTask);
-    _lightingTask.enable();
-   }
 }
 
 void Lighting::updatePower(BLEDevice, BLECharacteristic characteristic)
@@ -45,16 +40,16 @@ void Lighting::updateCalibration(BLEDevice, BLECharacteristic characteristic)
   lightingRef->update();
 }
 
-void Lighting::senseAmbient_task()
+void Lighting::loop(Task&)
 {
-  int sensorValue = analogRead(lightingRef->_sensor);
+  int sensorValue = analogRead(_sensor);
   uint8_t signal = map(sensorValue, 920, 1014, 0, 255);
-  if (signal != lightingRef->_currentAmbient)
+  if (signal != _currentAmbient)
   {
-    lightingRef->_currentAmbient = signal;
-    //Serial.println(lightingRef->_sensedFeedbackChar.uuid.data());
-    lightingRef->_sensedFeedbackChar.ble.writeValue(lightingRef->_currentAmbient);
-    lightingRef->update();
+    _currentAmbient = signal;
+    //Serial.println(_sensedFeedbackChar.uuid.data());
+    _sensedFeedbackChar.ble.writeValue(_currentAmbient);
+    update();
   }
 }
 

@@ -1,10 +1,10 @@
 #include "BLEServiceRunner.h"
 
-BLEServiceRunner::BLEServiceRunner(const std::string& serviceName, const std::string& overrideId)
+BLEServiceRunner::BLEServiceRunner(Scheduler& scheduler, const std::string& serviceName, const std::string& overrideId)
 : _name(serviceName)
 , _serviceId(btutil::makeUuidWithService(serviceName, overrideId))
 , _bleService(_serviceId.data())
-, _bluetoothTask(100, TASK_FOREVER, &bluetooth_task)
+, _bluetoothTask(scheduler, 100, this)
 {
 }
 
@@ -13,7 +13,7 @@ void BLEServiceRunner::addCharacteristic(BLECharacteristic& ble)
   _bleService.addCharacteristic(ble);
 }
 
-void BLEServiceRunner::begin(Scheduler& scheduler)
+void BLEServiceRunner::begin()
 {
   if (!BLE.begin()) 
   {
@@ -40,11 +40,9 @@ void BLEServiceRunner::begin(Scheduler& scheduler)
     Serial.println("Bluetooth® activation failed!");
     while (1);
   }
-  scheduler.addTask(_bluetoothTask);
-  _bluetoothTask.enable();
 }
 
-void BLEServiceRunner::bluetooth_task() 
+void BLEServiceRunner::loop(Task&)
 {
   BLE.poll();
 }

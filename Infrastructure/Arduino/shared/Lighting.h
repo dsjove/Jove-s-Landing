@@ -1,6 +1,7 @@
 #pragma once
+
+#include "core/TaskThunk.h"
 #include "core/IDBTCharacteristic.h"
-#include <TaskScheduler.h>
 #include <vector>
 
 struct LightOutput
@@ -9,12 +10,12 @@ struct LightOutput
 	bool dimmable;
 };
 
-class Lighting
+class Lighting: ScheduledRunner
 {
 public:
-  Lighting(BLEServiceRunner& ble, std::vector<LightOutput> output, int sensor = -1);
+  Lighting(Scheduler& scheduler, BLEServiceRunner& ble, std::vector<LightOutput> output, int sensor = -1);
 
-  void begin(Scheduler& scheduler);
+  void begin();
 
 private:
   const std::vector<LightOutput> _output;
@@ -32,8 +33,8 @@ private:
   static void updateCalibration(BLEDevice device, BLECharacteristic characteristic);
   static void updateSensed(BLEDevice device, BLECharacteristic characteristic);
 
-  Task _lightingTask;
-  static void senseAmbient_task();
+  virtual void loop(Task&);
+  TaskThunk _lightingTask;
   
   void update();
 };

@@ -1,28 +1,28 @@
 #pragma once
 
+#include "TaskThunk.h"
 #include "btutil.h"
 #include <string>
 #include <ArduinoBLE.h>
-#include <TaskScheduler.h>
 
-class BLEServiceRunner
+class BLEServiceRunner: ScheduledRunner
 {
 public:
-  BLEServiceRunner(const std::string& serviceName, const std::string& overrideId = "");
+  BLEServiceRunner(Scheduler& scheduler, const std::string& serviceName, const std::string& overrideId = "");
 
   void addCharacteristic(BLECharacteristic& ble);
 
   const BLEUUID& serviceId() const { return _serviceId; }
 
-  void begin(Scheduler& scheduler);
+  void begin();
 
 private:
   const std::string _name;
   const BLEUUID _serviceId;
   BLEService _bleService;
-  Task _bluetoothTask;
+  TaskThunk _bluetoothTask;
 
-  static void bluetooth_task();
+  virtual void loop(Task&);
   static void bluetooth_connected(BLEDevice device);
   static void bluetooth_disconnected(BLEDevice device);
 };

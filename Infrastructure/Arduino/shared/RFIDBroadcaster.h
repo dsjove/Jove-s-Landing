@@ -1,18 +1,20 @@
 #pragma once
 
+#include "core/TaskThunk.h"
 #include "core/IDBTCharacteristic.h"
 #include "core/MFRC522Detector.h"
 
-class RFIDBroadcaster {
+class RFIDBroadcaster : ScheduledRunner
+{
 public:
-  RFIDBroadcaster(BLEServiceRunner& ble, uint32_t number, int ss_pin = 10, int rst_pin = 9);
+  RFIDBroadcaster(Scheduler& scheduler, BLEServiceRunner& ble, uint32_t number, int ss_pin = 10, int rst_pin = 9);
 
-  void begin(Scheduler& scheduler);
+  void begin();
 
 private:
   MFRC522Detector _rfid;
-  Task _rfidTask;
   IDBTCharacteristic _idFeedbackChar;
+  TaskThunk _rfidTask;
 
-  static void readId_task();
+  virtual void loop(Task&);
 };
