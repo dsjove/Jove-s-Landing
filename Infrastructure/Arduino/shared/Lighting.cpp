@@ -50,7 +50,7 @@ void Lighting::senseAmbient_task()
   if (signal != lightingRef->_currentAmbient)
   {
     lightingRef->_currentAmbient = signal;
-    lightingRef->_sensedFeedbackChar.writeValue(lightingRef->_currentAmbient);
+    lightingRef->_sensedFeedbackChar.characteristic.writeValue(lightingRef->_currentAmbient);
     lightingRef->update();
   }
 }
@@ -73,7 +73,7 @@ void Lighting::update() {
 
   if (signal != _currentSignal)
   {
-    _powerFeedbackChar.writeValue(signal);
+    _powerFeedbackChar.characteristic.writeValue(signal);
     _currentSignal = signal;
 
   for (LightOutput light : _output)

@@ -31,6 +31,6 @@ void RFIDBroadcaster::readId_task()
 //      Serial.print(" -- ");
 //      MFRC522Detector::RFID::print(encoded);
       Serial.println();
-      RFIDBroadcasterRef->_idFeedbackChar.writeValue(encoded.data(), detected->encodedSize());
+      RFIDBroadcasterRef->_idFeedbackChar.characteristic.writeValue(encoded.data(), detected->encodedSize());
   }
 }

@@ -10,7 +10,7 @@ public:
 private:
   MFRC522Detector _rfid;
   Task _rfidTask;
-  BLECharacteristic _idFeedbackChar;
+  IDBTCharacteristic _idFeedbackChar;
 
   static void readId_task();
 };

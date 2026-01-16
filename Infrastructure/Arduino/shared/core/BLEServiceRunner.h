@@ -1,14 +1,8 @@
 #pragma once
+#include "IDBTCharacteristic.h"
 #include <string>
 #include <ArduinoBLE.h>
 #include <TaskScheduler.h>
-
-//Arduino's characteristics do not have a userData and expect static callbacks.
-//Arduino mangles the UUID. We cannot depend on that for 'userData'.
-//So if we want multiple instances of the characteristic owner,
-//we do not have a way to differentiate characteristic owners on callback.
-//Maybe this can be done with macros/genrics to create a function per instance.
-//We don't want runtime dynamic instance count.
 
 class BLEServiceRunner
 {
@@ -18,25 +12,25 @@ public:
   BLEServiceRunner(const std::string& name, const std::string& serviceID = "");
 
   template <typename T>
-  BLECharacteristic characteristic(const std::string& id, const T* value, BLECharacteristicEventHandler eventHandler = NULL)
+  IDBTCharacteristic characteristic(const std::string& id, const T* value, BLECharacteristicEventHandler eventHandler = NULL)
   {
     return characteristic(id, sizeof(T), value, eventHandler);
   }
 
   template <typename T, std::size_t N>
-  BLECharacteristic characteristic(const std::string& id, const std::array<T, N>& value, BLECharacteristicEventHandler eventHandler = NULL)
+  IDBTCharacteristic characteristic(const std::string& id, const std::array<T, N>& value, BLECharacteristicEventHandler eventHandler = NULL)
   {
     return characteristic(id, value.size(), value.data(), eventHandler);
   }
 
   template <typename T, std::size_t N>
-  BLECharacteristic characteristic(const std::string& id, const std::array<T, N>* value, BLECharacteristicEventHandler eventHandler = NULL)
+  IDBTCharacteristic characteristic(const std::string& id, const std::array<T, N>* value, BLECharacteristicEventHandler eventHandler = NULL)
   {
     return characteristic(id, sizeof(const std::array<T, N>), value && N > 0 ? value->data() : NULL, eventHandler);
   }
 
   //only first 8 bytes of id used
-  BLECharacteristic characteristic(const std::string& id, size_t size, const void* value, BLECharacteristicEventHandler eventHandler);
+  IDBTCharacteristic characteristic(const std::string& id, size_t size, const void* value, BLECharacteristicEventHandler eventHandler);
 
   void begin(Scheduler& scheduler);
 

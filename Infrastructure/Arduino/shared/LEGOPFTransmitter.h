@@ -9,6 +9,6 @@ public:
 
 private:
   LegoPFIR _ir;
-  BLECharacteristic _transmitChar;
+  IDBTCharacteristic _transmitChar;
   static void transmit(BLEDevice device, BLECharacteristic characteristic);
 };

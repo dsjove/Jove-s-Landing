@@ -14,7 +14,7 @@ public:
 private:
   Value _current;
 
-  BLECharacteristic _displayChar;
+  IDBTCharacteristic _displayChar;
   static void updateDisplay(BLEDevice device, BLECharacteristic characteristic);
 
   ArduinoLEDMatrix _matrix;

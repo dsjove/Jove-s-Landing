@@ -23,10 +23,10 @@ private:
   uint8_t _currentAmbient;
   uint8_t _currentSignal;
   
-  BLECharacteristic _powerControlChar;
-  BLECharacteristic _powerFeedbackChar;
-  BLECharacteristic _calibrationChar;
-  BLECharacteristic _sensedFeedbackChar;
+  IDBTCharacteristic _powerControlChar;
+  IDBTCharacteristic _powerFeedbackChar;
+  IDBTCharacteristic _calibrationChar;
+  IDBTCharacteristic _sensedFeedbackChar;
   static void updatePower(BLEDevice device, BLECharacteristic characteristic);
   static void updateCalibration(BLEDevice device, BLECharacteristic characteristic);
   static void updateSensed(BLEDevice device, BLECharacteristic characteristic);

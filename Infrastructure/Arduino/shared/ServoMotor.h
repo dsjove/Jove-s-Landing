@@ -22,9 +22,9 @@ private:
   const int _signalMax = 180;
   int _currentSignal;
   
-  BLECharacteristic _powerControlChar;
-  BLECharacteristic _powerFeedbackChar;
-  BLECharacteristic _calibrationChar;
+  IDBTCharacteristic _powerControlChar;
+  IDBTCharacteristic _powerFeedbackChar;
+  IDBTCharacteristic _calibrationChar;
   static void updatePower(BLEDevice device, BLECharacteristic characteristic);
   static void updateCalibration(BLEDevice device, BLECharacteristic characteristic);
 
