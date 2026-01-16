@@ -1,4 +1,5 @@
 #include "shared/core/BLEServiceRunner.cpp"
+#include "shared/core/IDBTCharacteristic.cpp"
 #include "shared/MatrixR4.cpp"
 #include "shared/Lighting.cpp"
 #include "shared/RFIDBroadcaster.cpp"

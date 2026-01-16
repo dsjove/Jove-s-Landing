@@ -1,12 +1,16 @@
 #include "BLEServiceRunner.h"
-#include "IDBTCharacteristic.cpp"
 
-BLEServiceRunner::BLEServiceRunner(const std::string& name, const std::string& serviceID)
-: _name(name)
-, _id(btutil::generateServiceID(name, serviceID))
-, _bleService(_id.c_str())
+BLEServiceRunner::BLEServiceRunner(const std::string& serviceName, const std::string& overrideId)
+: _name(serviceName)
+, _serviceId(btutil::makeUuidWithService(serviceName, overrideId))
+, _bleService(_serviceId.data())
 , _bluetoothTask(100, TASK_FOREVER, &bluetooth_task)
 {
+}
+
+void BLEServiceRunner::addCharacteristic(BLECharacteristic& ble)
+{
+  _bleService.addCharacteristic(ble);
 }
 
 void BLEServiceRunner::begin(Scheduler& scheduler)
@@ -29,7 +33,7 @@ void BLEServiceRunner::begin(Scheduler& scheduler)
     Serial.println("Bluetooth® device active.");
     Serial.print(_name.c_str());
     Serial.print(": ");
-    Serial.println(_id.c_str());
+    Serial.println(_serviceId.data());
   }
   else 
   {
@@ -43,13 +47,6 @@ void BLEServiceRunner::begin(Scheduler& scheduler)
 void BLEServiceRunner::bluetooth_task() 
 {
   BLE.poll();
-}
-
-IDBTCharacteristic BLEServiceRunner::characteristic(const std::string& id, size_t size, const void* value, BLECharacteristicEventHandler eventHandler)
-{
-  IDBTCharacteristic idchar(_id, id, size,value, eventHandler);
-  _bleService.addCharacteristic(idchar.characteristic);
-  return idchar;
 }
 
 void BLEServiceRunner::bluetooth_connected(BLEDevice device) 

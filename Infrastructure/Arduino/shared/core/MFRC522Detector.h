@@ -1,4 +1,5 @@
 #pragma once
+
 #include <MFRC522.h>
 
 class MFRC522Detector {

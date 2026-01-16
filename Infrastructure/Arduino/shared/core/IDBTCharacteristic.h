@@ -1,23 +1,33 @@
-// IDBTCharacteristic.h
 #pragma once
 
-#include <ArduinoBLE.h>
+#include "btutil.h"
 
-#include <array>
-#include <cstddef>
-#include <cstdint>
-#include <string>
+class BLEServiceRunner;
 
-//BLECharacteristic does NOT copy the uuid!
-//It must stay in memory.
 struct IDBTCharacteristic {
-  const std::array<char, 37> uuid;
-  BLECharacteristic characteristic;
+  const BLEUUID uuid;
+  BLECharacteristic ble;
 
   IDBTCharacteristic(
+    BLEServiceRunner& runner,
     const std::string& propertyId, // hex of 4 byte id
-    const std::string& serviceId, // hex of 12 byte id
-    int valueSize, // store value of this size
+    size_t valueSize, // store value of this size
     const void* value, // initial value of valueSize
     BLECharacteristicEventHandler eventHandler);
+
+  template <typename T>
+  IDBTCharacteristic(
+    BLEServiceRunner& runner,
+    const std::string& propertyId,
+    const T* value,
+    BLECharacteristicEventHandler eventHandler = NULL)
+    : IDBTCharacteristic(runner, propertyId, sizeof(T), value, eventHandler) {}
+
+  template <typename T, std::size_t N>
+  IDBTCharacteristic(
+    BLEServiceRunner& runner,
+    const std::string& propertyId,
+    const std::array<T, N>& value,
+    BLECharacteristicEventHandler eventHandler = NULL)
+    : IDBTCharacteristic(runner, propertyId, value.size(), value.data(), eventHandler) {}
 };

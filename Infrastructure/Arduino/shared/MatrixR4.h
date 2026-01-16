@@ -1,5 +1,6 @@
 #pragma once
-#include "core/BLEServiceRunner.h"
+
+#include "core/IDBTCharacteristic.h"
 #include <Arduino_LED_Matrix.h>
 
 class MatrixR4

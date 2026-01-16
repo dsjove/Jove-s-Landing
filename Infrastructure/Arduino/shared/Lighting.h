@@ -1,5 +1,5 @@
 #pragma once
-#include "core/BLEServiceRunner.h"
+#include "core/IDBTCharacteristic.h"
 #include <TaskScheduler.h>
 #include <vector>
 
@@ -13,6 +13,7 @@ class Lighting
 {
 public:
   Lighting(BLEServiceRunner& ble, std::vector<LightOutput> output, int sensor = -1);
+
   void begin(Scheduler& scheduler);
 
 private:

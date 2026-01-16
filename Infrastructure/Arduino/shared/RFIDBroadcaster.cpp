@@ -5,7 +5,7 @@ static RFIDBroadcaster* RFIDBroadcasterRef = NULL;
 RFIDBroadcaster::RFIDBroadcaster(BLEServiceRunner& ble, uint32_t number, int ss_pin, int rst_pin)
 : _rfid(number, ss_pin, rst_pin)
 , _rfidTask(_rfid.timing().taskFrequency, TASK_FOREVER, &readId_task)
-, _idFeedbackChar(ble.characteristic("05000002", _rfid.lastID().encode()))
+, _idFeedbackChar(ble, "05000002", _rfid.lastID().encode())
 {
   RFIDBroadcasterRef = this;
 }
@@ -31,6 +31,7 @@ void RFIDBroadcaster::readId_task()
 //      Serial.print(" -- ");
 //      MFRC522Detector::RFID::print(encoded);
       Serial.println();
-      RFIDBroadcasterRef->_idFeedbackChar.characteristic.writeValue(encoded.data(), detected->encodedSize());
+//      Serial.println(RFIDBroadcasterRef->_idFeedbackChar.uuid.data());
+      RFIDBroadcasterRef->_idFeedbackChar.ble.writeValue(encoded.data(), detected->encodedSize());
   }
 }

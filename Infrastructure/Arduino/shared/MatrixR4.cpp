@@ -4,7 +4,7 @@ static MatrixR4* matrixRefR4 = NULL;
 
 MatrixR4::MatrixR4(BLEServiceRunner& ble, const Value& value)
 : _current(value)
-, _displayChar(ble.characteristic("07020000", &_current, updateDisplay))
+, _displayChar(ble, "07020000", &_current, updateDisplay)
 {
   matrixRefR4 = this;
 }
@@ -17,6 +17,7 @@ void MatrixR4::begin()
 
 void MatrixR4::updateDisplay(BLEDevice, BLECharacteristic characteristic)
 {
+  //Serial.println(characteristic.uuid());
   Value value;
   characteristic.readValue(value.data(), sizeof(value));
   matrixRefR4->set(value);

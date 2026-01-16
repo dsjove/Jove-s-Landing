@@ -1,10 +1,12 @@
 #pragma once
-#include "core/BLEServiceRunner.h"
+
+#include "core/IDBTCharacteristic.h"
 #include "core/MFRC522Detector.h"
 
 class RFIDBroadcaster {
 public:
   RFIDBroadcaster(BLEServiceRunner& ble, uint32_t number, int ss_pin = 10, int rst_pin = 9);
+
   void begin(Scheduler& scheduler);
 
 private:

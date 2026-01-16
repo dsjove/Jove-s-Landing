@@ -7,9 +7,9 @@ ServoMotor::ServoMotor(BLEServiceRunner& ble, int pin)
 , _currentPower(0)
 , _currentCalibration(_powerMax / 4)
 , _currentSignal(_signalStop)
-, _powerControlChar(ble.characteristic("02020001", (uint8_t*)NULL, updatePower))
-, _powerFeedbackChar(ble.characteristic("02020002", &_currentPower))
-, _calibrationChar(ble.characteristic("02010000", &_currentCalibration, updateCalibration))
+, _powerControlChar(ble, "02020001", (uint8_t*)NULL, updatePower)
+, _powerFeedbackChar(ble, "02020002", &_currentPower)
+, _calibrationChar(ble, "02010000", &_currentCalibration, updateCalibration)
 {
   servoMotorRef = this;
 }
@@ -21,6 +21,7 @@ void ServoMotor::begin()
 
 void ServoMotor::updatePower(BLEDevice, BLECharacteristic characteristic)
 {
+  //Serial.println(characteristic.uuid());
   ServoMotor* This = servoMotorRef;
   characteristic.readValue(This->_currentPower);
   This->update();
@@ -28,6 +29,7 @@ void ServoMotor::updatePower(BLEDevice, BLECharacteristic characteristic)
 
 void ServoMotor::updateCalibration(BLEDevice, BLECharacteristic characteristic)
 {
+  //Serial.println(characteristic.uuid());
   ServoMotor* This = servoMotorRef;
   characteristic.readValue(This->_currentCalibration);
   This->update();
@@ -40,7 +42,8 @@ void ServoMotor::update()
 
   if (newSignal != _currentSignal)
   {
-    _powerFeedbackChar.writeValue(actualPower);
+    //Serial.println(_powerFeedbackChar.uuid.data());
+    _powerFeedbackChar.ble.writeValue(actualPower);
     _currentSignal = newSignal;
     if (_currentSignal == _signalStop)
     {

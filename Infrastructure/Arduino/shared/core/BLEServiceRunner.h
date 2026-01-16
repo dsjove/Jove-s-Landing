@@ -1,5 +1,6 @@
 #pragma once
-#include "IDBTCharacteristic.h"
+
+#include "btutil.h"
 #include <string>
 #include <ArduinoBLE.h>
 #include <TaskScheduler.h>
@@ -7,36 +8,17 @@
 class BLEServiceRunner
 {
 public:
-  //serviceID must be in the format of "0000-0000-0000-000000000000" or empty to use first 12 bytes of name
-  //The first 4 bytes (8 hexidecimal digits) are reserved.
-  BLEServiceRunner(const std::string& name, const std::string& serviceID = "");
+  BLEServiceRunner(const std::string& serviceName, const std::string& overrideId = "");
 
-  template <typename T>
-  IDBTCharacteristic characteristic(const std::string& id, const T* value, BLECharacteristicEventHandler eventHandler = NULL)
-  {
-    return characteristic(id, sizeof(T), value, eventHandler);
-  }
+  void addCharacteristic(BLECharacteristic& ble);
 
-  template <typename T, std::size_t N>
-  IDBTCharacteristic characteristic(const std::string& id, const std::array<T, N>& value, BLECharacteristicEventHandler eventHandler = NULL)
-  {
-    return characteristic(id, value.size(), value.data(), eventHandler);
-  }
-
-  template <typename T, std::size_t N>
-  IDBTCharacteristic characteristic(const std::string& id, const std::array<T, N>* value, BLECharacteristicEventHandler eventHandler = NULL)
-  {
-    return characteristic(id, sizeof(const std::array<T, N>), value && N > 0 ? value->data() : NULL, eventHandler);
-  }
-
-  //only first 8 bytes of id used
-  IDBTCharacteristic characteristic(const std::string& id, size_t size, const void* value, BLECharacteristicEventHandler eventHandler);
+  const BLEUUID& serviceId() const { return _serviceId; }
 
   void begin(Scheduler& scheduler);
 
 private:
   const std::string _name;
-  const std::string _id;
+  const BLEUUID _serviceId;
   BLEService _bleService;
   Task _bluetoothTask;
 

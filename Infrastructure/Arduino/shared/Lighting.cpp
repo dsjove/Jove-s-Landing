@@ -9,10 +9,10 @@ Lighting::Lighting(BLEServiceRunner& ble, std::vector<LightOutput> output, int s
 , _currentCalibration(255)
 , _currentAmbient(0)
 , _currentSignal(0)
-, _powerControlChar(ble.characteristic("03020001", (uint8_t*)NULL, updatePower))
-, _powerFeedbackChar(ble.characteristic("03020002", &_currentPower))
-, _calibrationChar(ble.characteristic("03010000", &_currentCalibration, updateCalibration))
-, _sensedFeedbackChar(ble.characteristic("03040002", &_currentAmbient, sensor != -1 ? updateSensed : NULL))
+, _powerControlChar(ble, "03020001", (uint8_t*)NULL, updatePower)
+, _powerFeedbackChar(ble, "03020002", &_currentPower)
+, _calibrationChar(ble, "03010000", &_currentCalibration, updateCalibration)
+, _sensedFeedbackChar(ble, "03040002", &_currentAmbient, sensor != -1 ? updateSensed : NULL)
 , _lightingTask(1000, TASK_FOREVER, &senseAmbient_task)
 {
   lightingRef = this;
@@ -33,12 +33,14 @@ void Lighting::begin(Scheduler& scheduler)
 
 void Lighting::updatePower(BLEDevice, BLECharacteristic characteristic)
 {
+  //Serial.println(characteristic.uuid());
   characteristic.readValue(lightingRef->_currentPower);
   lightingRef->update();
 }
 
 void Lighting::updateCalibration(BLEDevice, BLECharacteristic characteristic)
 {
+  //Serial.println(characteristic.uuid());
   characteristic.readValue(lightingRef->_currentCalibration);
   lightingRef->update();
 }
@@ -50,12 +52,14 @@ void Lighting::senseAmbient_task()
   if (signal != lightingRef->_currentAmbient)
   {
     lightingRef->_currentAmbient = signal;
-    lightingRef->_sensedFeedbackChar.characteristic.writeValue(lightingRef->_currentAmbient);
+    //Serial.println(lightingRef->_sensedFeedbackChar.uuid.data());
+    lightingRef->_sensedFeedbackChar.ble.writeValue(lightingRef->_currentAmbient);
     lightingRef->update();
   }
 }
 
 void Lighting::updateSensed(BLEDevice, BLECharacteristic characteristic) {
+  //Serial.println(characteristic.uuid());
   characteristic.readValue(lightingRef->_currentAmbient);
   lightingRef->update();
 }
@@ -73,7 +77,8 @@ void Lighting::update() {
 
   if (signal != _currentSignal)
   {
-    _powerFeedbackChar.characteristic.writeValue(signal);
+    //Serial.println(_powerFeedbackChar.uuid.data());
+    _powerFeedbackChar.ble.writeValue(signal);
     _currentSignal = signal;
 
   for (LightOutput light : _output)
