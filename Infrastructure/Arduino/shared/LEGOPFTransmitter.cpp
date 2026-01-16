@@ -4,9 +4,10 @@ static LEGOPFTransmitter* pfTranbsmitterRef = NULL;
 
 char d[3] = {0, 0, 0};
 
-LEGOPFTransmitter::LEGOPFTransmitter(BLEServiceRunner& ble, int pin)
+LEGOPFTransmitter::LEGOPFTransmitter(Scheduler& scheduler, BLEServiceRunner& ble, int pin)
 : _ir(pin)
 , _transmitChar(ble, "05020000", 3, d, transmit)
+, _task(scheduler, 1000, this)
 {
   pfTranbsmitterRef = this;
 }
@@ -14,6 +15,10 @@ LEGOPFTransmitter::LEGOPFTransmitter(BLEServiceRunner& ble, int pin)
 void LEGOPFTransmitter::begin()
 {
   _ir.begin();
+}
+
+void LEGOPFTransmitter::loop(Task&) {
+  _ir.refreshAll();
 }
 
 void LEGOPFTransmitter::transmit(BLEDevice, BLECharacteristic characteristic)

@@ -3,14 +3,17 @@
 #include "core/IDBTCharacteristic.h"
 #include "core/LegoPFIR.h"
 
-class LEGOPFTransmitter {
+class LEGOPFTransmitter : ScheduledRunner {
 public:
-  LEGOPFTransmitter(BLEServiceRunner& ble, int pin);
+  LEGOPFTransmitter(Scheduler& scheduler, BLEServiceRunner& ble, int pin);
 
   void begin();
 
 private:
   LegoPFIR _ir;
   IDBTCharacteristic _transmitChar;
+  TaskThunk _task;
+
   static void transmit(BLEDevice device, BLECharacteristic characteristic);
+  virtual void loop(Task&);
 };

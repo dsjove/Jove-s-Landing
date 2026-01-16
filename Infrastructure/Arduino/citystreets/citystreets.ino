@@ -15,7 +15,7 @@ BLEServiceRunner _ble(_runner, "City Streets");
 MatrixR4 _matrixR4(_ble); // {0xB194a444, 0x44042081, 0x100a0841}
 Lighting _lighting(_runner, _ble, {{3, true}, {0, false}}, A0);
 RFIDBroadcaster _RFIDBroadcaster(_runner, _ble, 1);
-LEGOPFTransmitter _pfTransmitter(_ble, 7);
+LEGOPFTransmitter _pfTransmitter(_runner, _ble, 7);
 
 void setup()
 {
