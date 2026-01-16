@@ -34,6 +34,32 @@ public extension LightingProtocol {
 	}
 }
 
+public struct PFLighting: LightingProtocol {
+	public typealias Value = TransformedProperty<ScaledTransformer<UInt8>>
+	
+	public var power: Value
+	public var calibration: Value
+	public var sensed: Value
+	public let hasDimmer: Bool = true
+	public let hasSensor: Bool = false
+
+	public init(powerFunction: PowerFunction) {
+		self.power = Value(sendControl: { value in
+			return value
+		}, transfomer: ScaledTransformer(255))
+
+		self.calibration = Value(
+			sendControl: { $0 },
+			transfomer: ScaledTransformer(255),
+			defaultValue: 1.0)
+
+		self.sensed = Value(
+			sendControl: nil,
+			transfomer: ScaledTransformer(255),
+			defaultValue: 1.0)
+	}
+}
+
 public struct CCLighting: LightingProtocol {
 	public typealias Value = TransformedProperty<ScaledTransformer<Int16>>
 	

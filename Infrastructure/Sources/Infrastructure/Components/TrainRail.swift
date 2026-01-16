@@ -31,9 +31,9 @@ public struct TrainDetection {
 
 public class TrainRail: ObservableObject {
 	private typealias TrainID = BTProperty<BTValueTransformer<RFIDDetection>>
-	private typealias PowerFuction = (PFCommand)->()
+	public typealias PowerFuction = (PFCommand)->()
 	private var sensedTrain: TrainID
-	private var powerFunction: PowerFuction
+	public var powerFunction: PowerFuction
 	private var sink: Set<AnyCancellable> = []
 	private var staleTimer: Timer?
 
@@ -54,7 +54,7 @@ public class TrainRail: ObservableObject {
 				name: "Maersk",
 				sound: .asset("TrainHorn"),
 				symbol: try? .init(packed: [0xe07f0fd9, 0xbcf3cf3c, 0x63c63c63]),
-				powerFunction: .init(power: 11)
+				powerFunction: .init(channel: 1, port: .A, power: 7)
 			),
 			TrainRegistration(
 				id: Data([0xF0, 0xBE, 0x1F, 0x3B]),

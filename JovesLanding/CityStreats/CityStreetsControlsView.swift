@@ -37,7 +37,12 @@ struct CityStreetsControlsView: View {
 		VStack {
 			Grid(alignment: .leading, horizontalSpacing: 12) {
 				GridRow() {
-					Text("Speed").font(.headline).lineLimit(2)
+					//Text("Speed").font(.headline).lineLimit(2)
+					Button {
+facility.rail.powerFunction(.init(port: .A, power: 7))
+					} label: {
+						Text("Speed").font(.headline).lineLimit(2)
+					}
 					ScrubView(
 						value: motorPower.control,
 						range: -1.0...1.0,

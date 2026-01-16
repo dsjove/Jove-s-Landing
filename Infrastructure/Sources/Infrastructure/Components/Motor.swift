@@ -30,6 +30,31 @@ public extension MotorProtocol {
 	}
 }
 
+public struct PFMotor: MotorProtocol {
+	public typealias Power = TransformedProperty<ScaledTransformer<UInt8>>
+	public typealias Calibration = TransformedProperty<ScaledTransformer<UInt8>>
+	
+	public var power: Power
+	public var calibration: Calibration
+
+	public init(powerFunction: PowerFunction) {
+		let calibration = Calibration(
+			sendControl: { value in
+				return value;
+			},
+			transfomer: ScaledTransformer(255))
+		calibration.control = 0.25
+		let power = Power(
+			sendControl: { value in
+				return value
+			},
+			transfomer: ScaledTransformer((255)))
+		self.power = power
+
+		self.calibration = calibration
+	}
+}
+
 public struct CCMotor: MotorProtocol {
 	public typealias Power = TransformedProperty<ScaledTransformer<Int16>>
 	public typealias Calibration = TransformedProperty<ScaledTransformer<Int16>>

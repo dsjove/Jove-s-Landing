@@ -5,7 +5,7 @@
 
 class LEGOPFTransmitter {
 public:
-  LEGOPFTransmitter(BLEServiceRunner& ble, int pin = 8);
+  LEGOPFTransmitter(BLEServiceRunner& ble, int pin);
 
   void begin();
 

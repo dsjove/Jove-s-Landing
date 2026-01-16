@@ -1,12 +1,11 @@
+#include "shared/core/TaskThunk.cpp"
 #include "shared/core/BLEServiceRunner.cpp"
 #include "shared/ServoMotor.cpp"
 #include "shared/Lighting.cpp"
 
-#include <TaskScheduler.h>
-
 Scheduler _runner;
-BLEServiceRunner _ble("Jove Express");
-Lighting _lighting(_ble, {{3, true}, {0, false}}, A0);
+BLEServiceRunner _ble(_runner, "Jove Express");
+Lighting _lighting(_runner, _ble, {{3, true}, {0, false}}, A0);
 ServoMotor _servoMotor(_ble, 9);
 
 void setup()
@@ -14,8 +13,8 @@ void setup()
   Serial.begin(9600);
   while (!Serial);
 
-  _ble.begin(_runner);
-  _lighting.begin(_runner);
+  _ble.begin();
+  _lighting.begin();
   _servoMotor.begin();
 }
 

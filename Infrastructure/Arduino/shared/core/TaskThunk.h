@@ -24,7 +24,7 @@ public:
   , runner(r)
   {
     s_scheduler = &scheduler;
-    task.setLtsPointer(this);     // attach "user data" to this task
+    task.setLtsPointer(this);
   }
 
 private:

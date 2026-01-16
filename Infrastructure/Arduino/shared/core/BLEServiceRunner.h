@@ -3,7 +3,6 @@
 #include "TaskThunk.h"
 #include "btutil.h"
 #include <string>
-#include <ArduinoBLE.h>
 
 class BLEServiceRunner: ScheduledRunner
 {

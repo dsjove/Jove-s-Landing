@@ -10,6 +10,9 @@ import Combine
 import BLEByJove
 import SwiftUI
 
+//public class PowerFunctionDevice: ObservableObject, MotorizedFacility {
+//}
+
 public class JoveMetroLine: ObservableObject, MotorizedFacility {
 	public static let Service = CircuitCube.Service
 	public let id: UUID
