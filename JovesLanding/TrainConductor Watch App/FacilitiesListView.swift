@@ -12,6 +12,7 @@ import Infrastructure
 struct FacilitiesListView: View {
 	@ObservedObject var bluetooth: BTClient
 	@ObservedObject var mDNS: MDNSClient
+	@ObservedObject var pf: PFClient
 	let facilities: FacilitiesFactory
 
 	var body: some View {
@@ -30,6 +31,14 @@ struct FacilitiesListView: View {
 						}
 					}
 					List(bluetooth.devices) { device in
+						let facilities = facilities.implementation(for: device)
+						ForEach(facilities) { entry in
+							NavigationLink(value: entry) {
+								FacilityLineView(facility: entry.value)
+							}
+						}
+					}
+					List(pf.devices) { device in
 						let facilities = facilities.implementation(for: device)
 						ForEach(facilities) { entry in
 							NavigationLink(value: entry) {
@@ -65,5 +74,5 @@ struct FacilitiesListView: View {
 }
 
 #Preview {
-	FacilitiesListView(bluetooth: .init(), mDNS: .init(), facilities: .init())
+	//FacilitiesListView(bluetooth: .init(), mDNS: .init(), facilities: .init())
 }
