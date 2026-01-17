@@ -21,7 +21,8 @@ void LEGOPFTransmitter::loop(Task&) {
 
 void LEGOPFTransmitter::transmit(BLEDevice, BLECharacteristic characteristic)
 {
-  std::array<uint8_t, 3> value;
+  //TODO: have a 3rd mode of combo w/ task enabled, lineOfSight
+  std::array<uint8_t, 4> value;
   characteristic.readValue(value.data(), value.size());
   LegoPFIR::Command command = {
     value[0],
@@ -29,10 +30,5 @@ void LEGOPFTransmitter::transmit(BLEDevice, BLECharacteristic characteristic)
     value[2],
     (LegoPFIR::Mode)value[3]
   };
-    Serial.println(characteristic.uuid());
-	Serial.println(command.channel);
-	Serial.println((int)command.port);
-	Serial.println(command.value);
-	Serial.println((int)command.mode);
   pfTranbsmitterRef->_ir.apply(command);
 }
