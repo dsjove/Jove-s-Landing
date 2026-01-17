@@ -48,5 +48,5 @@ struct FacilitiesListView: View {
 }
 
 #Preview {
-	FacilitiesListView(facilities: .init(), scanning: { _ in })
+	FacilitiesListView(facilities: .init() { _ in }, scanning: { _ in })
 }

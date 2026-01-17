@@ -11,19 +11,42 @@ import Foundation
 
 public typealias FacilityEntry = Identified<any Facility>
 
-public class FacilitiesFactory: ObservableObject {
+public class FacilitiesFactory: ObservableObject, PowerFunctionsRemote {
+	private let rfid: (RFIDDetection)->()
 	private var cache: [UUID: [FacilityEntry]] = [:]
 
 	@Published public private(set) var entries: [FacilityEntry] = []
 
-	public init() {
+	public init(rfid: @escaping (RFIDDetection)->()) {
+		self.rfid = rfid
 		updateFacilities()
+	}
+	
+	public func transmit(cmd: BLEByJove.PFCommand) {
+		entries
+			.lazy
+			.compactMap { $0.value as? PowerFunctionsRemote }
+			.first?.transmit(cmd: cmd)
 	}
 
 	public func devicesDidChange(_ devices: [any DeviceIdentifiable]) {
+		// Treat the provided devices as the complete, authoritative list from all sources.
+		// Build a set of current device IDs.
+		let currentIDs = Set(devices.map { $0.id })
+
+		// Ensure implementations exist for all current devices (adds to cache as needed).
 		for device in devices {
 			implementation(for: device)
 		}
+
+		// Remove any cached entries for devices that are no longer present.
+		if !cache.isEmpty {
+			cache.keys
+				.filter { !currentIDs.contains($0) }
+				.forEach { cache.removeValue(forKey: $0) }
+		}
+
+		// Refresh published entries sorted
 		updateFacilities()
 	}
 
@@ -125,5 +148,46 @@ extension BTClient {
 	public convenience init() {
 		self.init(services: Self.services)
 	}
+}
+
+// MARK: - Aggregator for authoritative device list across sources
+public final class FacilitiesAggregator {
+    private let factory: FacilitiesFactory
+
+    // Snapshots from each source
+    private var btDevices: [any DeviceIdentifiable] = []
+    private var mdnsDevices: [any DeviceIdentifiable] = []
+    private var pfDevices: [any DeviceIdentifiable] = []
+
+    public init(factory: FacilitiesFactory) {
+        self.factory = factory
+    }
+
+    // Update functions for each source. Call these whenever that source changes.
+    public func updateBTDevices(_ devices: [any DeviceIdentifiable]) {
+        btDevices = devices
+        emitCombined()
+    }
+
+    public func updateMDNSDevices(_ devices: [any DeviceIdentifiable]) {
+        mdnsDevices = devices
+        emitCombined()
+    }
+
+    public func updatePFDevices(_ devices: [any DeviceIdentifiable]) {
+        pfDevices = devices
+        emitCombined()
+    }
+
+    // Combine all three sources into an authoritative list by id
+    private func emitCombined() {
+        let combined = btDevices + mdnsDevices + pfDevices
+        // Deduplicate by id with first-wins policy; adjust if you need precedence
+        let deduped: [any DeviceIdentifiable] = Array(
+            Dictionary(grouping: combined, by: { $0.id })
+                .compactMap { $0.value.first }
+        )
+        factory.devicesDidChange(deduped)
+    }
 }
 

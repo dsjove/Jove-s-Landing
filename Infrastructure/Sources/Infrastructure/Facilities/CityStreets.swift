@@ -10,10 +10,6 @@ import Combine
 import SBJKit
 import BLEByJove
 
-public protocol PowerFunctionsRemote {
-	func transmit(cmd: PFCommand)
-}
-
 public class CityStreets: ObservableObject, PowerFunctionsRemote, MotorizedFacility {
 	public static let Service = BTServiceIdentity(name: "City Streets")
 	public var id: UUID { device.id }

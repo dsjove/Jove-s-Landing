@@ -23,14 +23,12 @@ struct JovesLandingApp: App {
 	]
 
 	init() {
-		self.facilities = FacilitiesFactory()
+		self.facilities = FacilitiesFactory() { rfid in
+		}
 		self.bluetooth = BTClient()
 		self.mDNS = MDNSClient()
 		self.powerFunction = PFClient(knownDevices: JovesLandingApp.knownPFFacilites) { [weak facilities] cmd in
-			facilities?.entries
-				.lazy
-				.compactMap { $0.value as? PowerFunctionsRemote }
-				.first?.transmit(cmd: cmd)
+			facilities?.transmit(cmd: cmd)
 		}
 
 		bluetooth.$devices
