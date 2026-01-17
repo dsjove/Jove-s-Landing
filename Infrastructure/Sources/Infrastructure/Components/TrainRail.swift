@@ -54,7 +54,7 @@ public class TrainRail: ObservableObject {
 				name: "Maersk",
 				sound: .asset("TrainHorn"),
 				symbol: try? .init(packed: [0xe07f0fd9, 0xbcf3cf3c, 0x63c63c63]),
-				powerFunction: .init(channel: 1, port: .A, power: 7)
+				powerFunction: .init(channel: 1, port: .A, power: 5, mode: .single)
 			),
 			TrainRegistration(
 				id: Data([0xF0, 0xBE, 0x1F, 0x3B]),
