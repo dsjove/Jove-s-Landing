@@ -10,45 +10,21 @@ import BLEByJove
 import Infrastructure
 
 struct FacilitiesListView: View {
-	@ObservedObject var bluetooth: BTClient
-	@ObservedObject var mDNS: MDNSClient
-	@ObservedObject var pf: PFClient
-	let facilities: FacilitiesFactory
-	
+	@ObservedObject var facilities: FacilitiesFactory
+	let scanning: (Bool)->()
+
 	@State private var device: FacilityEntry?
 	@State private var visibility: NavigationSplitViewVisibility = .all
 	
 	var body: some View {
 		NavigationSplitView(columnVisibility: $visibility) {
 			Group {
-				if bluetooth.devices.isEmpty && mDNS.devices.isEmpty {
+				if facilities.entries.isEmpty {
 					Text("No facilities found.")
-				}
-				else {
-					VStack {
-						List(mDNS.devices, selection: $device) { device in
-							let facilities = facilities.implementation(for: device)
-							ForEach(facilities) { entry in
-								NavigationLink(value: entry) {
-									FacilityLineView(facility: entry.value)
-								}
-							}
-						}
-						List(bluetooth.devices, selection: $device) { device in
-							let facilities = facilities.implementation(for: device)
-							ForEach(facilities) { entry in
-								NavigationLink(value: entry) {
-									FacilityLineView(facility: entry.value)
-								}
-							}
-						}
-						List(pf.devices) { device in
-							let facilities = facilities.implementation(for: device)
-							ForEach(facilities) { entry in
-								NavigationLink(value: entry) {
-									FacilityLineView(facility: entry.value)
-								}
-							}
+				} else {
+					List(facilities.entries, selection: $device) { entry in
+						NavigationLink(value: entry) {
+							FacilityLineView(facility: entry.value)
 						}
 					}
 				}
@@ -66,12 +42,11 @@ struct FacilitiesListView: View {
 			visibility = newValue != nil ? .detailOnly : .all
 		}
 		.onLoad {
-			bluetooth.scanning = true
-			mDNS.scanning = true
+			scanning(true)
 		}
 	}
 }
 
 #Preview {
-	//FacilitiesListView(bluetooth: .init(), mDNS: .init(), facilities: .init())
+	FacilitiesListView(facilities: .init(), scanning: { _ in })
 }

@@ -10,51 +10,28 @@ import BLEByJove
 import Infrastructure
 
 struct FacilitiesListView: View {
-	@ObservedObject var bluetooth: BTClient
-	@ObservedObject var mDNS: MDNSClient
-	@ObservedObject var pf: PFClient
-	let facilities: FacilitiesFactory
+	@ObservedObject var facilities: FacilitiesFactory
+	let scanning: (Bool)->()
 
 	var body: some View {
 		NavigationStack {
 			Group {
-				if bluetooth.devices.isEmpty && mDNS.devices.isEmpty {
+				if facilities.entries.isEmpty {
 					Text("No facilities found.")
 				}
 				else {
-					List(mDNS.devices) { device in
-						let facilities = facilities.implementation(for: device)
-						ForEach(facilities) { entry in
-							NavigationLink(value: entry) {
-								FacilityLineView(facility: entry.value)
-							}
-						}
-					}
-					List(bluetooth.devices) { device in
-						let facilities = facilities.implementation(for: device)
-						ForEach(facilities) { entry in
-							NavigationLink(value: entry) {
-								FacilityLineView(facility: entry.value)
-							}
-						}
-					}
-					List(pf.devices) { device in
-						let facilities = facilities.implementation(for: device)
-						ForEach(facilities) { entry in
-							NavigationLink(value: entry) {
-								FacilityLineView(facility: entry.value)
-							}
+					List(facilities.entries) { entry in
+						NavigationLink(value: entry) {
+							FacilityLineView(facility: entry.value)
 						}
 					}
 				}
 			}
 			.onAppear() {
-				bluetooth.scanning = true
-				mDNS.scanning = true
+				scanning(true)
 			}
 			.onDisappear() {
-				bluetooth.scanning = false
-				mDNS.scanning = false
+				scanning(false)
 			}
 			.navigationDestination(for: FacilityEntry.self) { device in
 				FacilityDetailView(impl: device.value)
@@ -74,5 +51,5 @@ struct FacilitiesListView: View {
 }
 
 #Preview {
-	//FacilitiesListView(bluetooth: .init(), mDNS: .init(), facilities: .init())
+	FacilitiesListView(facilities: .init(), scanning: { _ in })
 }

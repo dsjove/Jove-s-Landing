@@ -7,21 +7,61 @@
 
 import SwiftUI
 import BLEByJove
+import SBJKit
 import Infrastructure
+import Combine
 
 @main
 struct JovesLandingApp: App {
-	private let bluetooth = BTClient()
-	private let mDNS = MDNSClient()
-	private let pf = PFClient(knownDevices: JovesLandingApp.knownPFFacilites, transmit: {_ in })
-	private let facilities = FacilitiesFactory()
+	private let facilities: FacilitiesFactory
+	private let bluetooth: BTClient
+	private let mDNS: MDNSClient
+	private let powerFunction: PFClient
+	private var cancellables = Set<AnyCancellable>()
 
 	private static let knownPFFacilites: [PFMeta] = [
 	]
 
+	init() {
+		self.facilities = FacilitiesFactory()
+		self.bluetooth = BTClient()
+		self.mDNS = MDNSClient()
+		self.powerFunction = PFClient(knownDevices: JovesLandingApp.knownPFFacilites) { [weak facilities] cmd in
+			facilities?.entries
+				.lazy
+				.compactMap { $0.value as? PowerFunctionsRemote }
+				.first?.transmit(cmd: cmd)
+		}
+
+		bluetooth.$devices
+			.receive(on: DispatchQueue.main)
+			.sink { [weak facilities] (devices: [BTDevice]) in
+				facilities?.devicesDidChange(devices)
+			}
+			.store(in: &cancellables)
+
+		mDNS.$devices
+			.receive(on: DispatchQueue.main)
+			.sink { [weak facilities] (devices: [MDNSDevice]) in
+				facilities?.devicesDidChange(devices)
+			}
+			.store(in: &cancellables)
+
+		powerFunction.$devices
+			.receive(on: DispatchQueue.main)
+			.sink { [weak facilities] (devices: [PFDevice]) in
+				facilities?.devicesDidChange(devices)
+			}
+			.store(in: &cancellables)
+	}
+
 	@SceneBuilder var body: some Scene {
 		WindowGroup {
-			FacilitiesListView(bluetooth: bluetooth, mDNS: mDNS, pf: pf, facilities: facilities)
+			FacilitiesListView(facilities: facilities) {
+				bluetooth.scanning = $0
+				mDNS.scanning = $0
+			}
 		}
 	}
 }
+

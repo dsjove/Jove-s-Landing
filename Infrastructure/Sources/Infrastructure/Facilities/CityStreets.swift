@@ -10,7 +10,11 @@ import Combine
 import SBJKit
 import BLEByJove
 
-public class CityStreets: ObservableObject, MotorizedFacility {
+public protocol PowerFunctionsRemote {
+	func transmit(cmd: PFCommand)
+}
+
+public class CityStreets: ObservableObject, PowerFunctionsRemote, MotorizedFacility {
 	public static let Service = BTServiceIdentity(name: "City Streets")
 	public var id: UUID { device.id }
 	private let device: BTDevice
@@ -37,6 +41,11 @@ public class CityStreets: ObservableObject, MotorizedFacility {
 
 	@Published
 	public private(set) var currentTrain: TrainDetection?
+
+
+	public func transmit(cmd: PFCommand) {
+		rail.powerFunction(cmd)
+	}
 
 	public init(device: BTDevice) {
 		self.device = device

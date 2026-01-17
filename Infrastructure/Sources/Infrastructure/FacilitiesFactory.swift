@@ -11,14 +11,38 @@ import Foundation
 
 public typealias FacilityEntry = Identified<any Facility>
 
-public class FacilitiesFactory {
-	private var facilities: [UUID: [FacilityEntry]] = [:]
+public class FacilitiesFactory: ObservableObject {
+	private var cache: [UUID: [FacilityEntry]] = [:]
+
+	@Published public private(set) var entries: [FacilityEntry] = []
 
 	public init() {
+		updateFacilities()
 	}
 
-	public func implementation(for device: any DeviceIdentifiable) -> [FacilityEntry] {
-		if let existing = facilities[device.id] {
+	public func devicesDidChange(_ devices: [any DeviceIdentifiable]) {
+		for device in devices {
+			implementation(for: device)
+		}
+		updateFacilities()
+	}
+
+	private func updateFacilities() {
+		let allEntries: [FacilityEntry] = cache.values.flatMap { $0 }
+		let sortedEntries = allEntries.sorted { lhs, rhs in
+			let ln = lhs.value.name
+			let rn = rhs.value.name
+			if ln == rn {
+				return lhs.id.uuidString < rhs.id.uuidString
+			}
+			return ln < rn
+		}
+		entries = sortedEntries
+	}
+
+	@discardableResult
+	private func implementation(for device: any DeviceIdentifiable) -> [FacilityEntry] {
+		if let existing = cache[device.id] {
 			return existing
 		}
 		let newFacilities: [any Facility]
@@ -50,8 +74,15 @@ public class FacilitiesFactory {
 		}
 
 		let entries = newFacilities.map { FacilityEntry($0) }
-		facilities[device.id, default: []].append(contentsOf: entries)
-		return facilities[device.id]!
+		cache[device.id, default: []].append(contentsOf: entries)
+		return cache[device.id]!
+	}
+}
+
+
+extension PFClient {
+	public convenience init() {
+		self.init(knownDevices: [], transmit: {_ in })
 	}
 }
 
@@ -81,7 +112,6 @@ extension MDNSClient {
 }
 
 extension BTClient {
-
 	public static let services: [BTServiceIdentity] = {
 		var base = [
 			CircuitCube.Service,
@@ -96,3 +126,4 @@ extension BTClient {
 		self.init(services: Self.services)
 	}
 }
+
