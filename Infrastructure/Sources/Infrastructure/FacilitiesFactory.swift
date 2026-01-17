@@ -6,7 +6,10 @@
 //
 
 import BLEByJove
+import SBJKit
 import Foundation
+
+public typealias FacilityEntry = Identified<any Facility>
 
 public class FacilitiesFactory {
 	private var facilities: [UUID: [FacilityEntry]] = [:]
@@ -38,6 +41,9 @@ public class FacilitiesFactory {
 				default:
 					newFacilities = [UnsupportedFacility(name: mDNSDevice.name)]
 			}
+		}
+		else if let pfDevice = device as? PFDevice {
+			newFacilities = [PFFacility(device: pfDevice, category: .transportation)]
 		}
 		else {
 			newFacilities = [UnsupportedFacility(name: device.name)]

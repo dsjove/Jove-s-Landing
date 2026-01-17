@@ -7,6 +7,7 @@
 
 import Foundation
 import BLEByJove
+import SBJKit
 import Combine
 
 public struct TrainRegistration {

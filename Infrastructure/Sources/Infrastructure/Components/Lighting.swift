@@ -43,7 +43,7 @@ public struct PFLighting: LightingProtocol {
 	public let hasDimmer: Bool = true
 	public let hasSensor: Bool = false
 
-	public init(powerFunction: PowerFunction) {
+	public init(device: PFDevice) {
 		self.power = Value(sendControl: { value in
 			return value
 		}, transfomer: ScaledTransformer(255))

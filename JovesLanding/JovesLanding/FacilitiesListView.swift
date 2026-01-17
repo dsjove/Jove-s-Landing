@@ -29,7 +29,7 @@ struct FacilitiesListView: View {
 							let facilities = facilities.implementation(for: device)
 							ForEach(facilities) { entry in
 								NavigationLink(value: entry) {
-									FacilityLineView(facility: entry.facility)
+									FacilityLineView(facility: entry.value)
 								}
 							}
 						}
@@ -37,7 +37,7 @@ struct FacilitiesListView: View {
 							let facilities = facilities.implementation(for: device)
 							ForEach(facilities) { entry in
 								NavigationLink(value: entry) {
-									FacilityLineView(facility: entry.facility)
+									FacilityLineView(facility: entry.value)
 								}
 							}
 						}
@@ -47,14 +47,14 @@ struct FacilitiesListView: View {
 			}
 		}
 		detail: {
-			FacilityDetailView(impl: device?.facility)
+			FacilityDetailView(impl: device?.value)
 				.toolbarBackground(Color.green.opacity(1.0), for: .navigationBar)
 #if !os(tvOS)
 				.navigationBarTitleDisplayMode(.inline)
 #endif
 		}
 		.onChange(of: device) { _, newValue in
-			newValue?.facility.connect()
+			newValue?.value.connect()
 			visibility = newValue != nil ? .detailOnly : .all
 		}
 		.onLoad {

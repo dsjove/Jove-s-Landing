@@ -5,7 +5,7 @@
 //  Created by David Giovannini on 3/26/25.
 //
 
-import SwiftUI
+import SBJKit
 import BLEByJove
 import Foundation
 import Combine
@@ -15,7 +15,7 @@ public protocol Facility: ObservableObject, Identifiable {
 	var id: UUID { get }
 	var category: FacilityCategory { get }
 	var name: String { get }
-	var image: Image { get }
+	var image: ImageName { get }
 
 	var connectionState: ConnectionState { get }
 
@@ -51,7 +51,7 @@ public class UnsupportedFacility: Facility {
 	public let id = UUID()
 	public let name: String
 	public let category: Infrastructure.FacilityCategory = .transportation
-	public let image: Image = Image(systemName: "questionmark.diamond")
+	public let image: ImageName = .system("questionmark.diamond")
 
 	public let connectionState: BLEByJove.ConnectionState = .disconnected
 

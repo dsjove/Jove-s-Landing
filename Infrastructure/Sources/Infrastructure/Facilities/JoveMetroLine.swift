@@ -8,10 +8,7 @@
 import Foundation
 import Combine
 import BLEByJove
-import SwiftUI
-
-//public class PowerFunctionDevice: ObservableObject, MotorizedFacility {
-//}
+import SBJKit
 
 public class JoveMetroLine: ObservableObject, MotorizedFacility {
 	public static let Service = CircuitCube.Service
@@ -49,7 +46,7 @@ public class JoveMetroLine: ObservableObject, MotorizedFacility {
 	}
 
 	public var category: FacilityCategory { .transportation }
-	public var image: Image { Image(systemName: "lightrail") }
+	public var image: ImageName { .system("lightrail") }
 
 	@Published
 	public private(set) var name: String

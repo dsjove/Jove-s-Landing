@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SBJKit
 import BLEByJove
 import Infrastructure
 
@@ -14,7 +15,7 @@ struct FacilityHeaderView<F: Facility>: View {
 
 	var body: some View {
 		HStack {
-			facility.image
+			Image(facility.image)
 			Text(facility.name)
 		}
 	}

@@ -7,7 +7,7 @@
 
 import Foundation
 import Combine
-import SwiftUI
+import SBJKit
 import BLEByJove
 import Network
 
@@ -73,7 +73,7 @@ public class ESPCam: ObservableObject, Facility {
 	}
 
 	public var category: FacilityCategory { .housing }
-	public var image: Image { Image(systemName: "eye") }
+	public var image: ImageName { .system("eye") }
 	public let name : String
 	public let connectionState: BLEByJove.ConnectionState = .connected
 

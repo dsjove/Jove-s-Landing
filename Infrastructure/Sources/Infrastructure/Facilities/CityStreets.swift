@@ -7,9 +7,8 @@
 
 import Foundation
 import Combine
-import SwiftUI
+import SBJKit
 import BLEByJove
-import AudioToolbox
 
 public class CityStreets: ObservableObject, MotorizedFacility {
 	public static let Service = BTServiceIdentity(name: "City Streets")
@@ -65,7 +64,7 @@ public class CityStreets: ObservableObject, MotorizedFacility {
 	}
 
 	public var category: FacilityCategory { .transportation }
-	public var image: Image { Image(systemName: "car") }
+	public var image: ImageName { .system("car") }
 	public var name : String {CityStreets.Service.name}
 
 	public func connect() {

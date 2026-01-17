@@ -37,7 +37,7 @@ public struct PFMotor: MotorProtocol {
 	public var power: Power
 	public var calibration: Calibration
 
-	public init(powerFunction: PowerFunction) {
+	public init(device: PFDevice) {
 		let calibration = Calibration(
 			sendControl: { value in
 				return value;

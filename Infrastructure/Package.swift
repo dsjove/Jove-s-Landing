@@ -1,14 +1,11 @@
-// swift-tools-version: 5.7
+// swift-tools-version: 5.9
 
 import PackageDescription
 
 let package = Package(
     name: "Infrastructure",
     platforms: [
-        .macOS(.v13),
-        .iOS(.v16),
-        .watchOS(.v9),
-        .tvOS(.v16)
+        .iOS(.v17)
     ],
     products: [
         .library(
@@ -16,12 +13,13 @@ let package = Package(
             targets: ["Infrastructure"]),
     ],
     dependencies: [
-        .package(path: "../../BLEByJove")
+        .package(path: "../../BLEByJove"),
+        .package(path: "../../SBJKit"),
     ],
     targets: [
         .target(
             name: "Infrastructure",
-            dependencies: ["BLEByJove"],
+            dependencies: ["BLEByJove", "SBJKit"],
 			exclude: ["OldTheJoveExpress"]),
         .testTarget(
             name: "InfrastructureTests",

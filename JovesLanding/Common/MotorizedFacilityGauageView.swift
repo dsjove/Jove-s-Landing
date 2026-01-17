@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SBJKit
 import Infrastructure
 import SbjGauge
 
@@ -23,7 +24,7 @@ struct MotorizedFacilityGauageView<F: MotorizedFacility> : View {
 	}
 
 	func indicators() -> GaugeIndicators {
-		var indicators = GaugeIndicators(image: facility.image)
+		var indicators = GaugeIndicators(image: Image(facility.image))
 		indicators.battery = facility.battery
 		indicators.light = lightPower.feedback
 		indicators.motorState = MotorState(power: motorPower.feedback)

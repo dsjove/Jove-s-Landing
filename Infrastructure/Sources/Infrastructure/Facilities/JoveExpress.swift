@@ -7,7 +7,7 @@
 
 import Foundation
 import Combine
-import SwiftUI
+import SBJKit
 import BLEByJove
 
 public class JoveExpress: ObservableObject, MotorizedFacility {
@@ -35,7 +35,7 @@ public class JoveExpress: ObservableObject, MotorizedFacility {
 	}
 
 	public var category: FacilityCategory { .transportation }
-	public var image: Image { Image(systemName: "train.side.front.car") }
+	public var image: ImageName { .system("train.side.front.car") }
 	public var name : String {JoveExpress.Service.name}
 
 	public func connect() {
