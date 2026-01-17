@@ -41,7 +41,7 @@ struct ESPCamView : View {
 			sensitivity: .high, isContinuous: false,
 			 isHapticFeedbackEnabled: true,
 			 onChange: { _ in }, onIdle: {})
-		.onChange(of: crown) { newValue in
+		.onChange(of: crown) { _, newValue in
 			facility.lighting.power.control = Double(newValue) / 255.0
 		}
 	}
@@ -81,7 +81,7 @@ struct ConductedView<F: MotorizedFacility>: View {
 					sensitivity: .high, isContinuous: false,
 					 isHapticFeedbackEnabled: true,
 					 onChange: { _ in }, onIdle: {})
-				.onChange(of: crown) { newValue in
+				.onChange(of: crown) { _, newValue in
 					facility.motor.power.control = Double(newValue) / 100.0
 				}
 	}

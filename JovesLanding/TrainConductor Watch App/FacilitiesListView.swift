@@ -25,7 +25,7 @@ struct FacilitiesListView: View {
 						let facilities = facilities.implementation(for: device)
 						ForEach(facilities) { entry in
 							NavigationLink(value: entry) {
-								FacilityLineView(facility: entry.facility)
+								FacilityLineView(facility: entry.value)
 							}
 						}
 					}
@@ -33,7 +33,7 @@ struct FacilitiesListView: View {
 						let facilities = facilities.implementation(for: device)
 						ForEach(facilities) { entry in
 							NavigationLink(value: entry) {
-								FacilityLineView(facility: entry.facility)
+								FacilityLineView(facility: entry.value)
 							}
 						}
 					}
@@ -48,13 +48,13 @@ struct FacilitiesListView: View {
 				mDNS.scanning = false
 			}
 			.navigationDestination(for: FacilityEntry.self) { device in
-				FacilityDetailView(impl: device.facility)
-					.navigationTitle(device.facility.name)
+				FacilityDetailView(impl: device.value)
+					.navigationTitle(device.value.name)
 					.onAppear() {
-						device.facility.connect()
+						device.value.connect()
 					}
 					.onDisappear() {
-						device.facility.disconnect()
+						device.value.disconnect()
 					}
 					.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
 					.ignoresSafeArea(edges: Edge.Set.all.subtracting(.top))
