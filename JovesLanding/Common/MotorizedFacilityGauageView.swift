@@ -12,9 +12,9 @@ import SbjGauge
 
 struct MotorizedFacilityGauageView<F: MotorizedFacility> : View {
 	let facility: F
-	@ObservedObject var motorPower: F.Motor.Power
-	@ObservedObject var motorCalibration: F.Motor.Calibration
-	@ObservedObject var lightPower: F.Lighting.Value
+	let motorPower: F.Motor.Power
+	let motorCalibration: F.Motor.Calibration
+	let lightPower: F.Lighting.Value
 
 	init(facility: F) {
 		self.facility = facility

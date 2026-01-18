@@ -11,9 +11,9 @@ import SbjGauge
 
 struct JoveMetroLineControlsView: View {
 	let facility: JoveMetroLine
-	@ObservedObject var motorPower: JoveMetroLine.Motor.Power
-	@ObservedObject var motorCalibration: JoveMetroLine.Motor.Calibration
-	@ObservedObject var lightPower: JoveMetroLine.Lighting.Value
+	let motorPower: JoveMetroLine.Motor.Power
+	let motorCalibration: JoveMetroLine.Motor.Calibration
+	let lightPower: JoveMetroLine.Lighting.Value
 
 	init(facility: JoveMetroLine) {
 		self.facility = facility

@@ -9,6 +9,7 @@ import Foundation
 import SBJKit
 import BLEByJove
 import Combine
+import Observation
 
 @Observable
 public class CityStreets: PowerFunctionsRemote, MotorizedFacility {
@@ -49,12 +50,26 @@ public class CityStreets: PowerFunctionsRemote, MotorizedFacility {
 			self?.connectionState = $0
 		}.store(in: &sink)
 
-		rail.$currentTrain
-			.receive(on: DispatchQueue.main)
-			.sink { [weak self] train in
-				self?.updateCurrentTrain(train)
+		withObservationTracking( {
+				_ = rail.currentTrain
+			},
+			onChange: { [weak self] in
+				guard let self = self else { return }
+				DispatchQueue.main.async {
+					self.updateCurrentTrain(self.rail.currentTrain)
+				}
+				withObservationTracking( {
+						_ = self.rail.currentTrain
+					},
+					onChange: { [weak self] in
+						guard let self = self else { return }
+						DispatchQueue.main.async {
+							self.updateCurrentTrain(self.rail.currentTrain)
+						}
+					}
+				)
 			}
-			.store(in: &sink)
+		)
 		updateCurrentTrain(rail.currentTrain)
 	}
 

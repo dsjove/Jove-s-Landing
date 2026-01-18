@@ -8,7 +8,7 @@
 import Foundation
 import BLEByJove
 import SBJKit
-import Combine
+import Observation
 
 public struct TrainRegistration {
 	public let id: Data
@@ -30,12 +30,12 @@ public struct TrainDetection {
 	}
 }
 
-public class TrainRail: ObservableObject {
+@Observable
+public class TrainRail {
 	private typealias TrainID = BTProperty<BTValueTransformer<RFIDDetection>>
 	public typealias PowerFuction = (PFCommand)->()
 	private var sensedTrain: TrainID
 	public var powerFunction: PowerFuction
-	private var sink: Set<AnyCancellable> = []
 	private var staleTimer: Timer?
 
 	private let noiseThresholdMS = 3000
@@ -68,7 +68,6 @@ public class TrainRail: ObservableObject {
 		return Dictionary(uniqueKeysWithValues: registrations.map { ($0.id, $0) })
 	}()
 
-	@Published
 	public private(set) var currentTrain: TrainDetection?
 
 	public init(device: any BTBroadcaster) {
@@ -85,14 +84,26 @@ public class TrainRail: ObservableObject {
 			device.send(data: $0.pack(), to: pfChar)
 		}
 
-		sensedTrain.$feedback
-			.removeDuplicates()
- 			.receive(on: DispatchQueue.main)
-			.sink { [weak self] detection in
-				self?.updateCurrentTrain(for: detection)
- 			}
- 			.store(in: &sink)
-
+		withObservationTracking({
+				_ = sensedTrain.feedback
+			},
+			onChange: { [weak self] in
+				guard let self = self else { return }
+				DispatchQueue.main.async {
+					self.updateCurrentTrain(for: self.sensedTrain.feedback)
+				}
+				withObservationTracking( {
+						_ = self.sensedTrain.feedback
+					},
+					onChange: { [weak self] in
+						guard let self = self else { return }
+						DispatchQueue.main.async {
+							self.updateCurrentTrain(for: self.sensedTrain.feedback)
+						}
+					}
+				)
+			}
+		)
 		updateCurrentTrain(for: sensedTrain.feedback)
 	}
 

@@ -12,11 +12,11 @@ import BLEByJove
 
 struct JoveExpressControlsView: View {
 	let facility: JoveExpress
-	@ObservedObject var motorPower: JoveExpress.Motor.Power
-	@ObservedObject var motorCalibration: JoveExpress.Motor.Calibration
-	@ObservedObject var lightPower: JoveExpress.Lighting.Value
-	@ObservedObject var lightCalibration: JoveExpress.Lighting.Value
-	@ObservedObject var lightSensed: JoveExpress.Lighting.Value
+	let motorPower: JoveExpress.Motor.Power
+	let motorCalibration: JoveExpress.Motor.Calibration
+	let lightPower: JoveExpress.Lighting.Value
+	let lightCalibration: JoveExpress.Lighting.Value
+	let lightSensed: JoveExpress.Lighting.Value
 
 	init(facility: JoveExpress) {
 		self.facility = facility

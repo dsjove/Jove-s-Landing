@@ -12,13 +12,13 @@ import BLEByJove
 
 struct CityStreetsControlsView: View {
 	let facility: CityStreets
-	@ObservedObject var motorPower: CityStreets.Motor.Power
-	@ObservedObject var motorCalibration: CityStreets.Motor.Calibration
-	@ObservedObject var lightPower: CityStreets.Lighting.Value
-	@ObservedObject var lightCalibration: CityStreets.Lighting.Value
-	@ObservedObject var lightSensed: CityStreets.Lighting.Value
-	@ObservedObject var display: ArduinoDisplay.Power
-	@ObservedObject var rail: TrainRail
+	let motorPower: CityStreets.Motor.Power
+	let motorCalibration: CityStreets.Motor.Calibration
+	let lightPower: CityStreets.Lighting.Value
+	let lightCalibration: CityStreets.Lighting.Value
+	let lightSensed: CityStreets.Lighting.Value
+	let display: ArduinoDisplay.Power
+	let rail: TrainRail
 
 	@State private var showOverlay = false
 

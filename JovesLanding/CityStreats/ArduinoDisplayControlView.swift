@@ -11,7 +11,7 @@ import Infrastructure
 import SBJKit
 
 struct ArduinoDisplayControlView: View {
-	@ObservedObject var display: ArduinoDisplay.Power
+	let display: ArduinoDisplay.Power
 	@State private var isScrolling = false
 
 	enum ExportLanguage: String, CaseIterable, Identifiable {
