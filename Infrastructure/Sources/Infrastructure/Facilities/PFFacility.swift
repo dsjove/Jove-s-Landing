@@ -20,7 +20,7 @@ public class PFFacility: MotorizedFacility {
 	public private(set) var motor: PFMotor;
 	public private(set) var lighting: PFLighting;
 
-	init(device: PFDevice, category: FacilityCategory) {
+	public init(device: PFDevice, category: FacilityCategory) {
 		self.device = device
 		self.category = category
 		self.motor = PFMotor(device: device)

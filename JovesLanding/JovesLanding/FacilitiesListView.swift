@@ -10,7 +10,7 @@ import BLEByJove
 import Infrastructure
 
 struct FacilitiesListView: View {
-	@ObservedObject var facilities: FacilitiesFactory
+	var facilities: FacilityRepository
 
 	@State private var device: FacilityEntry?
 	@State private var visibility: NavigationSplitViewVisibility = .all
@@ -18,10 +18,10 @@ struct FacilitiesListView: View {
 	var body: some View {
 		NavigationSplitView(columnVisibility: $visibility) {
 			Group {
-				if facilities.entries.isEmpty {
+				if facilities.facilities.isEmpty {
 					Text("No facilities found.")
 				} else {
-					List(facilities.entries, selection: $device) { entry in
+					List(facilities.facilityEntries, selection: $device) { entry in
 						NavigationLink(value: entry) {
 							FacilityLineView(facility: entry.value)
 						}
@@ -47,5 +47,5 @@ struct FacilitiesListView: View {
 }
 
 #Preview {
-	FacilitiesListView(facilities: .init() { _ in })
+	FacilitiesListView(facilities: .init())
 }
