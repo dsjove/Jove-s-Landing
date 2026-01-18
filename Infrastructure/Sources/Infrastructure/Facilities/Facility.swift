@@ -11,34 +11,14 @@ import Foundation
 import Combine
 import Network
 
-public protocol Facility: ObservableObject, Identifiable {
-	var id: UUID { get }
-	var category: FacilityCategory { get }
-	var name: String { get }
-	var image: ImageName { get }
-
-	var connectionState: ConnectionState { get }
-
-	var heartBeat: Int { get }
-
-	func connect()
-
-	func fullStop()
-
-	func disconnect()
-	
-	var battery: Double? { get }
-}
-
-public extension Facility {
-	var heartBeat: Int { connectionState == .connected ? 0 : -1 }
-
-	var battery: Double? { nil }
+extension FacilityCategory {
+	static let transportation = FacilityCategory("transportation")
+	static let housing = FacilityCategory("housing")
 }
 
 public typealias IPv4AddressProperty = BTProperty<BTValueTransformer<IPv4Address>>
 
-public protocol MotorizedFacility: Facility {
+public protocol MotorizedFacility: Facility, ObservableObject {
 	associatedtype Lighting: LightingProtocol
 	associatedtype Motor: MotorProtocol
 	
@@ -47,10 +27,10 @@ public protocol MotorizedFacility: Facility {
 	var motor: Motor { get }
 }
 
-public class UnsupportedFacility: Facility {
+public class UnsupportedFacility: Facility, ObservableObject {
 	public let id = UUID()
 	public let name: String
-	public let category: Infrastructure.FacilityCategory = .transportation
+	public let category: FacilityCategory = .transportation
 	public let image: ImageName = .system("questionmark.diamond")
 
 	public let connectionState: BLEByJove.ConnectionState = .disconnected

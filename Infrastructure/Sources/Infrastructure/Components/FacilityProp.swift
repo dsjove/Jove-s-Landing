@@ -8,11 +8,6 @@
 import Foundation
 import BLEByJove
 
-public enum FacilityCategory {
-	case transportation
-	case housing
-}
-
 public enum FacilityPropComponent: UInt8, BTComponent {
 	case system = 1
 	case motor = 2

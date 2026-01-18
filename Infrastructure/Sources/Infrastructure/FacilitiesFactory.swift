@@ -11,22 +11,27 @@ import Foundation
 
 public typealias FacilityEntry = Identified<any Facility>
 
-public class FacilitiesFactory: ObservableObject, PowerFunctionsRemote {
+public class FacilitiesFactory: ObservableObject {
 	private let rfid: (RFIDDetection)->()
 	private var cache: [UUID: [FacilityEntry]] = [:]
 
 	@Published public private(set) var entries: [FacilityEntry] = []
 
+	private(set) var scanners: [any DeviceScanning] = []
+
+	public func addScanner(_ scanner: any DeviceScanning) {
+		scanners.append(scanner)
+	}
+
+	public func setScanning(_ scanning: Bool) {
+		for scanner in scanners {
+			scanner.scanning = scanning
+		}
+	}
+
 	public init(rfid: @escaping (RFIDDetection)->()) {
 		self.rfid = rfid
 		updateFacilities()
-	}
-	
-	public func transmit(cmd: BLEByJove.PFCommand) {
-		entries
-			.lazy
-			.compactMap { $0.value as? PowerFunctionsRemote }
-			.first?.transmit(cmd: cmd)
 	}
 
 	public func devicesDidChange(_ devices: [any DeviceIdentifiable]) {
@@ -99,6 +104,15 @@ public class FacilitiesFactory: ObservableObject, PowerFunctionsRemote {
 		let entries = newFacilities.map { FacilityEntry($0) }
 		cache[device.id, default: []].append(contentsOf: entries)
 		return cache[device.id]!
+	}
+}
+
+extension FacilitiesFactory: PowerFunctionsRemote {
+	public func transmit(cmd: PFCommand) {
+		entries
+			.lazy
+			.compactMap { $0.value as? PowerFunctionsRemote }
+			.first?.transmit(cmd: cmd)
 	}
 }
 

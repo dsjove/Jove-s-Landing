@@ -11,7 +11,6 @@ import Infrastructure
 
 struct FacilitiesListView: View {
 	@ObservedObject var facilities: FacilitiesFactory
-	let scanning: (Bool)->()
 
 	var body: some View {
 		NavigationStack {
@@ -28,10 +27,10 @@ struct FacilitiesListView: View {
 				}
 			}
 			.onAppear() {
-				scanning(true)
+				facilities.setScanning(true)
 			}
 			.onDisappear() {
-				scanning(false)
+				facilities.setScanning(false)
 			}
 			.navigationDestination(for: FacilityEntry.self) { device in
 				FacilityDetailView(impl: device.value)
@@ -51,5 +50,5 @@ struct FacilitiesListView: View {
 }
 
 #Preview {
-	FacilitiesListView(facilities: .init() { _ in }, scanning: { _ in })
+	FacilitiesListView(facilities: .init() { _ in })
 }

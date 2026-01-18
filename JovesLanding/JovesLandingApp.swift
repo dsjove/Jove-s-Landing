@@ -30,6 +30,9 @@ struct JovesLandingApp: App {
 		self.powerFunction = PFClient(knownDevices: JovesLandingApp.knownPFFacilites) { [weak facilities] cmd in
 			facilities?.transmit(cmd: cmd)
 		}
+		self.facilities.addScanner(bluetooth)
+		self.facilities.addScanner(mDNS)
+		self.facilities.addScanner(powerFunction)
 
 		bluetooth.$devices
 			.receive(on: DispatchQueue.main)
@@ -55,10 +58,7 @@ struct JovesLandingApp: App {
 
 	@SceneBuilder var body: some Scene {
 		WindowGroup {
-			FacilitiesListView(facilities: facilities) {
-				bluetooth.scanning = $0
-				mDNS.scanning = $0
-			}
+			FacilitiesListView(facilities: facilities)
 		}
 	}
 }

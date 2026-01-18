@@ -11,7 +11,6 @@ import Infrastructure
 
 struct FacilitiesListView: View {
 	@ObservedObject var facilities: FacilitiesFactory
-	let scanning: (Bool)->()
 
 	@State private var device: FacilityEntry?
 	@State private var visibility: NavigationSplitViewVisibility = .all
@@ -42,11 +41,11 @@ struct FacilitiesListView: View {
 			visibility = newValue != nil ? .detailOnly : .all
 		}
 		.onLoad {
-			scanning(true)
+				facilities.setScanning(true)
 		}
 	}
 }
 
 #Preview {
-	FacilitiesListView(facilities: .init() { _ in }, scanning: { _ in })
+	FacilitiesListView(facilities: .init() { _ in })
 }

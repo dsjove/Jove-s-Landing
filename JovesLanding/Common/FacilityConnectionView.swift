@@ -6,9 +6,10 @@
 //
 
 import SwiftUI
+import BLEByJove
 import Infrastructure
 
-public struct FacilityConnectionView<Content: View, F: Facility>: View {
+public struct FacilityConnectionView<Content: View, F: Facility & ObservableObject>: View {
 	@ObservedObject var facility: F
 	@ViewBuilder public var gauge: (F) -> Content
 
