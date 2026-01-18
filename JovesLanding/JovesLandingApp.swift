@@ -9,7 +9,6 @@ import SwiftUI
 import BLEByJove
 import SBJKit
 import Infrastructure
-import Combine
 
 @main
 struct JovesLandingApp: App {
@@ -17,7 +16,6 @@ struct JovesLandingApp: App {
 	private let bluetooth: BTClient
 	private let mDNS: MDNSClient
 	private let powerFunction: PFClient
-	private var cancellables = Set<AnyCancellable>()
 
 	private static let knownPFFacilites: [PFMeta] = [
 	]
@@ -34,26 +32,15 @@ struct JovesLandingApp: App {
 		self.facilities.addScanner(mDNS)
 		self.facilities.addScanner(powerFunction)
 
-		bluetooth.$devices
-			.receive(on: DispatchQueue.main)
-			.sink { [weak facilities] (devices: [BTDevice]) in
-				facilities?.devicesDidChange(devices)
-			}
-			.store(in: &cancellables)
-
-		mDNS.$devices
-			.receive(on: DispatchQueue.main)
-			.sink { [weak facilities] (devices: [MDNSDevice]) in
-				facilities?.devicesDidChange(devices)
-			}
-			.store(in: &cancellables)
-
-		powerFunction.$devices
-			.receive(on: DispatchQueue.main)
-			.sink { [weak facilities] (devices: [PFDevice]) in
-				facilities?.devicesDidChange(devices)
-			}
-			.store(in: &cancellables)
+		withObservationTracking(for: facilities, with: bluetooth, value: \.devices) { facilities, scanner, devices in
+				facilities.devicesDidChange(devices)
+		}
+		withObservationTracking(for: facilities, with: mDNS, value: \.devices) { facilities, scanner, devices in
+				facilities.devicesDidChange(devices)
+		}
+		withObservationTracking(for: facilities, with: powerFunction, value: \.devices) { facilities, scanner, devices in
+				facilities.devicesDidChange(devices)
+		}
 	}
 
 	@SceneBuilder var body: some Scene {
