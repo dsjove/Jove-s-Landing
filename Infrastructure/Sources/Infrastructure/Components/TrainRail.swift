@@ -84,27 +84,10 @@ public class TrainRail {
 			device.send(data: $0.pack(), to: pfChar)
 		}
 
-		withObservationTracking({
-				_ = sensedTrain.feedback
-			},
-			onChange: { [weak self] in
-				guard let self = self else { return }
-				DispatchQueue.main.async {
-					self.updateCurrentTrain(for: self.sensedTrain.feedback)
-				}
-				withObservationTracking( {
-						_ = self.sensedTrain.feedback
-					},
-					onChange: { [weak self] in
-						guard let self = self else { return }
-						DispatchQueue.main.async {
-							self.updateCurrentTrain(for: self.sensedTrain.feedback)
-						}
-					}
-				)
-			}
-		)
-		updateCurrentTrain(for: sensedTrain.feedback)
+		withObservationTracking(for: self, with: sensedTrain, value: \.feedback) { this, _, value in
+			print(value)
+			this.updateCurrentTrain(for: value)
+		}
 	}
 
     deinit {

@@ -50,27 +50,9 @@ public class CityStreets: PowerFunctionsRemote, MotorizedFacility {
 			self?.connectionState = $0
 		}.store(in: &sink)
 
-		withObservationTracking( {
-				_ = rail.currentTrain
-			},
-			onChange: { [weak self] in
-				guard let self = self else { return }
-				DispatchQueue.main.async {
-					self.updateCurrentTrain(self.rail.currentTrain)
-				}
-				withObservationTracking( {
-						_ = self.rail.currentTrain
-					},
-					onChange: { [weak self] in
-						guard let self = self else { return }
-						DispatchQueue.main.async {
-							self.updateCurrentTrain(self.rail.currentTrain)
-						}
-					}
-				)
-			}
-		)
-		updateCurrentTrain(rail.currentTrain)
+		withObservationTracking(for: self, with: rail, value: \.currentTrain) { this, _, value in
+			this.updateCurrentTrain(value)
+		}
 	}
 
 	public convenience init() {
