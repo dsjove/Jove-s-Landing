@@ -11,7 +11,7 @@ import SbjGauge
 import BLEByJove
 
 struct JoveExpressControlsView: View {
-	@ObservedObject var facility: JoveExpress
+	let facility: JoveExpress
 	@ObservedObject var motorPower: JoveExpress.Motor.Power
 	@ObservedObject var motorCalibration: JoveExpress.Motor.Calibration
 	@ObservedObject var lightPower: JoveExpress.Lighting.Value

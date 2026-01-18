@@ -9,8 +9,8 @@ import SwiftUI
 import BLEByJove
 import Infrastructure
 
-public struct FacilityConnectionView<Content: View, F: Facility & ObservableObject>: View {
-	@ObservedObject var facility: F
+public struct FacilityConnectionView<Content: View, F: Facility>: View {
+	let facility: F
 	@ViewBuilder public var gauge: (F) -> Content
 
 	public init(_ facility: F, @ViewBuilder _ gauge: @escaping (F) -> Content) {

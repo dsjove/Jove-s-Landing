@@ -6,11 +6,12 @@
 //
 
 import Foundation
-import Combine
 import BLEByJove
 import SBJKit
+import Combine
 
-public class JoveMetroLine: ObservableObject, MotorizedFacility {
+@Observable
+public class JoveMetroLine: MotorizedFacility {
 	public static let Service = CircuitCube.Service
 	public let id: UUID
 	private let cube: CircuitCube
@@ -48,7 +49,6 @@ public class JoveMetroLine: ObservableObject, MotorizedFacility {
 	public var category: FacilityCategory { .transportation }
 	public var image: ImageName { .system("lightrail") }
 
-	@Published
 	public private(set) var name: String
 
 	public func change(name: String) {
@@ -59,7 +59,6 @@ public class JoveMetroLine: ObservableObject, MotorizedFacility {
 		}
 	}
 
-	@Published
 	public private(set) var connectionState: ConnectionState {
 		didSet {
 			switch connectionState {
@@ -77,13 +76,10 @@ public class JoveMetroLine: ObservableObject, MotorizedFacility {
 		}
 	}
 
-	@Published
 	public private(set) var battery: Double?
 
-	@Published
 	public var motor: CCMotor
 
-	@Published
 	public var lighting: CCLighting
 
 	public func fullStop() {
@@ -119,7 +115,7 @@ public class JoveMetroLine: ObservableObject, MotorizedFacility {
 		self.battery = -1
 	}
 
-	@Published private(set) public var heartBeat: Int = -1 {
+	private(set) public var heartBeat: Int = -1 {
 		didSet {
 			if self.heartBeat > -1 {
 				Task {

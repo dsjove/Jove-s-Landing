@@ -6,11 +6,12 @@
 //
 
 import Foundation
-import Combine
 import SBJKit
 import BLEByJove
+import Combine
 
-public class JoveExpress: ObservableObject, MotorizedFacility {
+@Observable
+public class JoveExpress: MotorizedFacility {
 	public static let Service = BTServiceIdentity(name: "Jove Express")
 	public var id: UUID { device.id }
 	private let device: BTDevice
@@ -46,7 +47,6 @@ public class JoveExpress: ObservableObject, MotorizedFacility {
 		device.disconnect()
 	}
 
-	@Published
 	public private(set) var connectionState: ConnectionState {
 		didSet {
 			switch connectionState {

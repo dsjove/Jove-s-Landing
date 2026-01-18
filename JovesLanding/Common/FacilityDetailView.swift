@@ -10,8 +10,8 @@ import SBJKit
 import BLEByJove
 import Infrastructure
 
-struct FacilityHeaderView<F: Facility & ObservableObject>: View {
-	@ObservedObject var facility: F
+struct FacilityHeaderView<F: Facility>: View {
+	let facility: F
 
 	var body: some View {
 		HStack {

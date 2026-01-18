@@ -8,7 +8,6 @@
 import SBJKit
 import BLEByJove
 import Foundation
-import Combine
 import Network
 
 extension FacilityCategory {
@@ -18,7 +17,7 @@ extension FacilityCategory {
 
 public typealias IPv4AddressProperty = BTProperty<BTValueTransformer<IPv4Address>>
 
-public protocol MotorizedFacility: Facility, ObservableObject {
+public protocol MotorizedFacility: Facility {
 	associatedtype Lighting: LightingProtocol
 	associatedtype Motor: MotorProtocol
 	
@@ -27,7 +26,8 @@ public protocol MotorizedFacility: Facility, ObservableObject {
 	var motor: Motor { get }
 }
 
-public class UnsupportedFacility: Facility, ObservableObject {
+@Observable
+public class UnsupportedFacility: Facility {
 	public let id = UUID()
 	public let name: String
 	public let category: FacilityCategory = .transportation

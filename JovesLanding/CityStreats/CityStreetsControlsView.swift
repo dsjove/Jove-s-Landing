@@ -11,7 +11,7 @@ import SbjGauge
 import BLEByJove
 
 struct CityStreetsControlsView: View {
-	@ObservedObject var facility: CityStreets
+	let facility: CityStreets
 	@ObservedObject var motorPower: CityStreets.Motor.Power
 	@ObservedObject var motorCalibration: CityStreets.Motor.Calibration
 	@ObservedObject var lightPower: CityStreets.Lighting.Value

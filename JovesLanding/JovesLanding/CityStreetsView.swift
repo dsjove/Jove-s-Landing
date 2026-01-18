@@ -10,7 +10,7 @@ import Infrastructure
 import BLEByJove
 
 struct CityStreetsView: View {
-	@ObservedObject var facility: CityStreets
+	let facility: CityStreets
 
 	var body: some View {
 		ZStack {

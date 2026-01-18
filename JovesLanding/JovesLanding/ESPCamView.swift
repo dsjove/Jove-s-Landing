@@ -12,7 +12,7 @@ import Network
 import SbjGauge
 
 struct ESPCamView: View {
-	@ObservedObject var facility: ESPCam
+	let facility: ESPCam
 	@State private var imageURL: URL
 	@ObservedObject var lightPower: ESPCam.Lighting.Value
 	@State var refreshID = UUID()

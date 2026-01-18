@@ -11,7 +11,7 @@ import Infrastructure
 import SbjGauge
 
 struct MotorizedFacilityGauageView<F: MotorizedFacility> : View {
-	@ObservedObject var facility: F
+	let facility: F
 	@ObservedObject var motorPower: F.Motor.Power
 	@ObservedObject var motorCalibration: F.Motor.Calibration
 	@ObservedObject var lightPower: F.Lighting.Value

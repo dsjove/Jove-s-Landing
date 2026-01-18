@@ -10,7 +10,7 @@ import Infrastructure
 import BLEByJove
 
 struct JoveMetroLineView: View {
-	@ObservedObject var facility: JoveMetroLine
+	let facility: JoveMetroLine
 
 	@State private var presentEditName = false
 	@State private var editingName = ""

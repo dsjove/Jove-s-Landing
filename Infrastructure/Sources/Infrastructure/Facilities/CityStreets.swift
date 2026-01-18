@@ -6,11 +6,12 @@
 //
 
 import Foundation
-import Combine
 import SBJKit
 import BLEByJove
+import Combine
 
-public class CityStreets: ObservableObject, PowerFunctionsRemote, MotorizedFacility {
+@Observable
+public class CityStreets: PowerFunctionsRemote, MotorizedFacility {
 	public static let Service = BTServiceIdentity(name: "City Streets")
 	public var id: UUID { device.id }
 	private let device: BTDevice
@@ -21,7 +22,6 @@ public class CityStreets: ObservableObject, PowerFunctionsRemote, MotorizedFacil
 	public private(set) var display: ArduinoDisplay;
 	public private(set) var rail: TrainRail;
 
-	@Published
 	public private(set) var connectionState: ConnectionState {
 		didSet {
 			switch connectionState {
@@ -35,13 +35,7 @@ public class CityStreets: ObservableObject, PowerFunctionsRemote, MotorizedFacil
 		}
 	}
 
-	@Published
 	public private(set) var currentTrain: TrainDetection?
-
-
-	public func transmit(cmd: PFCommand) {
-		rail.powerFunction(cmd)
-	}
 
 	public init(device: BTDevice) {
 		self.device = device
@@ -70,7 +64,11 @@ public class CityStreets: ObservableObject, PowerFunctionsRemote, MotorizedFacil
 
 	public var category: FacilityCategory { .transportation }
 	public var image: ImageName { .system("car") }
-	public var name : String {CityStreets.Service.name}
+	public var name : String { CityStreets.Service.name }
+
+	public func transmit(cmd: PFCommand) {
+		rail.powerFunction(cmd)
+	}
 
 	public func connect() {
 		device.connect()

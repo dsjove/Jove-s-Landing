@@ -9,7 +9,8 @@ import Foundation
 import BLEByJove
 import SBJKit
 
-public class PFFacility: ObservableObject, MotorizedFacility {
+@Observable
+public class PFFacility: MotorizedFacility {
 	private let device: PFDevice
 	public let category: FacilityCategory
 

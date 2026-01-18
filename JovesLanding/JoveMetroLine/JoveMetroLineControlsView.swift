@@ -10,7 +10,7 @@ import Infrastructure
 import SbjGauge
 
 struct JoveMetroLineControlsView: View {
-	@ObservedObject var facility: JoveMetroLine
+	let facility: JoveMetroLine
 	@ObservedObject var motorPower: JoveMetroLine.Motor.Power
 	@ObservedObject var motorCalibration: JoveMetroLine.Motor.Calibration
 	@ObservedObject var lightPower: JoveMetroLine.Lighting.Value

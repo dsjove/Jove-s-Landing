@@ -14,7 +14,7 @@ typealias CityStreetsView = ConductedView<CityStreets>
 typealias JoveExpressView = ConductedView<JoveExpress>
 
 struct ESPCamView : View {
-	@ObservedObject var facility: ESPCam
+	let facility: ESPCam
 	@State private var imageURL: URL
 	@State private var crown = Int()
 	@State var refreshID = UUID()

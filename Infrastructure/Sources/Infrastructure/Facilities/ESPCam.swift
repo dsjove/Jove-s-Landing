@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import Combine
 import SBJKit
 import BLEByJove
 import Network
@@ -43,7 +42,8 @@ public struct ESPLighting: LightingProtocol {
 	}
 }
 
-public class ESPCam: ObservableObject, Facility {
+@Observable
+public class ESPCam: Facility {
 	public typealias Lighting = ESPLighting
 
 	public static let Service = "espcam"
