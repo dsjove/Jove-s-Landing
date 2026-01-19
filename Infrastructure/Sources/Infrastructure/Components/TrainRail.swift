@@ -32,9 +32,9 @@ public struct TrainDetection {
 
 @Observable
 public class TrainRail {
-	private typealias TrainID = BTProperty<BTValueTransformer<RFIDDetection>>
+	public typealias TrainID = BTProperty<BTValueTransformer<RFIDDetection>>
 	public typealias PowerFuction = (PFCommand)->()
-	private var sensedTrain: TrainID
+	public var sensedTrain: TrainID
 	public var powerFunction: PowerFuction
 	private var staleTimer: Timer?
 
@@ -84,13 +84,13 @@ public class TrainRail {
 			device.send(data: $0.pack(), to: pfChar)
 		}
 
-		withObservationTracking(for: self, with: sensedTrain, value: \.feedback) { this, _, value in
+		observe(for: self, with: sensedTrain, \.feedback) { this, _, value in
 			print(value)
 			this.updateCurrentTrain(for: value)
 		}
 	}
 
-    deinit {
+	deinit {
 		staleTimer?.invalidate()
 	}
 

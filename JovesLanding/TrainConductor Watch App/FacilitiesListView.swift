@@ -19,7 +19,7 @@ struct FacilitiesListView: View {
 					Text("No facilities found.")
 				}
 				else {
-					List(facilities.facilityEntries) { entry in
+					List(facilities.facilities) { entry in
 						NavigationLink(value: entry) {
 							FacilityLineView(facility: entry.value)
 						}

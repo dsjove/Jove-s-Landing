@@ -21,7 +21,7 @@ struct FacilitiesListView: View {
 				if facilities.facilities.isEmpty {
 					Text("No facilities found.")
 				} else {
-					List(facilities.facilityEntries, selection: $device) { entry in
+					List(facilities.facilities, selection: $device) { entry in
 						NavigationLink(value: entry) {
 							FacilityLineView(facility: entry.value)
 						}

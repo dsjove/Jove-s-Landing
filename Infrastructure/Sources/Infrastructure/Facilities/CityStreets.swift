@@ -12,7 +12,11 @@ import Combine
 import Observation
 
 @Observable
-public class CityStreets: PowerFunctionsRemote, MotorizedFacility {
+public final class CityStreets: PowerFunctionsRemote, MotorizedFacility, RFIDProducing {
+	public static var rfid: KeyPath<CityStreets, BLEByJove.RFIDDetection> {
+		\.rail.sensedTrain.feedback
+	}
+
 	public static let Service = BTServiceIdentity(name: "City Streets")
 	public var id: UUID { device.id }
 	private let device: BTDevice
@@ -50,7 +54,7 @@ public class CityStreets: PowerFunctionsRemote, MotorizedFacility {
 			self?.connectionState = $0
 		}.store(in: &sink)
 
-		withObservationTracking(for: self, with: rail, value: \.currentTrain) { this, _, value in
+		observe(for: self, with: rail, \.currentTrain) { this, _, value in
 			this.updateCurrentTrain(value)
 		}
 	}

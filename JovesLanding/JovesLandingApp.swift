@@ -17,15 +17,12 @@ struct JovesLandingApp: App {
 	private let mDNS: MDNSClient
 	private let powerFunction: PFClient
 
-	private static let knownPFFacilites: [PFMeta] = [
-	]
-
 	init() {
 		self.facilities = FacilityRepository()
 
 		self.bluetooth = BTClient()
 		self.mDNS = MDNSClient()
-		self.powerFunction = PFClient(knownDevices: JovesLandingApp.knownPFFacilites) { [weak facilities] cmd in
+		self.powerFunction = PFClient() { [weak facilities] cmd in
 			facilities?.transmit(cmd: cmd)
 		}
 

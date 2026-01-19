@@ -17,7 +17,7 @@ extension FacilityCategory {
 
 extension FacilityRepository {
 	public convenience init() {
-		self.init(facilitiesForDevice: { device in
+		self.init() { device in
 			let newFacilities: [any Facility]
 			if let btDevice = device as? BTDevice {
 				switch btDevice.service {
@@ -46,7 +46,7 @@ extension FacilityRepository {
 				newFacilities = [UnsupportedFacility(name: device.name)]
 			}
 			return newFacilities
-		})
+		}
 	}
 }
 
@@ -90,8 +90,14 @@ extension BTClient {
 }
 
 extension PFClient {
-	public convenience init() {
-		self.init(knownDevices: [], transmit: {_ in })
+	public convenience init(transmit: @escaping (PFCommand) -> Void = {_ in}) {
+		self.init(knownDevices: [
+			.init(
+				id: Data([0xC0, 0x05, 0x1F, 0x3B]),
+				channel: 1,
+				name: "Maersk",
+				mode: .single)
+		], transmit: transmit)
 	}
 }
 
