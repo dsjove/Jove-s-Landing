@@ -1,12 +1,15 @@
 #include "shared/core/TaskThunk.cpp"
-#include "shared/core/BLEServiceRunner.cpp"
-#include "shared/core/IDBTCharacteristic.cpp"
-#include "shared/MatrixR4.cpp"
-#include "shared/Lighting.cpp"
-#include "shared/RFIDBroadcaster.cpp"
-#include "shared/LEGOPFTransmitter.cpp"
+
+#include "shared/ble/IDBTCharacteristic.cpp"
+#include "shared/ble/BLEServiceRunner.cpp"
+
 #include "shared/core/LegoPFIR.cpp"
 #include "shared/core/MFRC522Detector.cpp"
+
+#include "shared/adapters/MatrixR4.cpp"
+#include "shared/adapters/Lighting.cpp"
+#include "shared/adapters/RFIDBroadcaster.cpp"
+#include "shared/adapters/LEGOPFTransmitter.cpp"
 
 #include <SPI.h>
 

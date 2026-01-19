@@ -1,6 +1,24 @@
 #include "IDBTCharacteristic.h"
 #include "BLEServiceRunner.h"
-#include "btutil.cpp"
+#include "BLEUUID.cpp"
+
+unsigned char adjustPermissions(
+    unsigned char base,
+    const void* value,
+    BLECharacteristicEventHandler eventHandler)
+{
+  unsigned char p = base;
+  if (value)
+  {
+    p |= BLERead;
+    p |= BLENotify;
+  }
+  if (eventHandler)
+  {
+    p |= BLEWriteWithoutResponse;
+  }
+  return p;
+}
 
 IDBTCharacteristic::IDBTCharacteristic(
     BLEServiceRunner& runner,
@@ -9,7 +27,7 @@ IDBTCharacteristic::IDBTCharacteristic(
     const void* value,
     BLECharacteristicEventHandler eventHandler)
 : uuid(btutil::makeUuidWithProperty(propertyId, runner.serviceId()))
-, ble(uuid.data(), btutil::adjustPermissions(0, value, eventHandler), valueSize)
+, ble(uuid.data(), adjustPermissions(0, value, eventHandler), valueSize)
 {
   if (eventHandler)
   {

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "core/IDBTCharacteristic.h"
 #include <Servo.h>
+#include "../ble/IDBTCharacteristic.h"
 
 class ServoMotor
 {

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "TaskThunk.h"
-#include "btutil.h"
+#include "../core/TaskThunk.h"
+#include "BLEUUID.h"
 #include <string>
 
 class BLEServiceRunner: ScheduledRunner

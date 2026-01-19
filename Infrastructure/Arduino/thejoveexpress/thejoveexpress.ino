@@ -1,7 +1,7 @@
 #include "shared/core/TaskThunk.cpp"
-#include "shared/core/BLEServiceRunner.cpp"
-#include "shared/ServoMotor.cpp"
-#include "shared/Lighting.cpp"
+#include "shared/ble/BLEServiceRunner.cpp"
+#include "shared/adapters/ServoMotor.cpp"
+#include "shared/adapters/Lighting.cpp"
 
 Scheduler _runner;
 BLEServiceRunner _ble(_runner, "Jove Express");

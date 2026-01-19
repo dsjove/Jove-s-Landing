@@ -1,7 +1,7 @@
 #pragma once
 
-#include "core/TaskThunk.h"
-#include "core/IDBTCharacteristic.h"
+#include "../core/TaskThunk.h"
+#include "../ble/IDBTCharacteristic.h"
 #include <vector>
 
 struct LightOutput

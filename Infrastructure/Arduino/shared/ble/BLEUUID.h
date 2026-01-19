@@ -13,9 +13,4 @@ BLEUUID makeUuidWithService(
 BLEUUID makeUuidWithProperty(
     const std::string& propertyId,
     const BLEUUID& serviceId);
-
-unsigned char adjustPermissions(
-    unsigned char base,
-    const void* value,
-    BLECharacteristicEventHandler eventHandler);
 }

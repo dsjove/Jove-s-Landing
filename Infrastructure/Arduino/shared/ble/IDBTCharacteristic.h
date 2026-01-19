@@ -1,11 +1,11 @@
 #pragma once
 
-#include "btutil.h"
+#include "BLEUUID.h"
 
 class BLEServiceRunner;
 
 struct IDBTCharacteristic {
-  const BLEUUID uuid;
+  const BLEUUID uuid; // Must remain in memory with characteristic
   BLECharacteristic ble;
 
   IDBTCharacteristic(
@@ -30,4 +30,7 @@ struct IDBTCharacteristic {
     const std::array<T, N>& value,
     BLECharacteristicEventHandler eventHandler = NULL)
     : IDBTCharacteristic(runner, propertyId, value.size(), value.data(), eventHandler) {}
+
+	//TODO: use the UUID on eventHandler to route to a lambda extression
+	//Create a new static class for this so we don't multiple these constructors
 };

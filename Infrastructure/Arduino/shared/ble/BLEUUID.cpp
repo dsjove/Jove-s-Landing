@@ -1,4 +1,4 @@
-#include "btutil.h"
+#include "BLEUUID.h"
 #include <array>
 #include <string>
 #include <algorithm>
@@ -42,22 +42,5 @@ BLEUUID makeUuidWithProperty(
   std::copy_n(propertyId.begin(), 8, out.begin());
   out[36] = '\0';
   return out;
-}
-
-unsigned char adjustPermissions(
-    unsigned char base,
-    const void* value,
-    BLECharacteristicEventHandler eventHandler)
-{
-  unsigned char p = base;
-  if (eventHandler)
-  {
-    p |= BLEWriteWithoutResponse;
-  }
-  if (value) {
-    p |= BLERead;
-    p |= BLENotify;
-  }
-  return p;
 }
 }

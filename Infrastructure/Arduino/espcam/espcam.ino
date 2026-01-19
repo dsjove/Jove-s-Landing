@@ -4,8 +4,8 @@
 #include "MySDCard.h"
 #include "ESP32Config.h"
 
-#include "shared/MyTime.cpp"
-#include "shared/MyWifi.cpp"
+#include "shared/core/MyTime.cpp"
+#include "shared/core/MyWifi.cpp"
 
 MySDCard _sdCard;
 Camera _camera;

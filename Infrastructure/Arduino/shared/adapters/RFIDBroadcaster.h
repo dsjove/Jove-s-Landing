@@ -1,8 +1,8 @@
 #pragma once
 
-#include "core/TaskThunk.h"
-#include "core/IDBTCharacteristic.h"
-#include "core/MFRC522Detector.h"
+#include "../core/TaskThunk.h"
+#include "../core/MFRC522Detector.h"
+#include "../ble/IDBTCharacteristic.h"
 
 class RFIDBroadcaster : ScheduledRunner
 {

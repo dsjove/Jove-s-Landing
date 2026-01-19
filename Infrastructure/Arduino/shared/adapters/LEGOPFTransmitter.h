@@ -1,7 +1,7 @@
 #pragma once
 
-#include "core/IDBTCharacteristic.h"
-#include "core/LegoPFIR.h"
+#include "../core/LegoPFIR.h"
+#include "../ble/IDBTCharacteristic.h"
 
 class LEGOPFTransmitter : ScheduledRunner {
 public:
