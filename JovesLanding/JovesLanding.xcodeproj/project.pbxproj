@@ -21,6 +21,7 @@
 		554740E02954F4BC00948BBB /* Infrastructure in Frameworks */ = {isa = PBXBuildFile; productRef = 554740DF2954F4BC00948BBB /* Infrastructure */; };
 		555C8AD22D8F044700EA33E0 /* MotorizedFacilityGauageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555C8AD12D8F044700EA33E0 /* MotorizedFacilityGauageView.swift */; };
 		555C8AD32D8F044700EA33E0 /* MotorizedFacilityGauageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555C8AD12D8F044700EA33E0 /* MotorizedFacilityGauageView.swift */; };
+		5563228B2F1E6A6000679EBE /* MotorizedFacilityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5563228A2F1E6A6000679EBE /* MotorizedFacilityView.swift */; };
 		557513512DA8531800E73784 /* SbjGauge in Frameworks */ = {isa = PBXBuildFile; productRef = 557513502DA8531800E73784 /* SbjGauge */; };
 		557513532DA8532C00E73784 /* SbjGauge in Frameworks */ = {isa = PBXBuildFile; productRef = 557513522DA8532C00E73784 /* SbjGauge */; };
 		5575135A2DA87BA800E73784 /* BLEByJove in Frameworks */ = {isa = PBXBuildFile; productRef = 557513592DA87BA800E73784 /* BLEByJove */; };
@@ -92,6 +93,7 @@
 		554740D82954F49B00948BBB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		55490BD52DAFE74C00D7E433 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		555C8AD12D8F044700EA33E0 /* MotorizedFacilityGauageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotorizedFacilityGauageView.swift; sourceTree = "<group>"; };
+		5563228A2F1E6A6000679EBE /* MotorizedFacilityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotorizedFacilityView.swift; sourceTree = "<group>"; };
 		556E65CB294D1DD500FCEFD6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		556E65CE294D1DD500FCEFD6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		559AB9DF2DA08EC000666C1A /* CityStreetsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityStreetsView.swift; sourceTree = "<group>"; };
@@ -275,6 +277,7 @@
 				55F2842A2944455800047EF5 /* FacilitiesListView.swift */,
 				55E4E6852DDB89D8003DB69D /* ESPCamView.swift */,
 				559AB9DF2DA08EC000666C1A /* CityStreetsView.swift */,
+				5563228A2F1E6A6000679EBE /* MotorizedFacilityView.swift */,
 				55D1A35F294EB616003381C3 /* JoveMetroLineView.swift */,
 				55D0C7B92DD8EC6A0028BFFE /* JoveExpressView.swift */,
 				55F2841F2944452800047EF5 /* Assets.xcassets */,
@@ -473,6 +476,7 @@
 				55E9497F2D93400100D79246 /* JoveMetroLineControlsView.swift in Sources */,
 				55D0C7BA2DD8EC6A0028BFFE /* JoveExpressView.swift in Sources */,
 				55D1A2F3294EB39F003381C3 /* FacilityDetailView.swift in Sources */,
+				5563228B2F1E6A6000679EBE /* MotorizedFacilityView.swift in Sources */,
 				55A0DE8B2D9F08BA00FCA504 /* HVStack.swift in Sources */,
 				55F284342944455800047EF5 /* FacilitiesListView.swift in Sources */,
 				559E02412D9447CD00CA3953 /* MotorState.swift in Sources */,

@@ -30,7 +30,7 @@ struct FacilitiesListView: View {
 			}
 		}
 		detail: {
-			FacilityDetailView(impl: device?.value)
+			FacilityDetailView(facility: device?.value)
 				.toolbarBackground(Color.green.opacity(1.0), for: .navigationBar)
 #if !os(tvOS)
 				.navigationBarTitleDisplayMode(.inline)

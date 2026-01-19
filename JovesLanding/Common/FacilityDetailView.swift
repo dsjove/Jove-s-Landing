@@ -35,33 +35,37 @@ struct FacilityLineView: View {
 			FacilityHeaderView(facility: facility as! JoveExpress)
 		case is ESPCam:
 			FacilityHeaderView(facility: facility as! ESPCam)
+		case is PFFacility:
+			FacilityHeaderView(facility: facility as! PFFacility)
 		case is UnsupportedFacility:
 			FacilityHeaderView(facility: facility as! UnsupportedFacility)
 		default:
-			FacilityHeaderView(facility: UnsupportedFacility(name: "Unknown"))
+			FacilityHeaderView(facility: UnsupportedFacility(name: facility.name))
 		}
 	}
 }
 
 struct FacilityDetailView: View {
-	let impl: Any?
+	let facility: (any Facility)?
 
 	var body: some View {
-		if let impl {
-			switch impl
+		if let facility {
+			switch facility
 			{
 			case is JoveMetroLine:
-				JoveMetroLineView(facility: impl as! JoveMetroLine)
+				JoveMetroLineView(facility: facility as! JoveMetroLine)
 			case is CityStreets:
-				CityStreetsView(facility: impl as! CityStreets)
+				CityStreetsView(facility: facility as! CityStreets)
 			case is JoveExpress:
-				JoveExpressView(facility: impl as! JoveExpress)
+				JoveExpressView(facility: facility as! JoveExpress)
 			case is ESPCam:
-				ESPCamView(facility: impl as! ESPCam)
+				ESPCamView(facility: facility as! ESPCam)
+			case is PFFacility:
+				MotorizedFacilityView(facility: facility as! PFFacility)
 			case is UnsupportedFacility:
-				NotSupportedView(text: "Unsupported")
+				NotSupportedView(text: "Unsupported \(facility.name)")
 			default:
-				NotSupportedView(text: "Unknown")
+				NotSupportedView(text: "Unknown \(facility.name)")
 			}
 		}
 		else {
@@ -79,5 +83,5 @@ struct NotSupportedView: View {
 }
 
 #Preview {
-	FacilityDetailView(impl: nil)
+	FacilityDetailView(facility: nil)
 }

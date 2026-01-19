@@ -33,7 +33,7 @@ struct FacilitiesListView: View {
 				facilities.setScanning(false)
 			}
 			.navigationDestination(for: FacilityEntry.self) { device in
-				FacilityDetailView(impl: device.value)
+				FacilityDetailView(facility: device.value)
 					.navigationTitle(device.value.name)
 					.onAppear() {
 						device.value.connect()

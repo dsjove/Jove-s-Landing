@@ -10,6 +10,8 @@ import BLEByJove
 import Foundation
 import Network
 
+//MARK: Facility Creation
+
 extension FacilityCategory {
 	static let transportation = FacilityCategory("transportation")
 	static let housing = FacilityCategory("housing")
@@ -50,6 +52,54 @@ extension FacilityRepository {
 	}
 }
 
+@Observable
+public class UnsupportedFacility: Facility {
+	public let id = UUID()
+	public let name: String
+	public let category: FacilityCategory = .transportation
+	public let image: ImageName = .system("questionmark.diamond")
+
+	public let connectionState: BLEByJove.ConnectionState = .disconnected
+
+	public init(name: String) {
+		self.name = name
+	}
+
+	public func connect() {}
+	public func fullStop() {}
+	public func disconnect() {}
+}
+
+public protocol MotorizedFacility: Facility {
+	associatedtype Lighting: LightingProtocol
+	associatedtype Motor: MotorProtocol
+	
+	var lighting: Lighting { get }
+	var motor: Motor { get }
+}
+
+//MARK: Scanner Inits
+
+extension BTClient {
+	public convenience init() {
+		self.init(services: {
+			let base = [
+				CircuitCube.Service,
+				CityStreets.Service,
+				JoveExpress.Service,
+			]
+			print(base.map { "\($0.name)=\($0.identifer.uuidString)"})
+			return base
+		}())
+	}
+}
+
+extension PFClient {
+	public convenience init(transmit: @escaping (PFCommand) -> Void = {_ in}) {
+		self.init(knownDevices: PFClient.meta, transmit: transmit)
+	}
+}
+
 extension MDNSClient {
 	private static var mocking: Bool {
 		#if targetEnvironment(simulator)
@@ -75,65 +125,45 @@ extension MDNSClient {
 	}
 }
 
-extension BTClient {
-	public convenience init() {
-		self.init(services: {
-			let base = [
-				CircuitCube.Service,
-				CityStreets.Service,
-				JoveExpress.Service,
-			]
-			print(base.map { "\($0.name)=\($0.identifer.uuidString)"})
-			return base
-		}())
-	}
-}
+//MARK: Facility Intance Info
 
 extension PFClient {
-	public convenience init(transmit: @escaping (PFCommand) -> Void = {_ in}) {
-		self.init(knownDevices: [
-			.init(
+	static let meta: [PFMeta] = [
+		.init(
+			id: Data([0xC0, 0x05, 0x1F, 0x3B]),
+			channel: 1,
+			name: "Maersk",
+			mode: .single)
+	]
+}
+
+extension TrainRail {
+	static let trains : [Data: TrainRegistration] = {
+		let registrations: [TrainRegistration] = [
+			TrainRegistration(
+				id: Data(),
+				name: "Unknown",
+				sound: .none,
+				symbol: try? .init(packed: [0x0f01f811, 0x80180700, 0x60000060]),
+				powerFunction: nil
+			),
+			TrainRegistration(
 				id: Data([0xC0, 0x05, 0x1F, 0x3B]),
-				channel: 1,
 				name: "Maersk",
-				mode: .single)
-		], transmit: transmit)
-	}
+				sound: .asset("TrainHorn"),
+				symbol: try? .init(packed: [0xe07f0fd9, 0xbcf3cf3c, 0x63c63c63]),
+				powerFunction: .init(channel: 1, port: .A, power: 5, mode: .single)
+			),
+			TrainRegistration(
+				id: Data([0xF0, 0xBE, 0x1F, 0x3B]),
+				name: "Bare Necessities",
+				sound: .asset("CatCallWhistle"),
+				symbol: try? .init(packed: [0x20440280, 0x1801a658, 0x6149230c]),
+				powerFunction: nil
+			),
+		]
+		return Dictionary(uniqueKeysWithValues: registrations.map { ($0.id, $0) })
+	}()
 }
 
 public typealias IPv4AddressProperty = BTProperty<BTValueTransformer<IPv4Address>>
-
-public protocol MotorizedFacility: Facility {
-	associatedtype Lighting: LightingProtocol
-	associatedtype Motor: MotorProtocol
-	
-	var lighting: Lighting { get }
-	
-	var motor: Motor { get }
-}
-
-@Observable
-public class UnsupportedFacility: Facility {
-	public let id = UUID()
-	public let name: String
-	public let category: FacilityCategory = .transportation
-	public let image: ImageName = .system("questionmark.diamond")
-
-	public let connectionState: BLEByJove.ConnectionState = .disconnected
-
-	public init(name: String) {
-		self.name = name
-	}
-
-	public func connect() {}
-
-	public func fullStop() {}
-
-	public func disconnect() {}
-
-	public var battery: Double? { 0.0 }
-
-	public func hash(into hasher: inout Hasher) {
-		id.hash(into: &hasher)
-	}
-}

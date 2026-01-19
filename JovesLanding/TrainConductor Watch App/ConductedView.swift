@@ -12,6 +12,7 @@ import Infrastructure
 typealias JoveMetroLineView = ConductedView<JoveMetroLine>
 typealias CityStreetsView = ConductedView<CityStreets>
 typealias JoveExpressView = ConductedView<JoveExpress>
+typealias PowerFunctionView = ConductedView<PFFacility>
 
 struct ESPCamView : View {
 	let facility: ESPCam
