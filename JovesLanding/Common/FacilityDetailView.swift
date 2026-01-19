@@ -14,10 +14,7 @@ struct FacilityHeaderView<F: Facility>: View {
 	let facility: F
 
 	var body: some View {
-		HStack {
-			Image(facility.image)
-			Text(facility.name)
-		}
+		Label(facility.name, image: facility.image)
 	}
 }
 

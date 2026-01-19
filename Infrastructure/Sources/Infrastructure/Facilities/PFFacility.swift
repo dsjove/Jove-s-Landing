@@ -16,6 +16,7 @@ public class PFFacility: MotorizedFacility {
 
 	public var id: UUID { device.id }
 	public var name: String { device.name }
+	public var image: ImageName { device.image }
 
 	public private(set) var motor: PFMotor;
 	public private(set) var lighting: PFLighting;
@@ -27,8 +28,8 @@ public class PFFacility: MotorizedFacility {
 		self.lighting = PFLighting(device: device)
 	}
 
-	public var image: ImageName { .system("car") }
 
+	public var hasConnectionState: Bool { false }
 	public var connectionState: BLEByJove.ConnectionState { .connected }
 	public func connect() {}
 	public func disconnect() {}

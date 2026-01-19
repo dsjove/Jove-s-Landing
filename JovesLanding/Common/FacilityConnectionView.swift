@@ -21,32 +21,34 @@ public struct FacilityConnectionView<Content: View, F: Facility>: View {
 	public var body: some View {
 		ZStack {
 			gauge(facility)
-			VStack {
-				HStack(alignment: .top) {
-					Button(action: {
-						if facility.connectionState == .disconnected {
-							facility.connect()
+			if facility.hasConnectionState {
+				VStack {
+					HStack(alignment: .top) {
+						Button(action: {
+							if facility.connectionState == .disconnected {
+								facility.connect()
+							}
+							else {
+								facility.disconnect()
+							}
+						}) {
+							Image(systemName: facility.connectionState == .disconnected ?  "cable.connector" : "cable.connector.slash")
+								.resizable()
+								.aspectRatio(contentMode: .fit)
 						}
-						else {
-							facility.disconnect()
+						.frame(width: 42, height: 42)
+						Spacer()
+						Button(action: {
+							facility.fullStop()
+						}) {
+							Image(systemName: "stop.circle")
+								.resizable()
+								.aspectRatio(contentMode: .fit)
 						}
-					}) {
-						Image(systemName: facility.connectionState == .disconnected ?  "cable.connector" : "cable.connector.slash")
-							.resizable()
-							.aspectRatio(contentMode: .fit)
+						.frame(width: 42, height: 42)
 					}
-					.frame(width: 42, height: 42)
 					Spacer()
-					Button(action: {
-						facility.fullStop()
-					}) {
-						Image(systemName: "stop.circle")
-							.resizable()
-							.aspectRatio(contentMode: .fit)
-					}
-					.frame(width: 42, height: 42)
 				}
-				Spacer()
 			}
 		}
 		.aspectRatio(1.0, contentMode: .fit)

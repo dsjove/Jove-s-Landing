@@ -51,6 +51,7 @@ public class JoveMetroLine: MotorizedFacility {
 
 	public private(set) var name: String
 
+	public var canSetName: Bool { true }
 	public func change(name: String) {
 		if name != self.name {
 			Task {

@@ -73,9 +73,16 @@ public class UnsupportedFacility: Facility {
 public protocol MotorizedFacility: Facility {
 	associatedtype Lighting: LightingProtocol
 	associatedtype Motor: MotorProtocol
-	
+
+	var hasLighting: Bool { get }
 	var lighting: Lighting { get }
+	var hasMotor: Bool { get }
 	var motor: Motor { get }
+}
+
+public extension MotorizedFacility {
+	var hasLighting: Bool { true }
+	var hasMotor: Bool { true }
 }
 
 //MARK: Scanner Inits
@@ -133,6 +140,7 @@ extension PFClient {
 			id: Data([0xC0, 0x05, 0x1F, 0x3B]),
 			channel: 1,
 			name: "Maersk",
+			image: .bundled("Train", .module),
 			mode: .single)
 	]
 }
