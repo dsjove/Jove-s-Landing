@@ -2,22 +2,43 @@
 
 #include <Arduino.h>
 
+/*
+Hardware:
+Dorhea Digital 38khz Ir Receiver Sensor Module + 4Pcs 38khz Ir Transmitter Sensor Module Kit
+ */
+
 class LegoPFIR {
 public:
   enum class Port : uint8_t { A = 0, B = 1 };
 
   enum class Mode : uint8_t {
-    ComboSpurt = 0,        // Combo PWM packet (needs periodic refresh; receiver times out on signal loss)
-    SingleLatched = 1  // Single Output PWM (latches speed like LEGO 8879 train dial)
+// Combo PWM packet (needs periodic refresh; receiver times out on signal loss)
+    ComboSpurt = 0,
+// Single Output PWM (latches speed like LEGO 8879 train dial)
+    SingleLatched = 1
   };
 
-  // value is raw PF PWM nibble 0..15:
-  // 0=float, 1..7=fwd1..fwd7, 8=brake, 9..15=rev7..rev1
+  // Value is raw PF PWM nibble 0..15:
+  // 0 = float
+  // 1..7 = fwd1..fwd7
+  // 8 = brake
+  // 9..15 = rev7..rev1
   struct Command {
     uint8_t channel; // 1..4
-    Port port;       // A or B (meaningful for SingleLatched; also selects which cache to update)
-    uint8_t value;   // 0..15
-    Mode mode;       // ComboSpurt or SingleLatched
+    Port port;
+    uint8_t value; // 0..15
+    Mode mode;
+
+    bool operator==(const Command& other) const {
+        return channel == other.channel
+            && port    == other.port
+            && value   == other.value
+            && mode    == other.mode;
+    }
+
+    bool operator!=(const Command& other) const {
+        return !(*this == other);
+    }
   };
 
   explicit LegoPFIR(uint8_t irPin);

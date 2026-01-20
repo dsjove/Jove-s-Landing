@@ -2,6 +2,12 @@
 
 #include <MFRC522.h>
 
+/*
+Hardware:
+HiLetgo 3pcs RFID Kit - Mifare RC522 RF IC Card Sensor Module + S50 Blank Card + Key Ring
+Timeskey NFC 20 Pack Mifare Classic 1k NFC Tag RFID Sticker 13.56mhz - ISO14443A Smart 25mm Adhesive Tags
+ */
+
 class MFRC522Detector {
 public:
   struct Timing {

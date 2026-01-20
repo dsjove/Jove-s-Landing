@@ -11,6 +11,7 @@ public:
 
 private:
   LegoPFIR _ir;
+  LegoPFIR::Command _value;
   IDBTCharacteristic _transmitChar;
   TaskThunk _task;
 

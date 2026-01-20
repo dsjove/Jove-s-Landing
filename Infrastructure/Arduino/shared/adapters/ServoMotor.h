@@ -3,6 +3,11 @@
 #include <Servo.h>
 #include "../ble/IDBTCharacteristic.h"
 
+/*
+Hardware:
+L298N Motor Drive Controller Board DC Dual H-Bridge Robot Stepper
+ */
+
 class ServoMotor
 {
 public:

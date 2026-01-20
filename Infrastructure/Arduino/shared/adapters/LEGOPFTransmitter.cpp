@@ -1,9 +1,11 @@
 #include "LEGOPFTransmitter.h"
+#include "../core/mapEven.h"
 
 static LEGOPFTransmitter* pfTranbsmitterRef = NULL;
 
 LEGOPFTransmitter::LEGOPFTransmitter(Scheduler& scheduler, BLEServiceRunner& ble, int pin)
 : _ir(pin)
+, _value({0, LegoPFIR::Port::A, 0, LegoPFIR::Mode::ComboSpurt})
 , _transmitChar(ble, "05020000", 4, NULL, transmit)
 , _task(scheduler, 1000, this, false)
 {
@@ -21,14 +23,32 @@ void LEGOPFTransmitter::loop(Task&) {
 
 void LEGOPFTransmitter::transmit(BLEDevice, BLECharacteristic characteristic)
 {
-  //TODO: have a 3rd mode of combo w/ task enabled, lineOfSight
   std::array<uint8_t, 4> value;
   characteristic.readValue(value.data(), value.size());
+
+  uint8_t channel = value[0];
+  auto port = (LegoPFIR::Port)value[1];
+  int8_t inPower = value[2];
+  //TODO: have a 3rd mode of combo w/ task enabled, lineOfSight
+  auto mode = (LegoPFIR::Mode)value[3];
+
+  uint8_t outPower = mapEven(inPower, -127, 127, 1, 15);
+  if (outPower > 8) outPower = outPower - 8;
+  else if (outPower < 8) outPower = outPower + 8;
+  else if (mode != LegoPFIR::Mode::SingleLatched) outPower = 0;
+
   LegoPFIR::Command command = {
-    value[0],
-    (LegoPFIR::Port)value[1],
-    value[2],
-    (LegoPFIR::Mode)value[3]
+    channel,
+    port,
+    outPower,
+    mode
   };
-  pfTranbsmitterRef->_ir.apply(command);
+  if (pfTranbsmitterRef->_value != command) {
+	  Serial.print("Power: ");
+	  Serial.print(inPower);
+	  Serial.print(" -> ");
+	  Serial.println(outPower);
+    pfTranbsmitterRef->_value = command;
+    pfTranbsmitterRef->_ir.apply(command);
+  }
 }

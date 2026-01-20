@@ -3,6 +3,11 @@
 #include <Arduino_LED_Matrix.h>
 #include "../ble/IDBTCharacteristic.h"
 
+/*
+Hardware:
+Arduino UNO R4 WiFi
+ */
+
 class MatrixR4
 {
 public:
