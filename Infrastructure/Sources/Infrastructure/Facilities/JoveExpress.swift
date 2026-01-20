@@ -17,8 +17,8 @@ public class JoveExpress: MotorizedFacility {
 	private let device: BTDevice
 	private var sink: Set<AnyCancellable> = []
 
-	public private(set) var motor: BTMotor;
-	public private(set) var lighting: BTLighting;
+	public let motor: BTMotor
+	public let lighting: BTLighting?
 
 	public init(device: BTDevice) {
 		self.device = device
@@ -62,11 +62,11 @@ public class JoveExpress: MotorizedFacility {
 
 	public func reset() {
 		self.motor.reset()
-		self.lighting.reset()
+		self.lighting?.reset()
 	}
 
 	public func fullStop() {
 		self.motor.fullStop()
-		self.lighting.fullStop()
+		self.lighting?.fullStop()
 	}
 }

@@ -11,57 +11,63 @@ import SbjGauge
 
 struct MotorizedFacilityControlsView<Facility: MotorizedFacility>: View {
 	let facility: Facility
-	let motorPower: Facility.Motor.Power
-	let motorCalibration: Facility.Motor.Calibration
-	let lightPower: Facility.Lighting.Value
-
-	init(facility: Facility) {
-		self.facility = facility
-		self.motorPower = facility.motor.power
-		self.motorCalibration = facility.motor.calibration
-		self.lightPower = facility.lighting.power
-	}
 
 	var body: some View {
 		Grid(alignment: .leading, horizontalSpacing: 12) {
-			if facility.hasMotor {
-				GridRow() {
-					Text("Speed").font(.headline)
-					ScrubView(
-						value: facility.motor.power.control,
-						range: -1.0...1.0,
-						minMaxSplit: 0.0,
-						minTrackColor: Color("Motor/Reverse"),
-						maxTrackColor: Color("Motor/Forward")) {
-							facility.motor.power.control = $0
-						}
-						.frame(height: 44)
-				}
+			GridRow() {
+				Text("Speed").font(.headline)
+				ScrubView(
+					value: facility.motor.power.control,
+					range: -1.0...1.0,
+					//increment: facility.motor.increment,
+					minMaxSplit: 0.0,
+					minTrackColor: Color("Motor/Reverse"),
+					maxTrackColor: Color("Motor/Forward")) {
+						facility.motor.power.control = $0
+					}
+					.frame(height: 44)
+			}
+			if let calibration = facility.motor.calibration {
 				GridRow {
 					Text("Idle").font(.headline)
 					ScrubView(
-						value: facility.motor.calibration.control,
+						value: calibration.control,
 						range: 0.0...1.0,
 						minTrackColor: Color("Motor/Idle"),
 						maxTrackColor: Color("Motor/Go")) {
-							facility.motor.calibration.control = $0
+							calibration.control = $0
 						}
 						.frame(height: 44)
 				}
-				Divider()
 			}
-			if facility.hasLighting {
+			Divider()
+			if let lighting = facility.lighting {
 				GridRow {
 					Text("Lights").font(.headline)
 					ScrubView(
-						value: facility.lighting.power.control,
+						value: lighting.power.control,
 						range: 0.0...1.0,
 							gradient: true,
 						minTrackColor: Color("Lights/Off"),
 						maxTrackColor: Color("Lights/On")) {
-							facility.lighting.power.control = $0
+							lighting.power.control = $0
 						}
 						.frame(height: 44)
+				}
+				if let calibration = lighting.calibration {
+					GridRow {
+						Text("Auto\nLights").font(.headline).lineLimit(2)
+						ScrubView(
+							value: calibration.control,
+							range: 0.0...1.0,
+							increment: lighting.increment,
+							minMaxSplit: lighting.sensed?.feedback ?? 0.0,
+							minTrackColor: Color.black,
+							maxTrackColor: Color.white) {
+								calibration.control = $0
+							}
+								.frame(height: 44)
+					}
 				}
 			}
 		}

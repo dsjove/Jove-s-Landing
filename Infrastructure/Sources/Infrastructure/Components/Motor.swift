@@ -12,17 +12,18 @@ public protocol MotorProtocol {
 	associatedtype Power: ControlledProperty where Power.P == Double
 	associatedtype Calibration: ControlledProperty where Calibration.P == Double
 
-	var power: Power { get set }
-	var calibration: Calibration { get set }
-	var increment: Double? { get}
+	var power: Power { get }
+	var calibration: Calibration? { get }
+	var increment: Double? { get }
 }
 
 public extension MotorProtocol {
 	var increment: Double? { nil }
+	var calibration: Calibration? { nil }
 
 	func reset() {
 		self.power.reset()
-		self.calibration.reset()
+		self.calibration?.reset()
 	}
 
 	func fullStop() {
@@ -31,27 +32,20 @@ public extension MotorProtocol {
 }
 
 public struct PFMotor: MotorProtocol {
-	public typealias Power = TransformedProperty<ScaledTransformer<UInt8>>
-	public typealias Calibration = TransformedProperty<ScaledTransformer<UInt8>>
-	
-	public var power: Power
-	public var calibration: Calibration
+	public typealias Power = TransformedProperty<ScaledTransformer<Int8>>
+	public typealias Calibration = LocalControlledProperty<Double>
 
-	public init(device: PFDevice) {
-		let calibration = Calibration(
+	public let power: Power
+	public let calibration: Calibration? = nil
+	public let increment: Double? = 128.0/16.0
+
+	public init(device: PFDevice, port: PFPort) {
+		self.power = Power(
 			sendControl: { value in
-				return value;
-			},
-			transfomer: ScaledTransformer(255))
-		calibration.control = 0.25
-		let power = Power(
-			sendControl: { value in
+				device.send(port: port, power: value)
 				return value
 			},
-			transfomer: ScaledTransformer((255)))
-		self.power = power
-
-		self.calibration = calibration
+			transfomer: ScaledTransformer((127)))
 	}
 }
 
@@ -59,8 +53,8 @@ public struct CCMotor: MotorProtocol {
 	public typealias Power = TransformedProperty<ScaledTransformer<Int16>>
 	public typealias Calibration = TransformedProperty<ScaledTransformer<Int16>>
 	
-	public var power: Power
-	public var calibration: Calibration
+	public let power: Power
+	public let calibration: Calibration?
 
 	public init(cube: CircuitCube) {
 		class Inner {
@@ -113,8 +107,8 @@ public struct BTMotor: MotorProtocol {
 	public typealias Power = BTProperty<ScaledTransformer<Int8>>
 	public typealias Calibration = BTProperty<ScaledTransformer<UInt8>>
 
-	public var power: Power
-	public var calibration: Calibration
+	public let power: Power
+	public let calibration: Calibration?
 	public let increment: Double? = 0.01
 
 	public init(device: any BTBroadcaster) {

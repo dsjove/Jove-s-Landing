@@ -11,13 +11,12 @@ import BLEByJove
 public protocol LightingProtocol {
 	associatedtype Value: ControlledProperty where Value.P == Double
 
-	var power: Value { get set }
-	var calibration: Value { get set }
-	var sensed: Value { get set }
+	var power: Value { get }
+	var calibration: Value? { get }
+	var sensed: Value? { get }
 
 	var hasDimmer : Bool { get }
 	var increment: Double? { get }
-	var hasSensor: Bool { get }
 }
 
 public extension LightingProtocol {
@@ -25,8 +24,8 @@ public extension LightingProtocol {
 
 	func reset() {
 		self.power.reset()
-		self.calibration.reset()
-		self.sensed.reset()
+		self.calibration?.reset()
+		self.sensed?.reset()
 	}
 
 	func fullStop() {
@@ -37,37 +36,29 @@ public extension LightingProtocol {
 public struct PFLighting: LightingProtocol {
 	public typealias Value = TransformedProperty<ScaledTransformer<UInt8>>
 	
-	public var power: Value
-	public var calibration: Value
-	public var sensed: Value
+	public let power: Value
+	public let calibration: Value? = nil
+	public let sensed: Value? = nil
 	public let hasDimmer: Bool = true
-	public let hasSensor: Bool = false
+	public let increment: Double? = 128.0/16.0
 
-	public init(device: PFDevice) {
-		self.power = Value(sendControl: { value in
-			return value
-		}, transfomer: ScaledTransformer(255))
-
-		self.calibration = Value(
-			sendControl: { $0 },
-			transfomer: ScaledTransformer(255),
-			defaultValue: 1.0)
-
-		self.sensed = Value(
-			sendControl: nil,
-			transfomer: ScaledTransformer(255),
-			defaultValue: 1.0)
+	public init(device: PFDevice, port: PFPort) {
+		self.power = Value(
+			sendControl: { value in
+				device.send(port: port, power: Int8(value))
+				return value
+			},
+			transfomer: ScaledTransformer((127)))
 	}
 }
 
 public struct CCLighting: LightingProtocol {
 	public typealias Value = TransformedProperty<ScaledTransformer<Int16>>
 	
-	public var power: Value
-	public var calibration: Value
-	public var sensed: Value
+	public let power: Value
+	public let calibration: Value? = nil
+	public let sensed: Value? = nil
 	public let hasDimmer: Bool = true
-	public let hasSensor: Bool = false
 
 	public init(cube: CircuitCube) {
 		self.power = Value(sendControl: { value in
@@ -76,28 +67,17 @@ public struct CCLighting: LightingProtocol {
 			}
 			return value
 		}, transfomer: ScaledTransformer(255))
-
-		self.calibration = Value(
-			sendControl: { $0 },
-			transfomer: ScaledTransformer(255),
-			defaultValue: 1.0)
-
-		self.sensed = Value(
-			sendControl: nil,
-			transfomer: ScaledTransformer(255),
-			defaultValue: 1.0)
 	}
 }
 
 public struct BTLighting: LightingProtocol {
 	public typealias Value = BTProperty<ScaledTransformer<UInt8>>
 	
-	public var power: Value
-	public var calibration: Value
-	public var sensed: Value
+	public let power: Value
+	public let calibration: Value?
+	public let sensed: Value?
 	public let increment: Double? = 0.01
 	public let hasDimmer: Bool = true
-	public let hasSensor: Bool = true
 
 	public init(device: any BTBroadcaster) {
 		self.power = Value(

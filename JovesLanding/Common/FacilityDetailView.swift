@@ -50,15 +50,15 @@ struct FacilityDetailView: View {
 			switch facility
 			{
 			case is JoveMetroLine:
-				JoveMetroLineView(facility: facility as! JoveMetroLine)
+				MotorizedFacilityView(facility as! JoveMetroLine)
 			case is CityStreets:
 				CityStreetsView(facility: facility as! CityStreets)
 			case is JoveExpress:
-				JoveExpressView(facility: facility as! JoveExpress)
+				MotorizedFacilityView(facility as! JoveExpress)
 			case is ESPCam:
 				ESPCamView(facility: facility as! ESPCam)
 			case is PFFacility:
-				MotorizedFacilityView(facility: facility as! PFFacility)
+				MotorizedFacilityView(facility as! PFFacility)
 			case is UnsupportedFacility:
 				NotSupportedView(text: "Unsupported \(facility.name)")
 			default:

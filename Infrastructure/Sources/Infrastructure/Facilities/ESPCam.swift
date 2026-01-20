@@ -14,8 +14,8 @@ public struct ESPLighting: LightingProtocol {
 	public typealias Value = TransformedProperty<ScaledTransformer<UInt8>>
 
 	public var power: Value
-	public var calibration: Value
-	public var sensed: Value
+	public var calibration: Value?
+	public var sensed: Value?
 	public let hasDimmer: Bool = true
 	public let hasSensor: Bool = false
 
@@ -29,16 +29,6 @@ public struct ESPLighting: LightingProtocol {
 			throttle.sendRequest(url: url)
 			return value
 		}, transfomer: ScaledTransformer(255))
-
-		self.calibration = Value(
-			sendControl: { $0 },
-			transfomer: ScaledTransformer(255),
-			defaultValue: 1.0)
-
-		self.sensed = Value(
-			sendControl: nil,
-			transfomer: ScaledTransformer(255),
-			defaultValue: 1.0)
 	}
 }
 

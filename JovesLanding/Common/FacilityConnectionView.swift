@@ -21,9 +21,9 @@ public struct FacilityConnectionView<Content: View, F: Facility>: View {
 	public var body: some View {
 		ZStack {
 			gauge(facility)
-			if facility.hasConnectionState {
-				VStack {
-					HStack(alignment: .top) {
+			VStack {
+				HStack(alignment: .top) {
+					if facility.hasConnectionState {
 						Button(action: {
 							if facility.connectionState == .disconnected {
 								facility.connect()
@@ -37,18 +37,18 @@ public struct FacilityConnectionView<Content: View, F: Facility>: View {
 								.aspectRatio(contentMode: .fit)
 						}
 						.frame(width: 42, height: 42)
-						Spacer()
-						Button(action: {
-							facility.fullStop()
-						}) {
-							Image(systemName: "stop.circle")
-								.resizable()
-								.aspectRatio(contentMode: .fit)
-						}
-						.frame(width: 42, height: 42)
 					}
 					Spacer()
+					Button(action: {
+						facility.fullStop()
+					}) {
+						Image(systemName: "stop.circle")
+							.resizable()
+							.aspectRatio(contentMode: .fit)
+					}
+					.frame(width: 42, height: 42)
 				}
+				Spacer()
 			}
 		}
 		.aspectRatio(1.0, contentMode: .fit)

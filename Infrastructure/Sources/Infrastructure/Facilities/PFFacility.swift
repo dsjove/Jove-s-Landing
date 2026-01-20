@@ -18,16 +18,15 @@ public class PFFacility: MotorizedFacility {
 	public var name: String { device.name }
 	public var image: ImageName { device.image }
 
-	public private(set) var motor: PFMotor;
-	public private(set) var lighting: PFLighting;
+	public private(set) var motor: PFMotor
+	public private(set) var lighting: PFLighting?
 
 	public init(device: PFDevice, category: FacilityCategory) {
 		self.device = device
 		self.category = category
-		self.motor = PFMotor(device: device)
-		self.lighting = PFLighting(device: device)
+		self.motor = PFMotor(device: device, port: .A)
+		self.lighting = PFLighting(device: device, port: .B)
 	}
-
 
 	public var hasConnectionState: Bool { false }
 	public var connectionState: BLEByJove.ConnectionState { .connected }
@@ -36,11 +35,6 @@ public class PFFacility: MotorizedFacility {
 
 	public func reset() {
 		self.motor.reset()
-		self.lighting.reset()
-	}
-
-	public func fullStop() {
-		self.motor.fullStop()
-		self.lighting.fullStop()
+		self.lighting?.reset()
 	}
 }

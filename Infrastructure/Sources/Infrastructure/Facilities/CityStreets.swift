@@ -12,7 +12,7 @@ import Combine
 import Observation
 
 @Observable
-public final class CityStreets: PowerFunctionsRemote, MotorizedFacility, RFIDProducing {
+public final class CityStreets: PFTransmitter, MotorizedFacility, RFIDProducing {
 	public static var rfid: KeyPath<CityStreets, BLEByJove.RFIDDetection> {
 		\.rail.sensedTrain.feedback
 	}
@@ -22,10 +22,10 @@ public final class CityStreets: PowerFunctionsRemote, MotorizedFacility, RFIDPro
 	private let device: BTDevice
 	private var sink: Set<AnyCancellable> = []
 
-	public private(set) var motor: BTMotor; // todo: street power
-	public private(set) var lighting: BTLighting;
-	public private(set) var display: ArduinoDisplay;
-	public private(set) var rail: TrainRail;
+	public let motor: BTMotor // todo: street power
+	public let lighting: BTLighting?
+	public let display: ArduinoDisplay
+	public let rail: TrainRail;
 
 	public private(set) var connectionState: ConnectionState {
 		didSet {
@@ -105,7 +105,7 @@ public final class CityStreets: PowerFunctionsRemote, MotorizedFacility, RFIDPro
 
 	public func reset() {
 		self.motor.reset()
-		self.lighting.reset()
+		self.lighting?.reset()
 		self.display.reset()
 		self.rail.reset()
 		self.currentTrain = nil
@@ -113,7 +113,7 @@ public final class CityStreets: PowerFunctionsRemote, MotorizedFacility, RFIDPro
 
 	public func fullStop() {
 		self.motor.fullStop()
-		self.lighting.fullStop()
+		self.lighting?.fullStop()
 		self.display.fullStop()
 		self.rail.fullStop()
 		self.currentTrain = nil

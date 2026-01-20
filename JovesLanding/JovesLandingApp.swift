@@ -22,9 +22,7 @@ struct JovesLandingApp: App {
 
 		self.bluetooth = BTClient()
 		self.mDNS = MDNSClient()
-		self.powerFunction = PFClient() { [weak facilities] cmd in
-			facilities?.transmit(cmd: cmd)
-		}
+		self.powerFunction = PFClient(transmitter: facilities)
 
 		self.facilities.addScanner(bluetooth)
 		self.facilities.addScanner(mDNS)

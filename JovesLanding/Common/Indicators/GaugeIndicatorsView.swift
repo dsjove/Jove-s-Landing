@@ -12,11 +12,11 @@ import BLEByJove
 
 struct GaugeIndicators {
 	let image: Image
-	var connectionState: ConnectionState = .disconnected
+	var connectionState: ConnectionState?
 	var heartBeat: Int = -1
 	var motorState: MotorState = .idle
 	var battery: Double? = 0
-	var light: Double = 0.0
+	var light: Double? = 0.0
 }
 
 struct Indicator: ViewModifier {
@@ -47,15 +47,16 @@ struct GaugeIndicatorsView: View {
 		MotorIndicatorView(image: indicators.image, motorState: indicators.motorState)
 			.indicator(padding: width * 0.15)
 			.frame(width: width)
-
-		ConnectionIndicatorView(connectionState: indicators.connectionState, heartBeat: indicators.heartBeat)
-			.indicator(padding: width * 0.15)
-			.frame(width: width)
-
-		LightIndicatorView(on: indicators.light)
-			.indicator(padding: width * 0.15)
-			.frame(width: width)
-
+		if let connectionState = indicators.connectionState {
+			ConnectionIndicatorView(connectionState: connectionState, heartBeat: indicators.heartBeat)
+				.indicator(padding: width * 0.15)
+				.frame(width: width)
+		}
+		if let light = indicators.light {
+			LightIndicatorView(on: light)
+				.indicator(padding: width * 0.15)
+				.frame(width: width)
+		}
 		if let battery = indicators.battery {
 			BatteryIndicatorView(progress: battery)
 				.indicator(padding: width * 0.15)

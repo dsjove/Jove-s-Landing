@@ -79,14 +79,9 @@ public class JoveMetroLine: MotorizedFacility {
 
 	public private(set) var battery: Double?
 
-	public var motor: CCMotor
+	public let motor: CCMotor
 
-	public var lighting: CCLighting
-
-	public func fullStop() {
-		motor.fullStop()
-		lighting.fullStop()
-	}
+	public let lighting: CCLighting?
 
 	public func connect() {
 		Task {
@@ -109,8 +104,8 @@ public class JoveMetroLine: MotorizedFacility {
 	}
 
 	private func reset() {
-		self.lighting.reset()
 		self.motor.reset()
+		self.lighting?.reset()
 		self.beatCheck.cancel()
 		self.heartBeat = -1
 		self.battery = -1

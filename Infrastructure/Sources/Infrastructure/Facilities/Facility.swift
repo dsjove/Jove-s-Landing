@@ -74,15 +74,15 @@ public protocol MotorizedFacility: Facility {
 	associatedtype Lighting: LightingProtocol
 	associatedtype Motor: MotorProtocol
 
-	var hasLighting: Bool { get }
-	var lighting: Lighting { get }
-	var hasMotor: Bool { get }
 	var motor: Motor { get }
+	var lighting: Lighting? { get }
 }
 
 public extension MotorizedFacility {
-	var hasLighting: Bool { true }
-	var hasMotor: Bool { true }
+	func fullStop() {
+		motor.fullStop()
+		lighting?.fullStop()
+	}
 }
 
 //MARK: Scanner Inits
@@ -102,8 +102,8 @@ extension BTClient {
 }
 
 extension PFClient {
-	public convenience init(transmit: @escaping (PFCommand) -> Void = {_ in}) {
-		self.init(knownDevices: PFClient.meta, transmit: transmit)
+	public convenience init(transmitter: PFTransmitter) {
+		self.init(meta: PFClient.meta, transmitter: transmitter)
 	}
 }
 
@@ -135,14 +135,22 @@ extension MDNSClient {
 //MARK: Facility Intance Info
 
 extension PFClient {
-	static let meta: [PFMeta] = [
-		.init(
-			id: Data([0xC0, 0x05, 0x1F, 0x3B]),
-			channel: 1,
-			name: "Maersk",
-			image: .bundled("Train", .module),
-			mode: .single)
-	]
+	static let info: [Data: PFMeta] = {
+		let metas: [PFMeta] = [
+			PFMeta(
+				id: Data([0xC0, 0x05, 0x1F, 0x3B]),
+				channel: 1,
+				name: "Maersk",
+				image: .bundled("Train", .module),
+				mode: .single
+			)
+		]
+		return Dictionary(uniqueKeysWithValues: metas.map { ($0.id, $0) })
+	}()
+
+	static let meta: (RFIDDetection)->PFMeta? = { id in
+		PFClient.info[id.id.id]
+	}
 }
 
 extension TrainRail {
@@ -152,22 +160,19 @@ extension TrainRail {
 				id: Data(),
 				name: "Unknown",
 				sound: .none,
-				symbol: try? .init(packed: [0x0f01f811, 0x80180700, 0x60000060]),
-				powerFunction: nil
+				symbol: try? .init(packed: [0x0f01f811, 0x80180700, 0x60000060])
 			),
 			TrainRegistration(
 				id: Data([0xC0, 0x05, 0x1F, 0x3B]),
 				name: "Maersk",
 				sound: .asset("TrainHorn"),
-				symbol: try? .init(packed: [0xe07f0fd9, 0xbcf3cf3c, 0x63c63c63]),
-				powerFunction: .init(channel: 1, port: .A, power: 5, mode: .single)
+				symbol: try? .init(packed: [0xe07f0fd9, 0xbcf3cf3c, 0x63c63c63])
 			),
 			TrainRegistration(
 				id: Data([0xF0, 0xBE, 0x1F, 0x3B]),
 				name: "Bare Necessities",
 				sound: .asset("CatCallWhistle"),
-				symbol: try? .init(packed: [0x20440280, 0x1801a658, 0x6149230c]),
-				powerFunction: nil
+				symbol: try? .init(packed: [0x20440280, 0x1801a658, 0x6149230c])
 			),
 		]
 		return Dictionary(uniqueKeysWithValues: registrations.map { ($0.id, $0) })
@@ -175,3 +180,4 @@ extension TrainRail {
 }
 
 public typealias IPv4AddressProperty = BTProperty<BTValueTransformer<IPv4Address>>
+

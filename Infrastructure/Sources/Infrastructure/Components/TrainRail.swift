@@ -15,7 +15,6 @@ public struct TrainRegistration {
 	public let name: String
 	public let sound: SoundPlayer.Source
 	public let symbol: ArduinoR4Matrix?
-	public let powerFunction: PFCommand?
 }
 
 public struct TrainDetection {
@@ -89,9 +88,6 @@ public class TrainRail {
 				rfid: detection)
 		}
 		let train = self.currentTrain
-		if let pf = train?.registration.powerFunction {
-			self.powerFunction(pf)
-		}
 		DispatchQueue.main.async { [weak self] in
 			self?.startStaleCheck(train)
 		}

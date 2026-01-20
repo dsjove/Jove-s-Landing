@@ -11,21 +11,22 @@ import BLEByJove
 
 struct CityStreetsView: View {
 	let facility: CityStreets
+	@State private var showOverlay = false
 
 	var body: some View {
-		ZStack {
-			Image("Metal")
-				.resizable()
-				.ignoresSafeArea()
-			HVStack(spacing: 8) {
-				FacilityConnectionView(facility) { facility in
-					MotorizedFacilityGauageView(facility: facility)
-				}
-				CityStreetsControlsView(facility: facility)
-			}
-			.padding(8)
+		MotorizedFacilityView(facility) {
+			Divider()
+			ArduinoR4MatrixView(value: facility.display.power.feedback)
+				.frame(maxWidth: 240)
+				.highPriorityGesture(
+					TapGesture().onEnded {
+						showOverlay = true
+					}
+				)
 		}
-		.navigationBarTitle(facility.currentTrain?.title ?? facility.name)
+		.sheet(isPresented: $showOverlay) {
+			ArduinoDisplayControlView(display: facility.display.power)
+		}
 	}
 }
 

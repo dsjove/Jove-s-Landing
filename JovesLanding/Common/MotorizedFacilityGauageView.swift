@@ -12,32 +12,22 @@ import SbjGauge
 
 struct MotorizedFacilityGauageView<F: MotorizedFacility> : View {
 	let facility: F
-	let motorPower: F.Motor.Power
-	let motorCalibration: F.Motor.Calibration
-	let lightPower: F.Lighting.Value
-
-	init(facility: F) {
-		self.facility = facility
-		self.motorPower = facility.motor.power
-		self.motorCalibration = facility.motor.calibration
-		self.lightPower = facility.lighting.power
-	}
 
 	func indicators() -> GaugeIndicators {
 		var indicators = GaugeIndicators(image: Image(facility.image))
 		indicators.battery = facility.battery
-		indicators.light = lightPower.feedback
-		indicators.motorState = MotorState(power: motorPower.feedback)
-		indicators.connectionState = facility.connectionState
+		indicators.light = facility.lighting?.power.feedback ?? 0
+		indicators.motorState = MotorState(power: facility.motor.power.feedback)
+		indicators.connectionState = facility.hasConnectionState ? facility.connectionState : nil
 		indicators.heartBeat = facility.heartBeat
 		return indicators
 	}
 
 	var body: some View {
 		let model = SbjGauge.StandardModel(
-			power: motorPower.feedback,
-			control: motorPower.control,
-			idle: motorCalibration.feedback)
+			power: facility.motor.power.feedback,
+			control: facility.motor.power.control,
+			idle: facility.motor.calibration?.feedback ?? 0.0)
 		let indicators = self.indicators()
 		SbjGauge.Power.PowerView(model) { _, w in
 			GaugeIndicatorsView(width: w, indicators: indicators)
