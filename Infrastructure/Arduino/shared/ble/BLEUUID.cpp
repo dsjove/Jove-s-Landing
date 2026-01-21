@@ -18,7 +18,7 @@ BLEUUID makeUuidWithService(
   {
     result.fill('0');
     result[8] = '-';
-    result[37] = 0;
+    result[36] = 0;
     int pos = 9;
     for (size_t i = 0; i < 12 && i < serviceName.length(); i++) {
       sprintf(result.data() + pos, "%02X", serviceName[i]);
@@ -28,6 +28,9 @@ BLEUUID makeUuidWithService(
          result[pos] = '-';
          pos+=1;
       }
+    }
+    if (serviceName.length() < 12) {
+		result[pos] = '0';
     }
   }
   return result;

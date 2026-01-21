@@ -14,7 +14,7 @@
 #include <SPI.h>
 
 Scheduler _runner;
-BLEServiceRunner _ble(_runner, "City Streets");
+BLEServiceRunner _ble(_runner, "City Center");
 MatrixR4 _matrixR4(_ble); // {0xB194a444, 0x44042081, 0x100a0841}
 Lighting _lighting(_runner, _ble, {{3, true}, {0, false}}, A0);
 RFIDBroadcaster _RFIDBroadcaster(_runner, _ble, 1);
@@ -38,12 +38,3 @@ void loop()
 {
   _runner.execute();
 }
-
-//#include <EEPROM.h>
-//const int _epromIdxFirstRun = 0;
-//bool _firstRun = true;
-  //_firstRun = EEPROM.read(_epromIdxFirstRun) == 0;
-  //if (_firstRun) {
-    //Serial.println("First Run!");
-    //EEPROM.write(_epromIdxFirstRun, 1);
-  //}
