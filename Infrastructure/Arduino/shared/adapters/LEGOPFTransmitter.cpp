@@ -27,14 +27,19 @@ void LEGOPFTransmitter::transmit(BLEDevice, BLECharacteristic characteristic)
   characteristic.readValue(value.data(), value.size());
 
   uint8_t channel = value[0];
+  if (channel < 1 || channel > 4) return;
   auto port = (LegoPFIR::Port)value[1];
   int8_t inPower = value[2];
   //TODO: have a 3rd mode of combo w/ task enabled, lineOfSight
   auto mode = (LegoPFIR::Mode)value[3];
 
+  //TODO: if inPower == -128 then outPower = 0 (always coast)
+  //Then not use mode. outPower of 8 is becomes always brake.
+  //If the client wants to mirror standard remote behaviors,
+  //that mode condition goes client side.
   uint8_t outPower = mapEven(inPower, -127, 127, 1, 15);
-  if (outPower > 8) outPower = outPower - 8;
-  else if (outPower < 8) outPower = outPower + 8;
+  if (outPower > 8) outPower -= 8;
+  else if (outPower < 8) outPower += 8;
   else if (mode != LegoPFIR::Mode::SingleLatched) outPower = 0;
 
   LegoPFIR::Command command = {

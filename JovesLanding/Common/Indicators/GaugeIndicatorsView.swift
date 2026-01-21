@@ -7,7 +7,6 @@
 
 import SwiftUI
 import Infrastructure
-import SbjGauge
 import BLEByJove
 
 struct GaugeIndicators {

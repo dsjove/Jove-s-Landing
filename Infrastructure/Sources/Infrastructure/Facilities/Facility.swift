@@ -49,8 +49,13 @@ extension FacilityRepository {
 			}
 			return newFacilities
 		}
+		addScanner(BTClient())
+		addScanner(MDNSClient())
+		addScanner(PFClient(transmitter: self))
 	}
 }
+
+//MARK: Facility Specialization
 
 @Observable
 public class UnsupportedFacility: Facility {
@@ -83,6 +88,58 @@ public extension MotorizedFacility {
 		motor.fullStop()
 		lighting?.fullStop()
 	}
+}
+
+public typealias IPv4AddressProperty = BTProperty<BTValueTransformer<IPv4Address>>
+
+//MARK: Facility Instance Info
+//TODO: Move instances out of infrastructure package
+
+extension PFClient {
+	static let meta: (RFIDDetection)->PFMeta? = { detected in
+		TrainRail.trains[detected.id.id]?.info
+	}
+}
+
+extension TrainRail {
+	static let trains : [Data: TrainRegistration] = {
+		let registrations: [TrainRegistration] = [
+			TrainRegistration(
+				info: .init(
+					id: Data(),
+					channel: 0,
+					name: "Unknown",
+					image: .bundled("Train", .module),
+					mode: .single
+				),
+				sound: .none,
+				symbol: try? .init(packed: [0x0f01f811, 0x80180700, 0x60000060])
+			),
+			TrainRegistration(
+				info: .init(
+					id: Data([0xC0, 0x05, 0x1F, 0x3B]),
+					channel: 1,
+					name: "Maersk",
+					image: .bundled("Train", .module),
+					mode: .single
+				),
+				sound: .asset("TrainHorn"),
+				symbol: try? .init(packed: [0xe07f0fd9, 0xbcf3cf3c, 0x63c63c63])
+			),
+			TrainRegistration(
+				info: .init(
+					id: Data([0xF0, 0xBE, 0x1F, 0x3B]),
+					channel: 2,
+					name: "Bare Necessities",
+					image: .bundled("Train", .module),
+					mode: .single
+				),
+				sound: .asset("CatCallWhistle"),
+				symbol: try? .init(packed: [0x20440280, 0x1801a658, 0x6149230c])
+			),
+		]
+		return Dictionary(uniqueKeysWithValues: registrations.map { ($0.info.id, $0) })
+	}()
 }
 
 //MARK: Scanner Inits
@@ -131,53 +188,3 @@ extension MDNSClient {
 		self.init(services: Self.services)
 	}
 }
-
-//MARK: Facility Intance Info
-
-extension PFClient {
-	static let info: [Data: PFMeta] = {
-		let metas: [PFMeta] = [
-			PFMeta(
-				id: Data([0xC0, 0x05, 0x1F, 0x3B]),
-				channel: 1,
-				name: "Maersk",
-				image: .bundled("Train", .module),
-				mode: .single
-			)
-		]
-		return Dictionary(uniqueKeysWithValues: metas.map { ($0.id, $0) })
-	}()
-
-	static let meta: (RFIDDetection)->PFMeta? = { id in
-		PFClient.info[id.id.id]
-	}
-}
-
-extension TrainRail {
-	static let trains : [Data: TrainRegistration] = {
-		let registrations: [TrainRegistration] = [
-			TrainRegistration(
-				id: Data(),
-				name: "Unknown",
-				sound: .none,
-				symbol: try? .init(packed: [0x0f01f811, 0x80180700, 0x60000060])
-			),
-			TrainRegistration(
-				id: Data([0xC0, 0x05, 0x1F, 0x3B]),
-				name: "Maersk",
-				sound: .asset("TrainHorn"),
-				symbol: try? .init(packed: [0xe07f0fd9, 0xbcf3cf3c, 0x63c63c63])
-			),
-			TrainRegistration(
-				id: Data([0xF0, 0xBE, 0x1F, 0x3B]),
-				name: "Bare Necessities",
-				sound: .asset("CatCallWhistle"),
-				symbol: try? .init(packed: [0x20440280, 0x1801a658, 0x6149230c])
-			),
-		]
-		return Dictionary(uniqueKeysWithValues: registrations.map { ($0.id, $0) })
-	}()
-}
-
-public typealias IPv4AddressProperty = BTProperty<BTValueTransformer<IPv4Address>>
-

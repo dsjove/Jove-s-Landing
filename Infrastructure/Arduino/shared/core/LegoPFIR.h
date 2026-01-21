@@ -30,14 +30,14 @@ public:
     Mode mode;
 
     bool operator==(const Command& other) const {
-        return channel == other.channel
-            && port    == other.port
-            && value   == other.value
-            && mode    == other.mode;
+      return channel == other.channel
+        && port == other.port
+        && value == other.value
+        && mode == other.mode;
     }
 
     bool operator!=(const Command& other) const {
-        return !(*this == other);
+      return !(*this == other);
     }
   };
 

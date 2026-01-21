@@ -40,8 +40,8 @@
 		55D1A2F3294EB39F003381C3 /* FacilityDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D1A2D1294EB39F003381C3 /* FacilityDetailView.swift */; };
 		55D1A2F5294EB39F003381C3 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55D1A2D2294EB39F003381C3 /* Media.xcassets */; };
 		55D1A30C294EB39F003381C3 /* GaugeIndicatorsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D1A2DF294EB39F003381C3 /* GaugeIndicatorsView.swift */; };
-		55D1A34A294EB516003381C3 /* JovesLandingApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D1A349294EB516003381C3 /* JovesLandingApp.swift */; };
-		55D1A34C294EB55F003381C3 /* JovesLandingApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D1A349294EB516003381C3 /* JovesLandingApp.swift */; };
+		55D1A34A294EB516003381C3 /* Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D1A349294EB516003381C3 /* Application.swift */; };
+		55D1A34C294EB55F003381C3 /* Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D1A349294EB516003381C3 /* Application.swift */; };
 		55D1A34D294EB564003381C3 /* FacilityDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D1A2D1294EB39F003381C3 /* FacilityDetailView.swift */; };
 		55D1A34E294EB56B003381C3 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55D1A2D2294EB39F003381C3 /* Media.xcassets */; };
 		55D1A359294EB57A003381C3 /* GaugeIndicatorsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D1A2DF294EB39F003381C3 /* GaugeIndicatorsView.swift */; };
@@ -110,7 +110,7 @@
 		55D1A338294EB47B003381C3 /* EngineView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EngineView.swift; sourceTree = "<group>"; };
 		55D1A339294EB47B003381C3 /* MotionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MotionView.swift; sourceTree = "<group>"; };
 		55D1A33A294EB47B003381C3 /* HealthView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HealthView.swift; sourceTree = "<group>"; };
-		55D1A349294EB516003381C3 /* JovesLandingApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JovesLandingApp.swift; sourceTree = "<group>"; };
+		55D1A349294EB516003381C3 /* Application.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Application.swift; sourceTree = "<group>"; };
 		55E4E6852DDB89D8003DB69D /* ESPCamView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ESPCamView.swift; sourceTree = "<group>"; };
 		55E9497C2D93400000D79246 /* MotorizedFacilityControlsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotorizedFacilityControlsView.swift; sourceTree = "<group>"; };
 		55F284182944452700047EF5 /* JovesLanding.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JovesLanding.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -218,7 +218,7 @@
 				55490BD52DAFE74C00D7E433 /* README.md */,
 				55D1A333294EB47B003381C3 /* OldTheJoveExpress */,
 				55D1A2D0294EB39F003381C3 /* Common */,
-				55D1A349294EB516003381C3 /* JovesLandingApp.swift */,
+				55D1A349294EB516003381C3 /* Application.swift */,
 				55F2841A2944452700047EF5 /* JovesLanding */,
 				55F2846729444DD100047EF5 /* TrainConductor Watch App */,
 				556E65C6294D1DD500FCEFD6 /* JovesControl */,
@@ -451,7 +451,7 @@
 				555C8AD22D8F044700EA33E0 /* MotorizedFacilityGauageView.swift in Sources */,
 				550F95062DA0503600C0A34B /* ArduinoDisplayControlView.swift in Sources */,
 				559AB9E02DA08EC000666C1A /* CityStreetsView.swift in Sources */,
-				55D1A34A294EB516003381C3 /* JovesLandingApp.swift in Sources */,
+				55D1A34A294EB516003381C3 /* Application.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -469,7 +469,7 @@
 				55D0C7A72DD8E7210028BFFE /* ViewDidLoadModifier.swift in Sources */,
 				55002C572D8F0FCC003B9952 /* LightIndicatorView.swift in Sources */,
 				55002C582D8F0FCC003B9952 /* MotorIndicatorView.swift in Sources */,
-				55D1A34C294EB55F003381C3 /* JovesLandingApp.swift in Sources */,
+				55D1A34C294EB55F003381C3 /* Application.swift in Sources */,
 				55268B87294B7BF200BA9AC6 /* FacilitiesListView.swift in Sources */,
 				55D1A359294EB57A003381C3 /* GaugeIndicatorsView.swift in Sources */,
 			);

@@ -5,7 +5,6 @@
 //  Created by David Giovannini on 3/27/25.
 //
 
-import Foundation
 import BLEByJove
 
 public struct ArduinoDisplay {
@@ -27,3 +26,4 @@ public struct ArduinoDisplay {
 	public func fullStop() {
 	}
 }
+

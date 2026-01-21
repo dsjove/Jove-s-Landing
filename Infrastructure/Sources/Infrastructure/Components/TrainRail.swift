@@ -11,10 +11,15 @@ import SBJKit
 import Observation
 
 public struct TrainRegistration {
-	public let id: Data
-	public let name: String
+	public let info: PFMeta
 	public let sound: SoundPlayer.Source
 	public let symbol: ArduinoR4Matrix?
+
+    public init(info: PFMeta, sound: SoundPlayer.Source, symbol: ArduinoR4Matrix?) {
+        self.info = info
+        self.sound = sound
+        self.symbol = symbol
+    }
 }
 
 public struct TrainDetection {
@@ -25,7 +30,7 @@ public struct TrainDetection {
 	public let rfid: RFIDDetection
 
 	public var title: String {
-		"\(registration.name) (\(count))"
+		"\(registration.info.name) (\(count))"
 	}
 }
 
@@ -70,7 +75,7 @@ public class TrainRail {
 		if detection.id.isZero {
 			self.currentTrain = nil
 		}
-		else if let currentTrain, currentTrain.registration.id == detection.id.id {
+		else if let currentTrain, currentTrain.registration.info.id == detection.id.id {
 			let timeDiffMS = detection.timestampMS - currentTrain.rfid.timestampMS
 			let anotherRound = timeDiffMS > noiseThresholdMS
 			self.currentTrain = .init(
@@ -119,3 +124,4 @@ public class TrainRail {
 	public func fullStop() {
 	}
 }
+
