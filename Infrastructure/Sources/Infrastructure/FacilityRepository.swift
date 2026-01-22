@@ -20,7 +20,7 @@ public final class FacilityRepository: RFIDConsumer, PFTransmitter {
 	private var facilitiesByDeviceID: [ObjectIdentifier : [UUID: [FacilityEntry]]] = [:]
 	public private(set) var facilities: [FacilityEntry] = []
 
-	private var rfidTokensByDeviceID: [UUID: [ObserveToken2]] = [:]
+	private var rfidTokensByDeviceID: [UUID: [ObserveToken]] = [:]
 
 	public init(createFacilities: @escaping (any DeviceIdentifiable) -> [any Facility]) {
 		self.createFacilities = createFacilities
@@ -28,8 +28,8 @@ public final class FacilityRepository: RFIDConsumer, PFTransmitter {
 
 	public func addScanner<S: DeviceScanner>(_ scanner: S) {
 		scanners.append(scanner)
-		observe(for: self, with: scanner, \.devices) { this, scanner, _ in
-			this.sync(from: scanner)
+		observeValue(of: scanner, \.anyDevices, with: self) { scanner, devices, this in
+			this?.sync(devices, scoped: ObjectIdentifier(scanner))
 		}
 	}
 
@@ -39,10 +39,9 @@ public final class FacilityRepository: RFIDConsumer, PFTransmitter {
 		}
 	}
 
-	private func sync(from scanner: any DeviceScanner) {
-		let scannerDevices = scanner.anyDevices()
+	private func sync(_ scannerDevices: [any DeviceIdentifiable], scoped: ObjectIdentifier) {
 		let scannerDeviceIds = Set(scannerDevices.map(\.id))
-		var scope = facilitiesByDeviceID[ObjectIdentifier(scanner)] ?? [:]
+		var scope = facilitiesByDeviceID[scoped] ?? [:]
 
 		// Given never seen device before
 		for device in scannerDevices where scope[device.id] == nil {
@@ -60,8 +59,8 @@ public final class FacilityRepository: RFIDConsumer, PFTransmitter {
 
 		// Observe RFID producers
 		func observeRFID<P: AnyObject & RFIDProducing>(_ rfidProducer: P, deviceID: UUID) {
-			let token = observe(for: self, with: rfidProducer, \.currentRFID) { this, _, value in
-				guard let value else { return }
+			let token = observeValue(of: rfidProducer, \.currentRFID, with: self) { _, value, this in
+				guard let this, let value else { return }
 				this.consumeRFID(value)
 			}
 			var tokensForDevice = rfidTokensByDeviceID[deviceID] ?? []
@@ -78,7 +77,7 @@ public final class FacilityRepository: RFIDConsumer, PFTransmitter {
 				for token in tokens { token.cancel() }
 			}
 		}
-		facilitiesByDeviceID[ObjectIdentifier(scanner)] = scope
+		facilitiesByDeviceID[scoped] = scope
 		rebuildFacilitiesSorted()
 	}
 

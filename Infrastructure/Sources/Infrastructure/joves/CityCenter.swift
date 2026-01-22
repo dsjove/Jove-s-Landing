@@ -31,7 +31,7 @@ public struct TrainDetection {
 }
 
 @Observable
-public final class CityCenter: PFTransmitter, Facility, RFIDProducing {
+public final class CityCenter: Facility, RFIDProducing, PFTransmitter {
 	public static let Service = BTServiceIdentity(name: "City Center")
 	public var id: UUID { device.id }
 	private let device: BTDevice
@@ -80,8 +80,8 @@ public final class CityCenter: PFTransmitter, Facility, RFIDProducing {
 			self?.connectionState = $0
 		}.store(in: &sink)
 
-		observe(for: self, with: rail, \.currentRFID) { this, _, value in
-			if let value {
+		observeValue(of: rail, \.currentRFID, with: self) { _, value, this in
+			if let this, let value {
 				this.updateCurrentRail(value)
 			}
 		}
