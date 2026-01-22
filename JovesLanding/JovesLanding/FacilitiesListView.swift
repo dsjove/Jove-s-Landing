@@ -40,7 +40,7 @@ struct FacilitiesListView: View {
 			newValue?.value.connect()
 			visibility = newValue != nil ? .detailOnly : .all
 		}
-		.onLoad {
+		.task {
 			facilities.setScanning(true)
 		}
 	}
