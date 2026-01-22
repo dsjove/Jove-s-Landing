@@ -60,8 +60,9 @@ public final class FacilityRepository: RFIDConsumer, PFTransmitter {
 
 		// Observe RFID producers
 		func observeRFID<P: AnyObject & RFIDProducing>(_ rfidProducer: P, deviceID: UUID) {
-			let token = observe(for: self, with: rfidProducer, P.rfid) { this, _, value in
-				this.didDetectRFID(value)
+			let token = observe(for: self, with: rfidProducer, \.currentRFID) { this, _, value in
+				guard let value else { return }
+				this.consumeRFID(value)
 			}
 			var tokensForDevice = rfidTokensByDeviceID[deviceID] ?? []
 			tokensForDevice.append(token)
@@ -81,9 +82,9 @@ public final class FacilityRepository: RFIDConsumer, PFTransmitter {
 		rebuildFacilitiesSorted()
 	}
 
-	public func didDetectRFID(_ detection: RFIDDetection) {
+	public func consumeRFID(_ detection: SampledRFIDDetection) {
 		for scanner in scanners {
-			( (scanner as? RFIDConsumer) )?.didDetectRFID(detection)
+			( (scanner as? RFIDConsumer) )?.consumeRFID(detection)
 		}
 	}
 

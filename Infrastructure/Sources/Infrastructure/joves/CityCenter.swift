@@ -40,7 +40,7 @@ public final class CityCenter: PFTransmitter, Facility, RFIDProducing {
 	public let streetLights: BTLighting
 	public let logoDisplay: ArduinoDisplay
 	public let fpTransmitter: PFBTRransmitter
-	public let rail: RFIDReceiver;
+	public let rail: RFIDProducer;
 
 	public private(set) var connectionState: ConnectionState {
 		didSet {
@@ -66,14 +66,21 @@ public final class CityCenter: PFTransmitter, Facility, RFIDProducing {
 		self.connectionState = device.connectionState
 		self.streetLights = BTLighting(device: device)
 		self.logoDisplay = ArduinoDisplay(device: device)
-		self.rail = RFIDReceiver(device: device)
-		self.fpTransmitter = PFBTRransmitter(device: device)
+		self.rail = RFIDProducer(
+			device: device,
+			component: FacilityPropComponent.motion,
+			category: FacilityPropCategory.address,
+			subCategory: EmptySubCategory(0))
+		self.fpTransmitter = PFBTRransmitter(
+			device: device,
+			component: FacilityPropComponent.motion,
+			category: FacilityPropCategory.power)
 
 		device.$connectionState.dropFirst().sink { [weak self] in
 			self?.connectionState = $0
 		}.store(in: &sink)
 
-		observe(for: self, with: rail, \.current) { this, _, value in
+		observe(for: self, with: rail, \.currentRFID) { this, _, value in
 			if let value {
 				this.updateCurrentRail(value)
 			}
@@ -84,14 +91,6 @@ public final class CityCenter: PFTransmitter, Facility, RFIDProducing {
 	public var image: ImageName { .system("building") }
 	public var name : String { CityCenter.Service.name }
 
-	public static var rfid: KeyPath<CityCenter, BLEByJove.RFIDDetection> {
-		\.rail.received.feedback
-	}
-
-	public func transmit(cmd: PFCommand) {
-		self.fpTransmitter.transmit(cmd: cmd)
-	}
-
 	public func connect() {
 		device.connect()
 	}
@@ -100,8 +99,16 @@ public final class CityCenter: PFTransmitter, Facility, RFIDProducing {
 		device.disconnect()
 	}
 
+	public var currentRFID: BLEByJove.SampledRFIDDetection? {
+		rail.currentRFID
+	}
+
+	public func transmit(cmd: PFCommand) {
+		self.fpTransmitter.transmit(cmd: cmd)
+	}
+
 	private func updateCurrentRail(_ detection: SampledRFIDDetection) {
-		let registration = CityCenter.trains[detection.rfid.id.id] ?? CityCenter.trains[Data()]!
+		let registration = CityCenter.trains[detection.rfid.id] ?? CityCenter.trains[Data()]!
 		self.currentTrain = TrainDetection(rfid: detection, registration: registration)
 		let sound: SoundPlayer.Source
 		let symbol: ArduinoR4Matrix?

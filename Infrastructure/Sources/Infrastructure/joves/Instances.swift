@@ -97,8 +97,8 @@ public typealias IPv4AddressProperty = BTProperty<BTValueTransformer<IPv4Address
 //MARK: Facility Instance Info
 
 extension PFClient {
-	static let meta: (RFIDDetection)->PFMeta? = { detected in
-		CityCenter.trains[detected.id.id]?.info
+	static let meta: (SampledRFIDDetection)->PFMeta? = { detected in
+		CityCenter.trains[detected.rfid.id]?.info
 	}
 }
 
