@@ -36,6 +36,5 @@ struct MotorizedFacilityGauageView<F: MotorizedFacility> : View {
 }
 
 #Preview {
-	MotorizedFacilityGauageView(facility: CityStreets())
 	MotorizedFacilityGauageView(facility: JoveMetroLine())
 }

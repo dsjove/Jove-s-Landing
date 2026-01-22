@@ -32,7 +32,7 @@ public struct FacilityConnectionView<Content: View, F: Facility>: View {
 								facility.disconnect()
 							}
 						}) {
-							Image(systemName: facility.connectionState == .disconnected ?  "cable.connector" : "cable.connector.slash")
+							Image(facility.connectionState.imageName)
 								.resizable()
 								.aspectRatio(contentMode: .fit)
 						}
@@ -57,6 +57,6 @@ public struct FacilityConnectionView<Content: View, F: Facility>: View {
 }
 
 #Preview {
-	FacilityConnectionView(CityStreets(), { _ in Circle().fill() })
+	FacilityConnectionView(CityCenter(), { _ in Circle().fill() })
 	.background(Color.mint)
 }

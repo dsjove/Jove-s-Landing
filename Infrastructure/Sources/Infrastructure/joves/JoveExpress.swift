@@ -5,6 +5,8 @@
 //  Created by David Giovannini on 3/22/25.
 //
 
+//TODO: Move Out of infrastructure package
+
 import Foundation
 import SBJKit
 import BLEByJove
@@ -29,10 +31,6 @@ public class JoveExpress: MotorizedFacility {
 		device.$connectionState.dropFirst().sink { [weak self] in
 			self?.connectionState = $0
 		}.store(in: &sink)
-	}
-
-	public convenience init() {
-		self.init(device: .init(preview: "Sample"))
 	}
 
 	public var category: FacilityCategory { .transportation }

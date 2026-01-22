@@ -14,8 +14,13 @@ struct FacilityHeaderView<F: Facility>: View {
 	let facility: F
 
 	var body: some View {
-		Label(facility.name, image: facility.image)
-	}
+        HStack(spacing: 8) {
+            Image(facility.connectionState.imageName)
+                .symbolRenderingMode(.hierarchical)
+                .foregroundStyle(.secondary)
+            Label(facility.name, image: facility.image)
+        }
+    }
 }
 
 struct FacilityLineView: View {
@@ -26,8 +31,8 @@ struct FacilityLineView: View {
 		{
 		case is JoveMetroLine:
 			FacilityHeaderView(facility: facility as! JoveMetroLine)
-		case is CityStreets:
-			FacilityHeaderView(facility: facility as! CityStreets)
+		case is CityCenter:
+			FacilityHeaderView(facility: facility as! CityCenter)
 		case is JoveExpress:
 			FacilityHeaderView(facility: facility as! JoveExpress)
 		case is ESPCam:
@@ -51,8 +56,8 @@ struct FacilityDetailView: View {
 			{
 			case is JoveMetroLine:
 				MotorizedFacilityView(facility as! JoveMetroLine)
-			case is CityStreets:
-				CityStreetsView(facility: facility as! CityStreets)
+			case is CityCenter:
+				CityCenterView(facility: facility as! CityCenter)
 			case is JoveExpress:
 				MotorizedFacilityView(facility as! JoveExpress)
 			case is ESPCam:

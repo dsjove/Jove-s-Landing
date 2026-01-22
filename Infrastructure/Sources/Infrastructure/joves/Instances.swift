@@ -1,9 +1,11 @@
 //
-//  Facility.swift
+//  Instances.swift
 //  Infrastructure
 //
 //  Created by David Giovannini on 3/26/25.
 //
+
+//TODO: Move Out of infrastructure package
 
 import SBJKit
 import BLEByJove
@@ -25,8 +27,8 @@ extension FacilityRepository {
 				switch btDevice.service {
 					case JoveMetroLine.Service:
 						newFacilities = [JoveMetroLine(device: btDevice)]
-					case CityStreets.Service:
-						newFacilities = [CityStreets(device: btDevice)]
+					case CityCenter.Service:
+						newFacilities = [CityCenter(device: btDevice)]
 					case JoveExpress.Service:
 						newFacilities = [JoveExpress(device: btDevice)]
 					default:
@@ -93,15 +95,30 @@ public extension MotorizedFacility {
 public typealias IPv4AddressProperty = BTProperty<BTValueTransformer<IPv4Address>>
 
 //MARK: Facility Instance Info
-//TODO: Move instances out of infrastructure package
 
 extension PFClient {
 	static let meta: (RFIDDetection)->PFMeta? = { detected in
-		TrainRail.trains[detected.id.id]?.info
+		CityCenter.trains[detected.id.id]?.info
 	}
 }
 
-extension TrainRail {
+extension JoveMetroLine {
+	public convenience init() {
+		self.init(device: .init(preview: "Sample"))
+	}
+}
+
+extension JoveExpress {
+	public convenience init() {
+		self.init(device: .init(preview: "Sample"))
+	}
+}
+
+extension CityCenter {
+	public convenience init() {
+		self.init(device: .init(preview: "Sample"))
+	}
+
 	static let trains : [Data: TrainRegistration] = {
 		let registrations: [TrainRegistration] = [
 			TrainRegistration(
@@ -149,7 +166,7 @@ extension BTClient {
 		self.init(services: {
 			let base = [
 				CircuitCube.Service,
-				CityStreets.Service,
+				CityCenter.Service,
 				JoveExpress.Service,
 			]
 			print(base.map { "\($0.name)=\($0.identifer.uuidString)"})

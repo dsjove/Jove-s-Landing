@@ -41,7 +41,7 @@ struct FacilitiesListView: View {
 			visibility = newValue != nil ? .detailOnly : .all
 		}
 		.onLoad {
-				facilities.setScanning(true)
+			facilities.setScanning(true)
 		}
 	}
 }

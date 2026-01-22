@@ -29,7 +29,7 @@ public class PFFacility: MotorizedFacility {
 	}
 
 	public var hasConnectionState: Bool { false }
-	public var connectionState: BLEByJove.ConnectionState { .connected }
+	public var connectionState: BLEByJove.ConnectionState { device.transmitter.pfConnectionState }
 	public func connect() {}
 	public func disconnect() {}
 

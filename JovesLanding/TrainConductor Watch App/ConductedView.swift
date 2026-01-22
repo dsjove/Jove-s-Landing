@@ -10,7 +10,7 @@ import BLEByJove
 import Infrastructure
 
 typealias JoveMetroLineView = ConductedView<JoveMetroLine>
-typealias CityStreetsView = ConductedView<CityStreets>
+//typealias CityCenterView = ConductedView<CityCenter>
 typealias JoveExpressView = ConductedView<JoveExpress>
 typealias PowerFunctionView = ConductedView<PFFacility>
 
@@ -63,7 +63,9 @@ struct ConductedView<F: MotorizedFacility>: View {
 	var body: some View {
 		MotorizedFacilityGauageView(facility: facility)
 			.onTapGesture(count: 1) {
-				facility.lighting.power.control = facility.lighting.power.control == 0.0 ? 1.0 : 0.0
+				if let lighting = facility.lighting {
+					lighting.power.control = lighting.power.control == 0.0 ? 1.0 : 0.0
+					}
 				}
 				.onLongPressGesture {
 					switch (facility.connectionState) {

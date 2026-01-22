@@ -30,7 +30,7 @@ BLEUUID makeUuidWithService(
       }
     }
     if (serviceName.length() < 12) {
-		result[pos] = '0';
+	  result[pos] = '0';
     }
   }
   return result;
