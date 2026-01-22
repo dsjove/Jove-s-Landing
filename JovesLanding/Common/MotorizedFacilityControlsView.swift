@@ -27,7 +27,7 @@ struct MotorizedFacilityControlsView<Facility: MotorizedFacility>: View {
 					}
 					.frame(height: 44)
 			}
-			if let calibration = facility.motor.calibration {
+			if let calibration = facility.motor.calibration, !facility.motor.readOnlyCalibration {
 				GridRow {
 					Text("Idle").font(.headline)
 					ScrubView(
