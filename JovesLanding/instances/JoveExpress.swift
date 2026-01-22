@@ -22,6 +22,10 @@ public class JoveExpress: MotorizedFacility {
 
 	public let motor: BTMotor
 	public let lighting: BTLighting?
+	
+	public convenience init() {
+		self.init(device: .init(preview: "Sample"))
+	}
 
 	public init(device: BTDevice) {
 		self.device = device

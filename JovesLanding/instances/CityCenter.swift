@@ -49,6 +49,10 @@ public final class CityCenter: Facility, RFIDProducing, PFTransmitter {
 	}
 
 	public private(set) var currentTrain: TrainDetection?
+	
+	public convenience init() {
+		self.init(device: .init(preview: "Sample"))
+	}
 
 	public init(device: BTDevice) {
 		self.device = device
@@ -98,7 +102,7 @@ public final class CityCenter: Facility, RFIDProducing, PFTransmitter {
 	}
 
 	private func updateCurrentRail(_ detection: SampledRFIDDetection) {
-		let registration = CityCenter.trains[detection.rfid.id] ?? CityCenter.trains[Data()]!
+		let registration = CityCenter.registrations[detection.rfid.id] ?? CityCenter.registrations[Data()]!
 		self.currentTrain = TrainDetection(rfid: detection, registration: registration)
 		let sound: SoundPlayer.Source
 		let symbol: ArduinoR4Matrix?

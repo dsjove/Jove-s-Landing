@@ -23,6 +23,10 @@ public class JoveMetroLine: MotorizedFacility {
 
 	nonisolated public let heartBeatSpec : (delay: Int, interval: Int) = (1000, 30)
 
+	public convenience init() {
+		self.init(device: .init(preview: "Sample"))
+	}
+
 	public init(device: BTDevice) {
 		self.id = device.id
 		self.cube = CircuitCube(device: device)
