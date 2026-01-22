@@ -33,6 +33,7 @@ struct CityCenterView: View {
 				}
 			}
 		}
+		.navigationBarTitle(facility.name)
 		.sheet(isPresented: $showOverlay) {
 			ArduinoDisplayControlView(display: facility.logoDisplay.power)
 		}

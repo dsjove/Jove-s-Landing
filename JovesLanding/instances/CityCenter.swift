@@ -14,21 +14,9 @@ import Combine
 import Observation
 import SBJLego
 
-public struct TrainRegistration {
-	public let info: PFMeta
-	public let sound: SoundPlayer.Source
-	public let symbol: ArduinoR4Matrix?
-
-    public init(info: PFMeta, sound: SoundPlayer.Source, symbol: ArduinoR4Matrix?) {
-		self.info = info
-		self.sound = sound
-		self.symbol = symbol
-	}
-}
-
 public struct TrainDetection {
 	let rfid: SampledRFIDDetection
-	let registration: TrainRegistration
+	let registration: PFFacilityRegistration
 }
 
 @Observable

@@ -12,51 +12,63 @@ import BLEByJove
 import Foundation
 import SBJLego
 
+public struct PFFacilityRegistration: PFFacilityMeta {
+	public let id: Data
+	public let channel: UInt8
+	public var mode: BLEByJove.PFMode = .single
+	public var timeout: TimeInterval = 0
+
+	public let category: FacilityCategory
+	public let name: String
+	public let image: SBJKit.ImageName
+
+	public var sound: SoundPlayer.Source = .none
+	public var symbol: ArduinoR4Matrix? = nil
+}
+
 //MARK: Facility Creation
 
 extension FacilityRepository {
 	public convenience init() {
 		self.init() { device in
-			let newFacilities: [any Facility]
 			if let btDevice = device as? BTDevice {
 				switch btDevice.service {
 					case JoveMetroLine.Service:
-						newFacilities = [JoveMetroLine(device: btDevice)]
+						[JoveMetroLine(device: btDevice)]
 					case CityCenter.Service:
-						newFacilities = [CityCenter(device: btDevice)]
+						[CityCenter(device: btDevice)]
 					case JoveExpress.Service:
-						newFacilities = [JoveExpress(device: btDevice)]
+						[JoveExpress(device: btDevice)]
 					default:
-						newFacilities = [UnsupportedFacility(name: btDevice.name)]
+						[UnsupportedFacility(name: btDevice.name)]
 				}
 			}
 			else if let mDNSDevice = device as? MDNSDevice {
 				switch mDNSDevice.service {
 					case ESPCam.Service:
-						newFacilities = [ESPCam(device: mDNSDevice)]
+						[ESPCam(device: mDNSDevice)]
 					default:
-						newFacilities = [UnsupportedFacility(name: mDNSDevice.name)]
+						[UnsupportedFacility(name: mDNSDevice.name)]
 				}
 			}
-			else if let pfDevice = device as? PFDevice {
-				newFacilities = [PFFacility(device: pfDevice, category: .transportation)]
+			else if let pfDevice = device as? PFDevice<PFFacilityRegistration> {
+				[PFFacility(device: pfDevice)]
 			}
 			else {
-				newFacilities = [UnsupportedFacility(name: device.name)]
+				[UnsupportedFacility(name: "Unknown")]
 			}
-			return newFacilities
 		}
 		addScanner(BTClient())
 		addScanner(MDNSClient())
-		addScanner(PFClient(transmitter: self))
+		addScanner(PFClient<PFFacilityRegistration>(transmitter: self))
 	}
 }
 
 //MARK: Facility Instance Info
 
-extension PFClient {
-	static let meta: (SampledRFIDDetection)->PFMeta? = { detected in
-		CityCenter.trains[detected.rfid.id]?.info
+extension PFClient<PFFacilityRegistration> {
+	static let meta: (SampledRFIDDetection)->PFFacilityRegistration? = { detected in
+		CityCenter.trains[detected.rfid.id]
 	}
 }
 
@@ -77,44 +89,37 @@ extension CityCenter {
 		self.init(device: .init(preview: "Sample"))
 	}
 
-	static let trains : [Data: TrainRegistration] = {
-		let registrations: [TrainRegistration] = [
-			TrainRegistration(
-				info: .init(
-					id: Data(),
-					channel: 0,
-					name: "Unknown",
-					image: .bundled("Train", SBJLego.Resources.bundle),
-					mode: .single
-				),
-				sound: .none,
+	static let trains : [Data: PFFacilityRegistration] = {
+		let registrations: [PFFacilityRegistration] = [
+			PFFacilityRegistration(
+				id: Data(),
+				channel: 0,
+				category: FacilityCategory.transportation,
+				name: "Unknown",
+				image: .bundled("Train", SBJLego.Resources.bundle),
 				symbol: try? .init(packed: [0x0f01f811, 0x80180700, 0x60000060])
 			),
-			TrainRegistration(
-				info: .init(
-					id: Data([0xC0, 0x05, 0x1F, 0x3B]),
-					channel: 1,
-					name: "Maersk",
-					image: .bundled("Train", SBJLego.Resources.bundle),
-					mode: .single
-				),
+			PFFacilityRegistration(
+				id: Data([0xC0, 0x05, 0x1F, 0x3B]),
+				channel: 1,
+				category: FacilityCategory.transportation,
+				name: "Maersk",
+				image: .bundled("Train", SBJLego.Resources.bundle),
 				sound: .asset("TrainHorn"),
 				symbol: try? .init(packed: [0xe07f0fd9, 0xbcf3cf3c, 0x63c63c63])
 			),
-			TrainRegistration(
-				info: .init(
-					id: Data([0xF0, 0xBE, 0x1F, 0x3B]),
-					channel: 2,
-					name: "Bare Necessities",
-					image: .bundled("Train", SBJLego.Resources.bundle),
-					mode: .single,
-					timeout: 30
-				),
+			PFFacilityRegistration(
+				id: Data([0xF0, 0xBE, 0x1F, 0x3B]),
+				channel: 2,
+				timeout: 30,
+				category: FacilityCategory.transportation,
+				name: "Bare Necessities",
+				image: .bundled("Train", SBJLego.Resources.bundle),
 				sound: .asset("CatCallWhistle"),
 				symbol: try? .init(packed: [0x20440280, 0x1801a658, 0x6149230c])
 			),
 		]
-		return Dictionary(uniqueKeysWithValues: registrations.map { ($0.info.id, $0) })
+		return Dictionary(uniqueKeysWithValues: registrations.map { ($0.id, $0) })
 	}()
 }
 
@@ -134,7 +139,7 @@ extension BTClient {
 	}
 }
 
-extension PFClient {
+extension PFClient<PFFacilityRegistration> {
 	public convenience init(transmitter: PFTransmitter) {
 		self.init(meta: PFClient.meta, transmitter: transmitter)
 	}

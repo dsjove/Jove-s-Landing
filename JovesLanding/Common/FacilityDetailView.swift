@@ -37,8 +37,8 @@ struct FacilityLineView: View {
 			FacilityHeaderView(facility: facility as! JoveExpress)
 		case is ESPCam:
 			FacilityHeaderView(facility: facility as! ESPCam)
-		case is PFFacility:
-			FacilityHeaderView(facility: facility as! PFFacility)
+		case is PFFacility<PFFacilityRegistration>:
+			FacilityHeaderView(facility: facility as! PFFacility<PFFacilityRegistration>)
 		case is UnsupportedFacility:
 			FacilityHeaderView(facility: facility as! UnsupportedFacility)
 		default:
@@ -62,8 +62,8 @@ struct FacilityDetailView: View {
 				MotorizedFacilityView(facility as! JoveExpress)
 			case is ESPCam:
 				ESPCamView(facility: facility as! ESPCam)
-			case is PFFacility:
-				MotorizedFacilityView(facility as! PFFacility)
+			case is PFFacility<PFFacilityRegistration>:
+				MotorizedFacilityView(facility as! PFFacility<PFFacilityRegistration>)
 			case is UnsupportedFacility:
 				NotSupportedView(text: "Unsupported \(facility.name)")
 			default:
