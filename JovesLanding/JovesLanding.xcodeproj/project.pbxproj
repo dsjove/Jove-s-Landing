@@ -16,6 +16,14 @@
 		55002C612D8F0FCC003B9952 /* LightIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55002C512D8F0FCC003B9952 /* LightIndicatorView.swift */; };
 		55002C622D8F0FCC003B9952 /* MotorIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55002C522D8F0FCC003B9952 /* MotorIndicatorView.swift */; };
 		5508269C2F2289B100D44BBC /* SBJLego in Frameworks */ = {isa = PBXBuildFile; productRef = 5508269B2F2289B100D44BBC /* SBJLego */; };
+		550826E22F229AF000D44BBC /* JoveMetroLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550826E12F229AC600D44BBC /* JoveMetroLine.swift */; };
+		550826E32F229AF000D44BBC /* Instances.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550826DF2F229AC600D44BBC /* Instances.swift */; };
+		550826E42F229AF000D44BBC /* CityCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550826DE2F229AC600D44BBC /* CityCenter.swift */; };
+		550826E52F229AF000D44BBC /* JoveExpress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550826E02F229AC600D44BBC /* JoveExpress.swift */; };
+		550826E62F229AF000D44BBC /* CityCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550826DE2F229AC600D44BBC /* CityCenter.swift */; };
+		550826E72F229AF000D44BBC /* Instances.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550826DF2F229AC600D44BBC /* Instances.swift */; };
+		550826E82F229AF000D44BBC /* JoveMetroLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550826E12F229AC600D44BBC /* JoveMetroLine.swift */; };
+		550826E92F229AF000D44BBC /* JoveExpress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550826E02F229AC600D44BBC /* JoveExpress.swift */; };
 		550F95062DA0503600C0A34B /* ArduinoDisplayControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550F95042DA0503400C0A34B /* ArduinoDisplayControlView.swift */; };
 		55268B87294B7BF200BA9AC6 /* FacilitiesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55268B86294B7BF200BA9AC6 /* FacilitiesListView.swift */; };
 		5534ECE12F22886C0076FF29 /* SBJLego in Frameworks */ = {isa = PBXBuildFile; productRef = 5534ECE02F22886C0076FF29 /* SBJLego */; };
@@ -84,6 +92,10 @@
 		55002C4F2D8F0FCC003B9952 /* ConnectionIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionIndicatorView.swift; sourceTree = "<group>"; };
 		55002C512D8F0FCC003B9952 /* LightIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightIndicatorView.swift; sourceTree = "<group>"; };
 		55002C522D8F0FCC003B9952 /* MotorIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotorIndicatorView.swift; sourceTree = "<group>"; };
+		550826DE2F229AC600D44BBC /* CityCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityCenter.swift; sourceTree = "<group>"; };
+		550826DF2F229AC600D44BBC /* Instances.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Instances.swift; sourceTree = "<group>"; };
+		550826E02F229AC600D44BBC /* JoveExpress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoveExpress.swift; sourceTree = "<group>"; };
+		550826E12F229AC600D44BBC /* JoveMetroLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoveMetroLine.swift; sourceTree = "<group>"; };
 		550F95042DA0503400C0A34B /* ArduinoDisplayControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArduinoDisplayControlView.swift; sourceTree = "<group>"; };
 		55268B86294B7BF200BA9AC6 /* FacilitiesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacilitiesListView.swift; sourceTree = "<group>"; };
 		554740D82954F49B00948BBB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -115,7 +127,8 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		5534EC7D2F2282710076FF29 /* instances */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = instances; sourceTree = "<group>"; };
+		550826B72F228C9200D44BBC /* OldTheJoveExpress */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = OldTheJoveExpress; sourceTree = "<group>"; };
+		550826B82F228D2400D44BBC /* Arduino */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Arduino; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -157,6 +170,18 @@
 			path = Indicators;
 			sourceTree = "<group>";
 		};
+		5508269D2F228C7E00D44BBC /* instances */ = {
+			isa = PBXGroup;
+			children = (
+				550826B72F228C9200D44BBC /* OldTheJoveExpress */,
+				550826DE2F229AC600D44BBC /* CityCenter.swift */,
+				550826DF2F229AC600D44BBC /* Instances.swift */,
+				550826E02F229AC600D44BBC /* JoveExpress.swift */,
+				550826E12F229AC600D44BBC /* JoveMetroLine.swift */,
+			);
+			path = instances;
+			sourceTree = "<group>";
+		};
 		556E65C6294D1DD500FCEFD6 /* JovesControl */ = {
 			isa = PBXGroup;
 			children = (
@@ -195,8 +220,9 @@
 			isa = PBXGroup;
 			children = (
 				55490BD52DAFE74C00D7E433 /* README.md */,
+				550826B82F228D2400D44BBC /* Arduino */,
 				55D1A2D0294EB39F003381C3 /* Common */,
-				5534EC7D2F2282710076FF29 /* instances */,
+				5508269D2F228C7E00D44BBC /* instances */,
 				55D1A349294EB516003381C3 /* Application.swift */,
 				55F2841A2944452700047EF5 /* JovesLanding */,
 				55F2846729444DD100047EF5 /* TrainConductor Watch App */,
@@ -278,6 +304,9 @@
 			);
 			dependencies = (
 			);
+			fileSystemSynchronizedGroups = (
+				550826B82F228D2400D44BBC /* Arduino */,
+			);
 			name = JovesLanding;
 			packageProductDependencies = (
 				557513502DA8531800E73784 /* SbjGauge */,
@@ -317,6 +346,9 @@
 			buildRules = (
 			);
 			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				550826B82F228D2400D44BBC /* Arduino */,
 			);
 			name = "TrainConductor Watch App";
 			packageProductDependencies = (
@@ -416,6 +448,10 @@
 			files = (
 				55E4E6862DDB89E2003DB69D /* ESPCamView.swift in Sources */,
 				55D0C7A62DD8E7210028BFFE /* ViewDidLoadModifier.swift in Sources */,
+				550826E22F229AF000D44BBC /* JoveMetroLine.swift in Sources */,
+				550826E32F229AF000D44BBC /* Instances.swift in Sources */,
+				550826E42F229AF000D44BBC /* CityCenter.swift in Sources */,
+				550826E52F229AF000D44BBC /* JoveExpress.swift in Sources */,
 				55E9497F2D93400100D79246 /* MotorizedFacilityControlsView.swift in Sources */,
 				55D1A2F3294EB39F003381C3 /* FacilityDetailView.swift in Sources */,
 				5563228B2F1E6A6000679EBE /* MotorizedFacilityView.swift in Sources */,
@@ -439,6 +475,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				550826E62F229AF000D44BBC /* CityCenter.swift in Sources */,
+				550826E72F229AF000D44BBC /* Instances.swift in Sources */,
+				550826E82F229AF000D44BBC /* JoveMetroLine.swift in Sources */,
+				550826E92F229AF000D44BBC /* JoveExpress.swift in Sources */,
 				555C8AD32D8F044700EA33E0 /* MotorizedFacilityGauageView.swift in Sources */,
 				55A0DE8C2D9F08BA00FCA504 /* HVStack.swift in Sources */,
 				55D1A34D294EB564003381C3 /* FacilityDetailView.swift in Sources */,
@@ -615,8 +655,10 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.softwarebyjove.JovesLanding;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -647,7 +689,9 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.softwarebyjove.JovesLanding;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
