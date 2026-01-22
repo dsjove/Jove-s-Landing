@@ -14,14 +14,24 @@ struct CityCenterView: View {
 	@State private var showOverlay = false
 
 	var body: some View {
-		FacilityConnectionView(facility) { facility in
-			ArduinoR4MatrixView(value: facility.logoDisplay.power.feedback)
-				.frame(maxWidth: 240)
-				.highPriorityGesture(
-					TapGesture().onEnded {
-						showOverlay = true
+		ZStack {
+			Image("Metal")
+				.resizable()
+				.ignoresSafeArea()
+			FacilityConnectionView(facility) { facility in
+				VStack {
+					Grid(alignment: .leading, horizontalSpacing: 12) {
+						LightingControlsView(lighting: facility.streetLights)
 					}
-				)
+					ArduinoR4MatrixView(value: facility.logoDisplay.power.feedback)
+						.frame(maxWidth: 240)
+						.highPriorityGesture(
+							TapGesture().onEnded {
+								showOverlay = true
+							}
+						)
+				}
+			}
 		}
 		.sheet(isPresented: $showOverlay) {
 			ArduinoDisplayControlView(display: facility.logoDisplay.power)

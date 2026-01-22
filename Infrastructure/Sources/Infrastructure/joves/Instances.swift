@@ -149,7 +149,8 @@ extension CityCenter {
 					channel: 2,
 					name: "Bare Necessities",
 					image: .bundled("Train", .module),
-					mode: .single
+					mode: .single,
+					timeout: 30
 				),
 				sound: .asset("CatCallWhistle"),
 				symbol: try? .init(packed: [0x20440280, 0x1801a658, 0x6149230c])

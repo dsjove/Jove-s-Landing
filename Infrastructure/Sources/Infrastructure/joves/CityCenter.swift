@@ -37,8 +37,9 @@ public final class CityCenter: PFTransmitter, Facility, RFIDProducing {
 	private let device: BTDevice
 	private var sink: Set<AnyCancellable> = []
 
-	public let streetLights: BTLighting?
+	public let streetLights: BTLighting
 	public let logoDisplay: ArduinoDisplay
+	public let fpTransmitter: PFBTRransmitter
 	public let rail: RFIDReceiver;
 
 	public private(set) var connectionState: ConnectionState {
@@ -66,6 +67,7 @@ public final class CityCenter: PFTransmitter, Facility, RFIDProducing {
 		self.streetLights = BTLighting(device: device)
 		self.logoDisplay = ArduinoDisplay(device: device)
 		self.rail = RFIDReceiver(device: device)
+		self.fpTransmitter = PFBTRransmitter(device: device)
 
 		device.$connectionState.dropFirst().sink { [weak self] in
 			self?.connectionState = $0
@@ -79,7 +81,7 @@ public final class CityCenter: PFTransmitter, Facility, RFIDProducing {
 	}
 
 	public var category: FacilityCategory { .transportation }
-	public var image: ImageName { .system("car") }
+	public var image: ImageName { .system("building") }
 	public var name : String { CityCenter.Service.name }
 
 	public static var rfid: KeyPath<CityCenter, BLEByJove.RFIDDetection> {
@@ -87,10 +89,7 @@ public final class CityCenter: PFTransmitter, Facility, RFIDProducing {
 	}
 
 	public func transmit(cmd: PFCommand) {
-		let pfChar = BTCharacteristicIdentity(
-				component: FacilityPropComponent.motion,
-				category: FacilityPropCategory.power)
-		device.send(data: cmd.pack(), to: pfChar)
+		self.fpTransmitter.transmit(cmd: cmd)
 	}
 
 	public func connect() {
@@ -127,14 +126,14 @@ public final class CityCenter: PFTransmitter, Facility, RFIDProducing {
 	}
 
 	public func reset() {
-		self.streetLights?.reset()
+		self.streetLights.reset()
 		self.logoDisplay.reset()
 		self.rail.reset()
 		self.currentTrain = nil
 	}
 
 	public func fullStop() {
-		self.streetLights?.fullStop()
+		self.streetLights.fullStop()
 		self.logoDisplay.fullStop()
 		self.currentTrain = nil
 	}

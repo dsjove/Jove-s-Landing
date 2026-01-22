@@ -79,3 +79,12 @@ uint64_t decoded = 0;
 size_t consumed = 0;
 bool ok = decodeULEB128_u64(buf, n, decoded, consumed);
  */
+ 
+//#include <EEPROM.h>
+//const int _epromIdxFirstRun = 0;
+//bool _firstRun = true;
+  //_firstRun = EEPROM.read(_epromIdxFirstRun) == 0;
+  //if (_firstRun) {
+    //Serial.println("First Run!");
+    //EEPROM.write(_epromIdxFirstRun, 1);
+  //}
