@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import Infrastructure
+import SBJLego
 import SbjGauge
 
 struct MotorizedFacilityControlsView<Facility: MotorizedFacility>: View {

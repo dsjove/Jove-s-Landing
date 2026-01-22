@@ -8,7 +8,7 @@
 import SwiftUI
 import SBJKit
 import BLEByJove
-import Infrastructure
+import SBJLego
 
 struct FacilityHeaderView<F: Facility>: View {
 	let facility: F

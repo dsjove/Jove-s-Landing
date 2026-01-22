@@ -5,7 +5,7 @@
 //  Created by Federico on 16/04/2022.
 //
 import SwiftUI
-import Infrastructure
+import SBJLego
 
 struct BatteryIndicatorView: View {
 	let progress: Double

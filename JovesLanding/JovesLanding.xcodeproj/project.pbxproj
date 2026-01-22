@@ -15,10 +15,10 @@
 		55002C602D8F0FCC003B9952 /* BatteryIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55002C4E2D8F0FCC003B9952 /* BatteryIndicatorView.swift */; };
 		55002C612D8F0FCC003B9952 /* LightIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55002C512D8F0FCC003B9952 /* LightIndicatorView.swift */; };
 		55002C622D8F0FCC003B9952 /* MotorIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55002C522D8F0FCC003B9952 /* MotorIndicatorView.swift */; };
+		5508269C2F2289B100D44BBC /* SBJLego in Frameworks */ = {isa = PBXBuildFile; productRef = 5508269B2F2289B100D44BBC /* SBJLego */; };
 		550F95062DA0503600C0A34B /* ArduinoDisplayControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550F95042DA0503400C0A34B /* ArduinoDisplayControlView.swift */; };
 		55268B87294B7BF200BA9AC6 /* FacilitiesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55268B86294B7BF200BA9AC6 /* FacilitiesListView.swift */; };
-		554740DC2954F4AC00948BBB /* Infrastructure in Frameworks */ = {isa = PBXBuildFile; productRef = 554740DB2954F4AC00948BBB /* Infrastructure */; };
-		554740E02954F4BC00948BBB /* Infrastructure in Frameworks */ = {isa = PBXBuildFile; productRef = 554740DF2954F4BC00948BBB /* Infrastructure */; };
+		5534ECE12F22886C0076FF29 /* SBJLego in Frameworks */ = {isa = PBXBuildFile; productRef = 5534ECE02F22886C0076FF29 /* SBJLego */; };
 		555C8AD22D8F044700EA33E0 /* MotorizedFacilityGauageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555C8AD12D8F044700EA33E0 /* MotorizedFacilityGauageView.swift */; };
 		555C8AD32D8F044700EA33E0 /* MotorizedFacilityGauageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555C8AD12D8F044700EA33E0 /* MotorizedFacilityGauageView.swift */; };
 		5563228B2F1E6A6000679EBE /* MotorizedFacilityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5563228A2F1E6A6000679EBE /* MotorizedFacilityView.swift */; };
@@ -123,8 +123,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				554740DC2954F4AC00948BBB /* Infrastructure in Frameworks */,
 				557A2E072EFD90550052A30F /* SBJKit in Frameworks */,
+				5508269C2F2289B100D44BBC /* SBJLego in Frameworks */,
 				5575135A2DA87BA800E73784 /* BLEByJove in Frameworks */,
 				557513512DA8531800E73784 /* SbjGauge in Frameworks */,
 			);
@@ -134,9 +134,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				554740E02954F4BC00948BBB /* Infrastructure in Frameworks */,
 				557A2E092EFD90600052A30F /* SBJKit in Frameworks */,
 				5575135C2DA87BB400E73784 /* BLEByJove in Frameworks */,
+				5534ECE12F22886C0076FF29 /* SBJLego in Frameworks */,
 				557513532DA8532C00E73784 /* SbjGauge in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -280,10 +280,10 @@
 			);
 			name = JovesLanding;
 			packageProductDependencies = (
-				554740DB2954F4AC00948BBB /* Infrastructure */,
 				557513502DA8531800E73784 /* SbjGauge */,
 				557513592DA87BA800E73784 /* BLEByJove */,
 				557A2E062EFD90550052A30F /* SBJKit */,
+				5508269B2F2289B100D44BBC /* SBJLego */,
 			);
 			productName = JovesLanding;
 			productReference = 55F284182944452700047EF5 /* JovesLanding.app */;
@@ -320,10 +320,10 @@
 			);
 			name = "TrainConductor Watch App";
 			packageProductDependencies = (
-				554740DF2954F4BC00948BBB /* Infrastructure */,
 				557513522DA8532C00E73784 /* SbjGauge */,
 				5575135B2DA87BB400E73784 /* BLEByJove */,
 				557A2E082EFD90600052A30F /* SBJKit */,
+				5534ECE02F22886C0076FF29 /* SBJLego */,
 			);
 			productName = "TrainConductor Watch App";
 			productReference = 55F2846329444DD100047EF5 /* TrainConductor Watch App.app */;
@@ -366,6 +366,7 @@
 				5575134F2DA8521500E73784 /* XCLocalSwiftPackageReference "../../../GitHub/SbjGauge" */,
 				557513562DA87B8500E73784 /* XCLocalSwiftPackageReference "../../../GitHub/BLEByJove" */,
 				557A2E052EFD90460052A30F /* XCLocalSwiftPackageReference "../../SBJKit" */,
+				5534ECDF2F22886C0076FF29 /* XCLocalSwiftPackageReference "../../SBJLego" */,
 			);
 			productRefGroup = 55F284192944452700047EF5 /* Products */;
 			projectDirPath = "";
@@ -793,6 +794,10 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
+		5534ECDF2F22886C0076FF29 /* XCLocalSwiftPackageReference "../../SBJLego" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../../SBJLego;
+		};
 		5575134F2DA8521500E73784 /* XCLocalSwiftPackageReference "../../../GitHub/SbjGauge" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = ../../../GitHub/SbjGauge;
@@ -819,13 +824,14 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		554740DB2954F4AC00948BBB /* Infrastructure */ = {
+		5508269B2F2289B100D44BBC /* SBJLego */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = Infrastructure;
+			package = 5534ECDF2F22886C0076FF29 /* XCLocalSwiftPackageReference "../../SBJLego" */;
+			productName = SBJLego;
 		};
-		554740DF2954F4BC00948BBB /* Infrastructure */ = {
+		5534ECE02F22886C0076FF29 /* SBJLego */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = Infrastructure;
+			productName = SBJLego;
 		};
 		557513502DA8531800E73784 /* SbjGauge */ = {
 			isa = XCSwiftPackageProductDependency;

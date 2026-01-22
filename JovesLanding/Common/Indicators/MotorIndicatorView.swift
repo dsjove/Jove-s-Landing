@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import Infrastructure
+import SBJLego
 
 struct MotorIndicatorView: View {
 	var image: Image = Image(systemName: "train.side.front.car")

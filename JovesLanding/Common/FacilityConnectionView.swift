@@ -7,7 +7,7 @@
 
 import SwiftUI
 import BLEByJove
-import Infrastructure
+import SBJLego
 
 public struct FacilityConnectionView<Content: View, F: Facility>: View {
 	let facility: F

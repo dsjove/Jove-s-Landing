@@ -7,7 +7,7 @@
 
 import SwiftUI
 import SBJKit
-import Infrastructure
+import SBJLego
 import SbjGauge
 
 struct MotorizedFacilityGauageView<F: MotorizedFacility> : View {

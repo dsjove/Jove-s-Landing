@@ -7,7 +7,7 @@
 
 import SwiftUI
 import BLEByJove
-import Infrastructure
+import SBJLego
 
 struct FacilitiesListView: View {
 	var facilities: FacilityRepository

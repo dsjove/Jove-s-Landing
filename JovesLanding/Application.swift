@@ -7,7 +7,7 @@
 
 import SwiftUI
 import BLEByJove
-import Infrastructure
+import SBJLego
 
 @main
 struct Application: App {

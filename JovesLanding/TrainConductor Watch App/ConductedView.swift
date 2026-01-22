@@ -7,7 +7,7 @@
 
 import SwiftUI
 import BLEByJove
-import Infrastructure
+import SBJLego
 
 typealias JoveMetroLineView = ConductedView<JoveMetroLine>
 //typealias CityCenterView = ConductedView<CityCenter>

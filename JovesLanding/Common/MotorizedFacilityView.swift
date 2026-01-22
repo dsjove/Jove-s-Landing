@@ -7,7 +7,7 @@
 
 
 import SwiftUI
-import Infrastructure
+import SBJLego
 import BLEByJove
 
 struct MotorizedFacilityView<Facility: MotorizedFacility, FacilitySpecializationView: View>: View {
