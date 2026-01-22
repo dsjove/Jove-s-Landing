@@ -10,6 +10,11 @@ public struct FacilityCategory: Hashable, Sendable {
 	}
 }
 
+public extension FacilityCategory {
+	static let transportation = FacilityCategory("transportation")
+	static let housing = FacilityCategory("housing")
+}
+
 public protocol HardwareConnecting {
 	var hasConnectionState: Bool { get }
 	var autoConnects: Bool { get }
@@ -44,4 +49,22 @@ public extension Facility {
 	var canSetName: Bool { false }
 	func change(name: String) {}
 	var battery: Double? { nil }
+}
+
+@Observable
+public class UnsupportedFacility: Facility {
+	public let id = UUID()
+	public let name: String
+	public let category: FacilityCategory = .transportation
+	public let image: ImageName = .system("questionmark.diamond")
+
+	public let connectionState: BLEByJove.ConnectionState = .disconnected
+
+	public init(name: String) {
+		self.name = name
+	}
+
+	public func connect() {}
+	public func fullStop() {}
+	public func disconnect() {}
 }

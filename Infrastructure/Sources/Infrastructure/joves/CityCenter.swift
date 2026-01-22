@@ -80,6 +80,7 @@ public final class CityCenter: Facility, RFIDProducing, PFTransmitter {
 			self?.connectionState = $0
 		}.store(in: &sink)
 
+		//TODO: if another device removes self.currentTrain, set to nil
 		observeValue(of: rail, \.currentRFID, with: self) { _, value, this in
 			if let this, let value {
 				this.updateCurrentRail(value)

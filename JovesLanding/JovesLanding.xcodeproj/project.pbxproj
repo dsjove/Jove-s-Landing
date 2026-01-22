@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 60;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -99,17 +99,8 @@
 		55A730732D9B4738005CA3C1 /* FacilityConnectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacilityConnectionView.swift; sourceTree = "<group>"; };
 		55D1A2D1294EB39F003381C3 /* FacilityDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FacilityDetailView.swift; sourceTree = "<group>"; };
 		55D1A2D2294EB39F003381C3 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
-		55D1A2D6294EB39F003381C3 /* CheckboxStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckboxStyle.swift; sourceTree = "<group>"; };
 		55D1A2D9294EB39F003381C3 /* ViewDidLoadModifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewDidLoadModifier.swift; sourceTree = "<group>"; };
-		55D1A2DA294EB39F003381C3 /* ContentWebView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentWebView.swift; sourceTree = "<group>"; };
 		55D1A2DF294EB39F003381C3 /* GaugeIndicatorsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GaugeIndicatorsView.swift; sourceTree = "<group>"; };
-		55D1A334294EB47B003381C3 /* TheJoveExpressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TheJoveExpressView.swift; sourceTree = "<group>"; };
-		55D1A335294EB47B003381C3 /* ConnectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionView.swift; sourceTree = "<group>"; };
-		55D1A336294EB47B003381C3 /* LightsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LightsView.swift; sourceTree = "<group>"; };
-		55D1A337294EB47B003381C3 /* CameraView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
-		55D1A338294EB47B003381C3 /* EngineView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EngineView.swift; sourceTree = "<group>"; };
-		55D1A339294EB47B003381C3 /* MotionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MotionView.swift; sourceTree = "<group>"; };
-		55D1A33A294EB47B003381C3 /* HealthView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HealthView.swift; sourceTree = "<group>"; };
 		55D1A349294EB516003381C3 /* Application.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Application.swift; sourceTree = "<group>"; };
 		55E4E6852DDB89D8003DB69D /* ESPCamView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ESPCamView.swift; sourceTree = "<group>"; };
 		55E9497C2D93400000D79246 /* MotorizedFacilityControlsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotorizedFacilityControlsView.swift; sourceTree = "<group>"; };
@@ -122,6 +113,10 @@
 		55F2846F29444DD200047EF5 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		55F284882944583100047EF5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		5534EC7D2F2282710076FF29 /* instances */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = instances; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		55F284152944452700047EF5 /* Frameworks */ = {
@@ -196,28 +191,12 @@
 			path = Common;
 			sourceTree = "<group>";
 		};
-		55D1A333294EB47B003381C3 /* OldTheJoveExpress */ = {
-			isa = PBXGroup;
-			children = (
-				55D1A334294EB47B003381C3 /* TheJoveExpressView.swift */,
-				55D1A335294EB47B003381C3 /* ConnectionView.swift */,
-				55D1A336294EB47B003381C3 /* LightsView.swift */,
-				55D1A337294EB47B003381C3 /* CameraView.swift */,
-				55D1A338294EB47B003381C3 /* EngineView.swift */,
-				55D1A339294EB47B003381C3 /* MotionView.swift */,
-				55D1A33A294EB47B003381C3 /* HealthView.swift */,
-				55D1A2D6294EB39F003381C3 /* CheckboxStyle.swift */,
-				55D1A2DA294EB39F003381C3 /* ContentWebView.swift */,
-			);
-			path = OldTheJoveExpress;
-			sourceTree = "<group>";
-		};
 		55F2840F2944452700047EF5 = {
 			isa = PBXGroup;
 			children = (
 				55490BD52DAFE74C00D7E433 /* README.md */,
-				55D1A333294EB47B003381C3 /* OldTheJoveExpress */,
 				55D1A2D0294EB39F003381C3 /* Common */,
+				5534EC7D2F2282710076FF29 /* instances */,
 				55D1A349294EB516003381C3 /* Application.swift */,
 				55F2841A2944452700047EF5 /* JovesLanding */,
 				55F2846729444DD100047EF5 /* TrainConductor Watch App */,

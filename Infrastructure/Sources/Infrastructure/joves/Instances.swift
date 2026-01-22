@@ -10,14 +10,9 @@
 import SBJKit
 import BLEByJove
 import Foundation
-import Network
+import Infrastructure
 
 //MARK: Facility Creation
-
-extension FacilityCategory {
-	static let transportation = FacilityCategory("transportation")
-	static let housing = FacilityCategory("housing")
-}
 
 extension FacilityRepository {
 	public convenience init() {
@@ -57,43 +52,6 @@ extension FacilityRepository {
 	}
 }
 
-//MARK: Facility Specialization
-
-@Observable
-public class UnsupportedFacility: Facility {
-	public let id = UUID()
-	public let name: String
-	public let category: FacilityCategory = .transportation
-	public let image: ImageName = .system("questionmark.diamond")
-
-	public let connectionState: BLEByJove.ConnectionState = .disconnected
-
-	public init(name: String) {
-		self.name = name
-	}
-
-	public func connect() {}
-	public func fullStop() {}
-	public func disconnect() {}
-}
-
-public protocol MotorizedFacility: Facility {
-	associatedtype Lighting: LightingProtocol
-	associatedtype Motor: MotorProtocol
-
-	var motor: Motor { get }
-	var lighting: Lighting? { get }
-}
-
-public extension MotorizedFacility {
-	func fullStop() {
-		motor.fullStop()
-		lighting?.fullStop()
-	}
-}
-
-public typealias IPv4AddressProperty = BTProperty<BTValueTransformer<IPv4Address>>
-
 //MARK: Facility Instance Info
 
 extension PFClient {
@@ -126,7 +84,7 @@ extension CityCenter {
 					id: Data(),
 					channel: 0,
 					name: "Unknown",
-					image: .bundled("Train", .module),
+					image: .bundled("Train", Infrastructure.Resources.bundle),
 					mode: .single
 				),
 				sound: .none,
@@ -137,7 +95,7 @@ extension CityCenter {
 					id: Data([0xC0, 0x05, 0x1F, 0x3B]),
 					channel: 1,
 					name: "Maersk",
-					image: .bundled("Train", .module),
+					image: .bundled("Train", Infrastructure.Resources.bundle),
 					mode: .single
 				),
 				sound: .asset("TrainHorn"),
@@ -148,7 +106,7 @@ extension CityCenter {
 					id: Data([0xF0, 0xBE, 0x1F, 0x3B]),
 					channel: 2,
 					name: "Bare Necessities",
-					image: .bundled("Train", .module),
+					image: .bundled("Train", Infrastructure.Resources.bundle),
 					mode: .single,
 					timeout: 30
 				),

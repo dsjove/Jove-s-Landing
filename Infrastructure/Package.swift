@@ -20,8 +20,7 @@ let package = Package(
     targets: [
         .target(
             name: "Infrastructure",
-            dependencies: ["BLEByJove", "SBJKit"],
-			exclude: ["joves/OldTheJoveExpress"]),
+            dependencies: ["BLEByJove", "SBJKit"]),
         .testTarget(
             name: "InfrastructureTests",
             dependencies: ["Infrastructure"]),
