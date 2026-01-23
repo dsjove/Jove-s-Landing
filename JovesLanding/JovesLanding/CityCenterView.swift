@@ -23,6 +23,7 @@ struct CityCenterView: View {
 					Grid(alignment: .leading, horizontalSpacing: 12) {
 						LightingControlsView(lighting: facility.streetLights)
 					}
+					Text(facility.currentTrain?.registration.name ?? "")
 					ArduinoR4MatrixView(value: facility.logoDisplay.power.feedback)
 						.frame(maxWidth: 240)
 						.highPriorityGesture(

@@ -5,8 +5,6 @@
 //  Created by David Giovannini on 3/22/25.
 //
 
-//TODO: Move Out of infrastructure package
-
 import Foundation
 import SBJKit
 import BLEByJove

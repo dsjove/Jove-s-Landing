@@ -5,8 +5,6 @@
 //  Created by David Giovannini on 12/4/22.
 //
 
-//TODO: Move Out of infrastructure package
-
 import Foundation
 @preconcurrency import BLEByJove
 import SBJKit
@@ -21,7 +19,7 @@ public class JoveMetroLine: MotorizedFacility {
 	private var sink: Set<AnyCancellable> = []
 	var beatCheck: Cancellable = AnyCancellable({})
 
-	nonisolated public let heartBeatSpec : (delay: Int, interval: Int) = (1000, 30)
+	public let heartBeatSpec : (delay: Int, interval: Int) = (1000, 30)
 
 	public convenience init() {
 		self.init(device: .init(preview: "Sample"))

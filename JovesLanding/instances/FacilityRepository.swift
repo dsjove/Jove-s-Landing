@@ -58,7 +58,8 @@ extension FacilityRepository {
 					[JoveMetroLine(device: btDevice)]
 				case CityCenter.Service:
 					{
-						facility.consumeRFID(.init(rfid: .init(reader: 1, id: Data([0x00, 0x11, 0x22, 0x33]))))
+						facility.consumeRFID(.init(rfid:
+							.init(reader: 1, id: CityCenter.lightHouseId)))
 						return [CityCenter(device: btDevice)]
 					}()
 				case JoveExpress.Service:
@@ -85,6 +86,8 @@ extension FacilityRepository {
 }
 
 extension CityCenter {
+	static var lightHouseId: Data { .init([0x00, 0x11, 0x22, 0x33]) }
+
 	static let registrations: [Data: PFFacilityRegistration] = {
 		let list: [PFFacilityRegistration] = [
 			PFFacilityRegistration(
@@ -115,7 +118,7 @@ extension CityCenter {
 				symbol: try? .init(packed: [0x20440280, 0x1801a658, 0x6149230c])
 			),
 			PFFacilityRegistration(
-				id: Data([0x00, 0x11, 0x22, 0x33]),
+				id: lightHouseId,
 				channel: 3,
 				category: FacilityCategory.transportation,
 				name: "Light House",

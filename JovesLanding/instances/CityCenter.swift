@@ -5,8 +5,6 @@
 //  Created by David Giovannini on 3/22/25.
 //
 
-//TODO: Move Out of infrastructure package
-
 import Foundation
 import SBJKit
 import BLEByJove
@@ -73,7 +71,6 @@ public final class CityCenter: Facility, RFIDProducing, PFTransmitter {
 			self?.connectionState = $0
 		}.store(in: &sink)
 
-		//TODO: if another device removes self.currentTrain, set to nil
 		observeValue(of: rail, \.currentRFID, with: self) { _, value, this in
 			if let this, let value {
 				this.updateCurrentRail(value)
@@ -97,16 +94,22 @@ public final class CityCenter: Facility, RFIDProducing, PFTransmitter {
 		rail.currentRFID
 	}
 
+	public func resetRFID() {
+		rail.resetRFID()
+		updateCurrentRail(nil)
+	}
+
 	public func transmit(cmd: PFCommand) {
 		self.fpTransmitter.transmit(cmd: cmd)
 	}
 
-	private func updateCurrentRail(_ detection: SampledRFIDDetection) {
-		let registration = CityCenter.registrations[detection.rfid.id] ?? CityCenter.registrations[Data()]!
-		self.currentTrain = TrainDetection(rfid: detection, registration: registration)
-		let sound: SoundPlayer.Source
-		let symbol: ArduinoR4Matrix?
-		if let train = self.currentTrain {
+	private func updateCurrentRail(_ detection: SampledRFIDDetection?) {
+		if let detection, !detection.rfid.id.isZero {
+			let registration = CityCenter.registrations[detection.rfid.id] ?? CityCenter.registrations[Data()]!
+			let train = TrainDetection(rfid: detection, registration: registration)
+			self.currentTrain = train
+			let sound: SoundPlayer.Source
+			let symbol: ArduinoR4Matrix?
 			if train.rfid.anotherRound {
 				sound = train.registration.sound
 				symbol = train.registration.symbol
@@ -115,21 +118,21 @@ public final class CityCenter: Facility, RFIDProducing, PFTransmitter {
 				sound = .system(1306)
 				symbol = nil
 			}
+			SoundPlayer.shared.play(sound)
+			if let symbol {
+				self.logoDisplay.power.control = symbol
+			}
 		}
 		else {
-			sound = .none
-			symbol = ArduinoR4Matrix()
-		}
-		SoundPlayer.shared.play(sound)
-		if let symbol {
-			self.logoDisplay.power.control = symbol
+			self.currentTrain = nil
+			self.logoDisplay.power.control = .init()
 		}
 	}
 
 	public func reset() {
 		self.streetLights.reset()
 		self.logoDisplay.reset()
-		self.rail.reset()
+		self.rail.resetRFID()
 		self.currentTrain = nil
 	}
 

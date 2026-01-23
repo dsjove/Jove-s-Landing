@@ -127,7 +127,6 @@
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		550826B72F228C9200D44BBC /* OldTheJoveExpress */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = OldTheJoveExpress; sourceTree = "<group>"; };
-		550826B82F228D2400D44BBC /* Arduino */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Arduino; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -220,7 +219,6 @@
 			isa = PBXGroup;
 			children = (
 				55490BD52DAFE74C00D7E433 /* README.md */,
-				550826B82F228D2400D44BBC /* Arduino */,
 				55D1A2D0294EB39F003381C3 /* Common */,
 				5508269D2F228C7E00D44BBC /* instances */,
 				55D1A349294EB516003381C3 /* Application.swift */,
@@ -303,9 +301,6 @@
 			);
 			dependencies = (
 			);
-			fileSystemSynchronizedGroups = (
-				550826B82F228D2400D44BBC /* Arduino */,
-			);
 			name = JovesLanding;
 			packageProductDependencies = (
 				557513502DA8531800E73784 /* SbjGauge */,
@@ -345,9 +340,6 @@
 			buildRules = (
 			);
 			dependencies = (
-			);
-			fileSystemSynchronizedGroups = (
-				550826B82F228D2400D44BBC /* Arduino */,
 			);
 			name = "TrainConductor Watch App";
 			packageProductDependencies = (
