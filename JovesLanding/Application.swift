@@ -11,7 +11,7 @@ import SBJLego
 
 @main
 struct Application: App {
-	private let facilities = FacilityRepository()
+	private let facilities = FacilityRepository.jovesLanding()
 
 	@SceneBuilder var body: some Scene {
 		WindowGroup {

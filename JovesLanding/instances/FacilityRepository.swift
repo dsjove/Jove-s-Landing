@@ -1,5 +1,5 @@
 //
-//  Instances.swift
+//  FacilityRepository.swift
 //  Infrastructure
 //
 //  Created by David Giovannini on 3/26/25.
@@ -24,17 +24,7 @@ public struct PFFacilityRegistration: PFFacilityMeta {
 	public var symbol: ArduinoR4Matrix? = nil
 }
 
-//MARK: Facility Creation
-
 extension FacilityRepository {
-	public convenience init() {
-		self.init(createFacilities: Self.facilities)
-		addScanner(BTClient(services: Self.btServices))
-		addScanner(MDNSClient(services: Self.mDnsServices))
-		addScanner(PFClient<PFFacilityRegistration>(transmitter: self) {_detection in
-			CityCenter.registrations[_detection.rfid.id]
-		})
-	}
 	private static var mocking: Bool {
 		#if targetEnvironment(simulator)
 			true
@@ -43,13 +33,13 @@ extension FacilityRepository {
 		#endif
 	}
 
-	static var btServices: [BTServiceIdentity] = [
+	private static var btServices: [BTServiceIdentity] = [
 		CircuitCube.Service,
 		CityCenter.Service,
 		JoveExpress.Service,
 	]
 
-	static let mDnsServices: [String] = {
+	private static let mDnsServices: [String] = {
 		var base = [
 			ESPCam.Service,
 		]
@@ -60,20 +50,24 @@ extension FacilityRepository {
 		return base
 	}()
 
-	static func facilities(for device: any DeviceIdentifiable) -> [any Facility] {
-		if let btDevice = device as? BTDevice {
+	public static func jovesLanding() -> Self {
+		let facility = Self()
+		facility.addScanner(BTClient(services: Self.btServices)) { btDevice in
 			switch btDevice.service {
 				case JoveMetroLine.Service:
 					[JoveMetroLine(device: btDevice)]
 				case CityCenter.Service:
-					[CityCenter(device: btDevice)]
+					{
+						facility.consumeRFID(.init(rfid: .init(reader: 1, id: Data([0x00, 0x11, 0x22, 0x33]))))
+						return [CityCenter(device: btDevice)]
+					}()
 				case JoveExpress.Service:
 					[JoveExpress(device: btDevice)]
 				default:
 					[UnsupportedFacility(name: btDevice.name)]
 			}
 		}
-		else if let mDNSDevice = device as? MDNSDevice {
+		facility.addScanner(MDNSClient(services: Self.mDnsServices)) { mDNSDevice in
 			switch mDNSDevice.service {
 				case ESPCam.Service:
 					[ESPCam(device: mDNSDevice)]
@@ -81,12 +75,12 @@ extension FacilityRepository {
 					[UnsupportedFacility(name: mDNSDevice.name)]
 			}
 		}
-		else if let pfDevice = device as? PFDevice<PFFacilityRegistration> {
+		facility.addScanner(PFClient<PFFacilityRegistration>(transmitter: facility) {
+			CityCenter.registrations[$0.rfid.id]
+		}) { pfDevice in
 			[PFFacility(device: pfDevice)]
 		}
-		else {
-			[UnsupportedFacility(name: "Unknown")]
-		}
+		return facility
 	}
 }
 

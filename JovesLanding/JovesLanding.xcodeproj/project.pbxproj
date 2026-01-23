@@ -17,11 +17,11 @@
 		55002C622D8F0FCC003B9952 /* MotorIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55002C522D8F0FCC003B9952 /* MotorIndicatorView.swift */; };
 		5508269C2F2289B100D44BBC /* SBJLego in Frameworks */ = {isa = PBXBuildFile; productRef = 5508269B2F2289B100D44BBC /* SBJLego */; };
 		550826E22F229AF000D44BBC /* JoveMetroLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550826E12F229AC600D44BBC /* JoveMetroLine.swift */; };
-		550826E32F229AF000D44BBC /* Instances.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550826DF2F229AC600D44BBC /* Instances.swift */; };
+		550826E32F229AF000D44BBC /* FacilityRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550826DF2F229AC600D44BBC /* FacilityRepository.swift */; };
 		550826E42F229AF000D44BBC /* CityCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550826DE2F229AC600D44BBC /* CityCenter.swift */; };
 		550826E52F229AF000D44BBC /* JoveExpress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550826E02F229AC600D44BBC /* JoveExpress.swift */; };
 		550826E62F229AF000D44BBC /* CityCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550826DE2F229AC600D44BBC /* CityCenter.swift */; };
-		550826E72F229AF000D44BBC /* Instances.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550826DF2F229AC600D44BBC /* Instances.swift */; };
+		550826E72F229AF000D44BBC /* FacilityRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550826DF2F229AC600D44BBC /* FacilityRepository.swift */; };
 		550826E82F229AF000D44BBC /* JoveMetroLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550826E12F229AC600D44BBC /* JoveMetroLine.swift */; };
 		550826E92F229AF000D44BBC /* JoveExpress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550826E02F229AC600D44BBC /* JoveExpress.swift */; };
 		5508271D2F22A5D100D44BBC /* LightingControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5508271C2F22A5D100D44BBC /* LightingControlsView.swift */; };
@@ -92,7 +92,7 @@
 		55002C512D8F0FCC003B9952 /* LightIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightIndicatorView.swift; sourceTree = "<group>"; };
 		55002C522D8F0FCC003B9952 /* MotorIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotorIndicatorView.swift; sourceTree = "<group>"; };
 		550826DE2F229AC600D44BBC /* CityCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityCenter.swift; sourceTree = "<group>"; };
-		550826DF2F229AC600D44BBC /* Instances.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Instances.swift; sourceTree = "<group>"; };
+		550826DF2F229AC600D44BBC /* FacilityRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacilityRepository.swift; sourceTree = "<group>"; };
 		550826E02F229AC600D44BBC /* JoveExpress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoveExpress.swift; sourceTree = "<group>"; };
 		550826E12F229AC600D44BBC /* JoveMetroLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoveMetroLine.swift; sourceTree = "<group>"; };
 		5508271C2F22A5D100D44BBC /* LightingControlsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightingControlsView.swift; sourceTree = "<group>"; };
@@ -174,7 +174,7 @@
 			children = (
 				550826B72F228C9200D44BBC /* OldTheJoveExpress */,
 				550826DE2F229AC600D44BBC /* CityCenter.swift */,
-				550826DF2F229AC600D44BBC /* Instances.swift */,
+				550826DF2F229AC600D44BBC /* FacilityRepository.swift */,
 				550826E02F229AC600D44BBC /* JoveExpress.swift */,
 				550826E12F229AC600D44BBC /* JoveMetroLine.swift */,
 			);
@@ -447,7 +447,7 @@
 			files = (
 				55E4E6862DDB89E2003DB69D /* ESPCamView.swift in Sources */,
 				550826E22F229AF000D44BBC /* JoveMetroLine.swift in Sources */,
-				550826E32F229AF000D44BBC /* Instances.swift in Sources */,
+				550826E32F229AF000D44BBC /* FacilityRepository.swift in Sources */,
 				550826E42F229AF000D44BBC /* CityCenter.swift in Sources */,
 				550826E52F229AF000D44BBC /* JoveExpress.swift in Sources */,
 				55E9497F2D93400100D79246 /* MotorizedFacilityControlsView.swift in Sources */,
@@ -475,7 +475,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				550826E62F229AF000D44BBC /* CityCenter.swift in Sources */,
-				550826E72F229AF000D44BBC /* Instances.swift in Sources */,
+				550826E72F229AF000D44BBC /* FacilityRepository.swift in Sources */,
 				550826E82F229AF000D44BBC /* JoveMetroLine.swift in Sources */,
 				550826E92F229AF000D44BBC /* JoveExpress.swift in Sources */,
 				555C8AD32D8F044700EA33E0 /* MotorizedFacilityGauageView.swift in Sources */,
