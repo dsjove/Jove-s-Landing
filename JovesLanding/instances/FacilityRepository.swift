@@ -10,7 +10,7 @@ import BLEByJove
 import Foundation
 import SBJLego
 
-public struct PFFacilityRegistration: PFFacilityMeta {
+public struct PFFacilityRegistration: PFFacilityMeta, Comparable, Equatable, Identifiable {
 	public let id: Data
 	public let channel: UInt8
 	public var mode: BLEByJove.PFMode = .single
@@ -22,6 +22,18 @@ public struct PFFacilityRegistration: PFFacilityMeta {
 
 	public var sound: SoundPlayer.Source = .none
 	public var symbol: ArduinoR4Matrix? = nil
+
+	public static func < (lhs: PFFacilityRegistration, rhs: PFFacilityRegistration) -> Bool {
+		let nameOrder = lhs.name.localizedCaseInsensitiveCompare(rhs.name)
+		if nameOrder != .orderedSame {
+			return nameOrder == .orderedAscending
+		}
+		return lhs.id.lexicographicallyPrecedes(rhs.id)
+	}
+
+	public static func == (lhs: PFFacilityRegistration, rhs: PFFacilityRegistration) -> Bool {
+		lhs.id == rhs.id
+	}
 }
 
 extension FacilityRepository {

@@ -20,6 +20,7 @@ struct FacilityHeaderView<F: Facility>: View {
                 .foregroundStyle(.secondary)
             Label(facility.name, image: facility.image)
         }
+        .frame(height: 44, alignment: .center)
     }
 }
 

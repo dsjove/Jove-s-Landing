@@ -19,7 +19,7 @@ struct MotorizedFacilityControlsView<Facility: MotorizedFacility>: View {
 				ScrubView(
 					value: facility.motor.power.control,
 					range: -1.0...1.0,
-					//increment: facility.motor.increment,
+					increment: facility.motor.increment,
 					minMaxSplit: 0.0,
 					minTrackColor: Color("Motor/Reverse"),
 					maxTrackColor: Color("Motor/Forward")) {
