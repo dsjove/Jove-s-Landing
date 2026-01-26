@@ -23,9 +23,11 @@ struct CityCenterView: View {
 					Grid(alignment: .leading, horizontalSpacing: 12) {
 						LightingControlsView(lighting: facility.streetLights)
 					}
+					Divider()
 					RegistrationListView(rail: facility.rail)
-					Text(facility.currentTrain?.registration.name ?? "")
-					ArduinoR4MatrixView(value: facility.logoDisplay.power.feedback)
+					Divider()
+					Text(facility.currentTrain?.registration.name ?? "Nothing Detected")
+					ArduinoR4MatrixView(value: facility.logoDisplay.power.control)
 						.frame(maxWidth: 240)
 						.highPriorityGesture(
 							TapGesture().onEnded {
@@ -48,7 +50,7 @@ struct RegistrationListView: View {
 	var body: some View {
 		ScrollView(.vertical) {
 			VStack(alignment: .leading, spacing: 8) {
-				ForEach(CityCenter.registrations.values.sorted()) { reg in
+				ForEach(CityCenter.registrations.values.sorted().filter({!$0.id.isZero})) { reg in
 					Button(action: {
 						let detection = RFIDDetection(reader: 1, timeStampMS: 0, id: reg.id)
 						rail.receive(detection)
@@ -68,11 +70,12 @@ struct RegistrationListView: View {
 						.contentShape(Rectangle())
 					}
 					.buttonStyle(.plain)
+					.frame(height: 24, alignment: .center)
 				}
 			}
 			.padding(.horizontal, 8)
 		}
-		.frame(height: 5 * 44)
+		.frame(height: 4 * 24)
 	}
 }
 

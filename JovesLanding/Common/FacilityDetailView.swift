@@ -14,14 +14,14 @@ struct FacilityHeaderView<F: Facility>: View {
 	let facility: F
 
 	var body: some View {
-        HStack(spacing: 8) {
-            Image(facility.connectionState.imageName)
-                .symbolRenderingMode(.hierarchical)
-                .foregroundStyle(.secondary)
-            Label(facility.name, image: facility.image)
-        }
-        .frame(height: 44, alignment: .center)
-    }
+		HStack(spacing: 8) {
+			Image(facility.connectionState.imageName)
+				.symbolRenderingMode(.hierarchical)
+				.foregroundStyle(.secondary)
+			Label(facility.name, image: facility.image)
+		}
+		.frame(height: 44, alignment: .center)
+	}
 }
 
 struct FacilityLineView: View {

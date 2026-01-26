@@ -112,7 +112,7 @@ public final class CityCenter: Facility, RFIDProducing, PFTransmitter {
 			let symbol: ArduinoR4Matrix?
 			if train.rfid.anotherRound {
 				sound = train.registration.sound
-				symbol = train.registration.symbol
+				symbol = train.registration.symbol ?? ArduinoR4Matrix()
 			}
 			else {
 				sound = .system(1306)
