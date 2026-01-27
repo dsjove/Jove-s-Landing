@@ -27,7 +27,7 @@ struct CityCenterView: View {
 					RegistrationListView(rail: facility.rail)
 					Divider()
 					Text(facility.currentTrain?.registration.name ?? "Nothing Detected")
-					ArduinoR4MatrixView(value: facility.logoDisplay.power.control)
+					ArduinoR4MatrixView(value: facility.logoDisplay.power.feedback)
 						.frame(maxWidth: 240)
 						.highPriorityGesture(
 							TapGesture().onEnded {
