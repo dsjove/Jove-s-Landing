@@ -18,9 +18,9 @@
 		5508269C2F2289B100D44BBC /* SBJLego in Frameworks */ = {isa = PBXBuildFile; productRef = 5508269B2F2289B100D44BBC /* SBJLego */; };
 		550826E22F229AF000D44BBC /* JoveMetroLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550826E12F229AC600D44BBC /* JoveMetroLine.swift */; };
 		550826E32F229AF000D44BBC /* FacilityRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550826DF2F229AC600D44BBC /* FacilityRepository.swift */; };
-		550826E42F229AF000D44BBC /* CityCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550826DE2F229AC600D44BBC /* CityCenter.swift */; };
+		550826E42F229AF000D44BBC /* Christof.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550826DE2F229AC600D44BBC /* Christof.swift */; };
 		550826E52F229AF000D44BBC /* JoveExpress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550826E02F229AC600D44BBC /* JoveExpress.swift */; };
-		550826E62F229AF000D44BBC /* CityCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550826DE2F229AC600D44BBC /* CityCenter.swift */; };
+		550826E62F229AF000D44BBC /* Christof.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550826DE2F229AC600D44BBC /* Christof.swift */; };
 		550826E72F229AF000D44BBC /* FacilityRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550826DF2F229AC600D44BBC /* FacilityRepository.swift */; };
 		550826E82F229AF000D44BBC /* JoveMetroLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550826E12F229AC600D44BBC /* JoveMetroLine.swift */; };
 		550826E92F229AF000D44BBC /* JoveExpress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550826E02F229AC600D44BBC /* JoveExpress.swift */; };
@@ -37,13 +37,16 @@
 		5575135C2DA87BB400E73784 /* BLEByJove in Frameworks */ = {isa = PBXBuildFile; productRef = 5575135B2DA87BB400E73784 /* BLEByJove */; };
 		557A2E072EFD90550052A30F /* SBJKit in Frameworks */ = {isa = PBXBuildFile; productRef = 557A2E062EFD90550052A30F /* SBJKit */; };
 		557A2E092EFD90600052A30F /* SBJKit in Frameworks */ = {isa = PBXBuildFile; productRef = 557A2E082EFD90600052A30F /* SBJKit */; };
-		559AB9E02DA08EC000666C1A /* CityCenterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559AB9DF2DA08EC000666C1A /* CityCenterView.swift */; };
+		559AB9E02DA08EC000666C1A /* TrainStationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559AB9DF2DA08EC000666C1A /* TrainStationView.swift */; };
 		559AB9E52DA08F8400666C1A /* ConductedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559AB9E42DA08F8400666C1A /* ConductedView.swift */; };
 		559E02412D9447CD00CA3953 /* MotorState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559E023F2D9447CD00CA3953 /* MotorState.swift */; };
 		559E02422D9447CD00CA3953 /* MotorState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559E023F2D9447CD00CA3953 /* MotorState.swift */; };
 		55A0DE8B2D9F08BA00FCA504 /* HVStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A0DE892D9F08B900FCA504 /* HVStack.swift */; };
 		55A0DE8C2D9F08BA00FCA504 /* HVStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A0DE892D9F08B900FCA504 /* HVStack.swift */; };
 		55A730752D9B4738005CA3C1 /* FacilityConnectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A730732D9B4738005CA3C1 /* FacilityConnectionView.swift */; };
+		55AF11F02F2FC4CD000B5405 /* TrainStation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AF11EF2F2FC4BB000B5405 /* TrainStation.swift */; };
+		55AF11F12F2FC4CD000B5405 /* TrainStation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AF11EF2F2FC4BB000B5405 /* TrainStation.swift */; };
+		55AF11F32F300D37000B5405 /* ChristofView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AF11F22F300D2E000B5405 /* ChristofView.swift */; };
 		55D1A2F3294EB39F003381C3 /* FacilityDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D1A2D1294EB39F003381C3 /* FacilityDetailView.swift */; };
 		55D1A2F5294EB39F003381C3 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55D1A2D2294EB39F003381C3 /* Media.xcassets */; };
 		55D1A30C294EB39F003381C3 /* GaugeIndicatorsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D1A2DF294EB39F003381C3 /* GaugeIndicatorsView.swift */; };
@@ -91,7 +94,7 @@
 		55002C4F2D8F0FCC003B9952 /* ConnectionIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionIndicatorView.swift; sourceTree = "<group>"; };
 		55002C512D8F0FCC003B9952 /* LightIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightIndicatorView.swift; sourceTree = "<group>"; };
 		55002C522D8F0FCC003B9952 /* MotorIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotorIndicatorView.swift; sourceTree = "<group>"; };
-		550826DE2F229AC600D44BBC /* CityCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityCenter.swift; sourceTree = "<group>"; };
+		550826DE2F229AC600D44BBC /* Christof.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Christof.swift; sourceTree = "<group>"; };
 		550826DF2F229AC600D44BBC /* FacilityRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacilityRepository.swift; sourceTree = "<group>"; };
 		550826E02F229AC600D44BBC /* JoveExpress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoveExpress.swift; sourceTree = "<group>"; };
 		550826E12F229AC600D44BBC /* JoveMetroLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoveMetroLine.swift; sourceTree = "<group>"; };
@@ -104,11 +107,13 @@
 		5563228A2F1E6A6000679EBE /* MotorizedFacilityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotorizedFacilityView.swift; sourceTree = "<group>"; };
 		556E65CB294D1DD500FCEFD6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		556E65CE294D1DD500FCEFD6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		559AB9DF2DA08EC000666C1A /* CityCenterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityCenterView.swift; sourceTree = "<group>"; };
+		559AB9DF2DA08EC000666C1A /* TrainStationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainStationView.swift; sourceTree = "<group>"; };
 		559AB9E42DA08F8400666C1A /* ConductedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConductedView.swift; sourceTree = "<group>"; };
 		559E023F2D9447CD00CA3953 /* MotorState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotorState.swift; sourceTree = "<group>"; };
 		55A0DE892D9F08B900FCA504 /* HVStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HVStack.swift; sourceTree = "<group>"; };
 		55A730732D9B4738005CA3C1 /* FacilityConnectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacilityConnectionView.swift; sourceTree = "<group>"; };
+		55AF11EF2F2FC4BB000B5405 /* TrainStation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainStation.swift; sourceTree = "<group>"; };
+		55AF11F22F300D2E000B5405 /* ChristofView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChristofView.swift; sourceTree = "<group>"; };
 		55D1A2D1294EB39F003381C3 /* FacilityDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FacilityDetailView.swift; sourceTree = "<group>"; };
 		55D1A2D2294EB39F003381C3 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
 		55D1A2DF294EB39F003381C3 /* GaugeIndicatorsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GaugeIndicatorsView.swift; sourceTree = "<group>"; };
@@ -171,8 +176,9 @@
 		5508269D2F228C7E00D44BBC /* instances */ = {
 			isa = PBXGroup;
 			children = (
+				55AF11EF2F2FC4BB000B5405 /* TrainStation.swift */,
 				550826B72F228C9200D44BBC /* OldTheJoveExpress */,
-				550826DE2F229AC600D44BBC /* CityCenter.swift */,
+				550826DE2F229AC600D44BBC /* Christof.swift */,
 				550826DF2F229AC600D44BBC /* FacilityRepository.swift */,
 				550826E02F229AC600D44BBC /* JoveExpress.swift */,
 				550826E12F229AC600D44BBC /* JoveMetroLine.swift */,
@@ -245,7 +251,8 @@
 			children = (
 				554740D82954F49B00948BBB /* Info.plist */,
 				55F2842A2944455800047EF5 /* FacilitiesListView.swift */,
-				559AB9DF2DA08EC000666C1A /* CityCenterView.swift */,
+				559AB9DF2DA08EC000666C1A /* TrainStationView.swift */,
+				55AF11F22F300D2E000B5405 /* ChristofView.swift */,
 				55F2841F2944452800047EF5 /* Assets.xcassets */,
 				55F284212944452800047EF5 /* Preview Content */,
 			);
@@ -440,7 +447,7 @@
 				55E4E6862DDB89E2003DB69D /* ESPCamView.swift in Sources */,
 				550826E22F229AF000D44BBC /* JoveMetroLine.swift in Sources */,
 				550826E32F229AF000D44BBC /* FacilityRepository.swift in Sources */,
-				550826E42F229AF000D44BBC /* CityCenter.swift in Sources */,
+				550826E42F229AF000D44BBC /* Christof.swift in Sources */,
 				550826E52F229AF000D44BBC /* JoveExpress.swift in Sources */,
 				55E9497F2D93400100D79246 /* MotorizedFacilityControlsView.swift in Sources */,
 				55D1A2F3294EB39F003381C3 /* FacilityDetailView.swift in Sources */,
@@ -454,10 +461,12 @@
 				55002C5F2D8F0FCC003B9952 /* ConnectionIndicatorView.swift in Sources */,
 				55002C602D8F0FCC003B9952 /* BatteryIndicatorView.swift in Sources */,
 				55002C612D8F0FCC003B9952 /* LightIndicatorView.swift in Sources */,
+				55AF11F02F2FC4CD000B5405 /* TrainStation.swift in Sources */,
+				55AF11F32F300D37000B5405 /* ChristofView.swift in Sources */,
 				55002C622D8F0FCC003B9952 /* MotorIndicatorView.swift in Sources */,
 				555C8AD22D8F044700EA33E0 /* MotorizedFacilityGauageView.swift in Sources */,
 				550F95062DA0503600C0A34B /* ArduinoDisplayControlView.swift in Sources */,
-				559AB9E02DA08EC000666C1A /* CityCenterView.swift in Sources */,
+				559AB9E02DA08EC000666C1A /* TrainStationView.swift in Sources */,
 				55D1A34A294EB516003381C3 /* Application.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -466,7 +475,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				550826E62F229AF000D44BBC /* CityCenter.swift in Sources */,
+				55AF11F12F2FC4CD000B5405 /* TrainStation.swift in Sources */,
+				550826E62F229AF000D44BBC /* Christof.swift in Sources */,
 				550826E72F229AF000D44BBC /* FacilityRepository.swift in Sources */,
 				550826E82F229AF000D44BBC /* JoveMetroLine.swift in Sources */,
 				550826E92F229AF000D44BBC /* JoveExpress.swift in Sources */,

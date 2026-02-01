@@ -32,8 +32,10 @@ struct FacilityLineView: View {
 		{
 		case is JoveMetroLine:
 			FacilityHeaderView(facility: facility as! JoveMetroLine)
-		case is CityCenter:
-			FacilityHeaderView(facility: facility as! CityCenter)
+		case is Christof:
+			FacilityHeaderView(facility: facility as! Christof)
+		case is TrainStation:
+			FacilityHeaderView(facility: facility as! TrainStation)
 		case is JoveExpress:
 			FacilityHeaderView(facility: facility as! JoveExpress)
 		case is ESPCam:
@@ -57,8 +59,10 @@ struct FacilityDetailView: View {
 			{
 			case is JoveMetroLine:
 				MotorizedFacilityView(facility as! JoveMetroLine)
-			case is CityCenter:
-				CityCenterView(facility: facility as! CityCenter)
+			case is Christof:
+				ChristofView(facility: facility as! Christof)
+			case is TrainStation:
+				TrainStationView(facility: facility as! TrainStation)
 			case is JoveExpress:
 				MotorizedFacilityView(facility as! JoveExpress)
 			case is ESPCam:

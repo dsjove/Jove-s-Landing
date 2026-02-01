@@ -1,5 +1,5 @@
 //
-//  CityCenter.swift
+//  TrainDetection.swift
 //  Infrastructure
 //
 //  Created by David Giovannini on 3/22/25.
@@ -17,16 +17,24 @@ public struct TrainDetection {
 	let registration: PFFacilityRegistration
 }
 
+enum DockDetection: UInt8, BTSerializable {
+	init() {
+		self = .none
+	}
+	
+	case none
+	case detectPassive
+	case dectactCharable
+}
+
 @Observable
-public final class CityCenter: Facility, RFIDProducing, PFTransmitter {
-	public static let Service = BTServiceIdentity(name: "City Center")
+public final class TrainStation: Facility, RFIDProducing {
+	public static let Service = BTServiceIdentity(name: "Train Station")
 	public var id: UUID { device.id }
 	private let device: BTDevice
 	private var sink: Set<AnyCancellable> = []
 
-	public let streetLights: BTLighting
 	public let logoDisplay: ArduinoDisplay
-	public let fpTransmitter: PFBTRransmitter
 	public let rail: RFIDProducer;
 
 	public private(set) var connectionState: ConnectionState {
@@ -55,17 +63,12 @@ public final class CityCenter: Facility, RFIDProducing, PFTransmitter {
 	public init(device: BTDevice) {
 		self.device = device
 		self.connectionState = device.connectionState
-		self.streetLights = BTLighting(device: device)
 		self.logoDisplay = ArduinoDisplay(device: device)
 		self.rail = RFIDProducer(
 			device: device,
-			component: FacilityPropComponent.motion,
+			component: FacilityPropComponent.system,
 			category: FacilityPropCategory.address,
 			subCategory: EmptySubCategory(0))
-		self.fpTransmitter = PFBTRransmitter(
-			device: device,
-			component: FacilityPropComponent.motion,
-			category: FacilityPropCategory.power)
 
 		device.$connectionState.dropFirst().sink { [weak self] in
 			self?.connectionState = $0
@@ -79,8 +82,8 @@ public final class CityCenter: Facility, RFIDProducing, PFTransmitter {
 	}
 
 	public var category: FacilityCategory { .transportation }
-	public var image: ImageName { .system("building") }
-	public var name : String { CityCenter.Service.name }
+	public var image: ImageName { .system("tram.fill.tunnel") }
+	public var name : String { Self.Service.name }
 
 	public func connect() {
 		device.connect()
@@ -99,13 +102,9 @@ public final class CityCenter: Facility, RFIDProducing, PFTransmitter {
 		updateCurrentRail(nil)
 	}
 
-	public func transmit(cmd: PFCommand) {
-		self.fpTransmitter.transmit(cmd: cmd)
-	}
-
 	private func updateCurrentRail(_ detection: SampledRFIDDetection?) {
 		if let detection, !detection.rfid.id.isZero {
-			let registration = CityCenter.registrations[detection.rfid.id] ?? CityCenter.registrations[Data()]!
+			let registration = Christof.registrations[detection.rfid.id] ?? Christof.registrations[Data()]!
 			let train = TrainDetection(rfid: detection, registration: registration)
 			self.currentTrain = train
 			let sound: SoundPlayer.Source
@@ -130,14 +129,12 @@ public final class CityCenter: Facility, RFIDProducing, PFTransmitter {
 	}
 
 	public func reset() {
-		self.streetLights.reset()
 		self.logoDisplay.reset()
 		self.rail.resetRFID()
 		self.currentTrain = nil
 	}
 
 	public func fullStop() {
-		self.streetLights.fullStop()
 		self.logoDisplay.fullStop()
 		self.currentTrain = nil
 	}

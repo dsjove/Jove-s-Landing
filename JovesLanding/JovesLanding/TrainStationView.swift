@@ -1,5 +1,5 @@
 //
-//  CityCenterView.swift
+//  TrainStationView.swift
 //  JovesLanding
 //
 //  Created by David Giovannini on 12/5/22.
@@ -9,8 +9,8 @@ import SwiftUI
 import SBJLego
 import BLEByJove
 
-struct TrainStationViewView: View {
-	let facility: Christof
+struct TrainStationView: View {
+	let facility: TrainStation
 	@State private var showOverlay = false
 
 	var body: some View {
@@ -20,26 +20,22 @@ struct TrainStationViewView: View {
 				.ignoresSafeArea()
 			FacilityConnectionView(facility) { facility in
 				VStack {
-					Grid(alignment: .leading, horizontalSpacing: 12) {
-						LightingControlsView(lighting: facility.streetLights)
-					}
+					RegistrationListView(rail: facility.rail)
 					Divider()
-					//RegistrationListView(rail: facility.rail)
-					Divider()
-//					Text(facility.currentTrain?.registration.name ?? "Nothing Detected")
-//					ArduinoR4MatrixView(value: facility.logoDisplay.power.feedback)
-//						.frame(maxWidth: 240)
-//						.highPriorityGesture(
-//							TapGesture().onEnded {
-//								showOverlay = true
-//							}
-//						)
+					Text(facility.currentTrain?.registration.name ?? "Nothing Detected")
+					ArduinoR4MatrixView(value: facility.logoDisplay.power.feedback)
+						.frame(maxWidth: 240)
+						.highPriorityGesture(
+							TapGesture().onEnded {
+								showOverlay = true
+							}
+						)
 				}
 			}
 		}
 		.navigationBarTitle(facility.name)
 		.sheet(isPresented: $showOverlay) {
-//			ArduinoDisplayControlView(display: facility.logoDisplay.power)
+			ArduinoDisplayControlView(display: facility.logoDisplay.power)
 		}
 	}
 }
@@ -80,5 +76,5 @@ struct RegistrationListView: View {
 }
 
 #Preview {
-	TrainStationViewView(facility: Christof())
+	TrainStationView(facility: TrainStation())
 }

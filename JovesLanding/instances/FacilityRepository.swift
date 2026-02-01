@@ -47,7 +47,8 @@ extension FacilityRepository {
 
 	private static var btServices: [BTServiceIdentity] = [
 		CircuitCube.Service,
-		CityCenter.Service,
+		Christof.Service,
+		TrainStation.Service,
 		JoveExpress.Service,
 	]
 
@@ -68,12 +69,14 @@ extension FacilityRepository {
 			switch btDevice.service {
 				case JoveMetroLine.Service:
 					[JoveMetroLine(device: btDevice)]
-				case CityCenter.Service:
+				case Christof.Service:
 					{
 						facility.consumeRFID(.init(rfid:
-							.init(reader: 1, id: CityCenter.lightHouseId)))
-						return [CityCenter(device: btDevice)]
+							.init(reader: 1, id: Christof.lightHouseId)))
+						return [Christof(device: btDevice)]
 					}()
+				case TrainStation.Service:
+					[TrainStation(device: btDevice)]
 				case JoveExpress.Service:
 					[JoveExpress(device: btDevice)]
 				default:
@@ -89,7 +92,7 @@ extension FacilityRepository {
 			}
 		}
 		facility.addScanner(PFClient<PFFacilityRegistration>(transmitter: facility) {
-			CityCenter.registrations[$0.rfid.id]
+			Christof.registrations[$0.rfid.id]
 		}) { pfDevice in
 			[PFFacility(device: pfDevice)]
 		}
@@ -97,7 +100,7 @@ extension FacilityRepository {
 	}
 }
 
-extension CityCenter {
+extension Christof {
 	static var lightHouseId: Data { .init([0x00, 0x11, 0x22, 0x33]) }
 
 	static let registrations: [Data: PFFacilityRegistration] = {

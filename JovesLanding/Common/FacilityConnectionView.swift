@@ -57,6 +57,6 @@ public struct FacilityConnectionView<Content: View, F: Facility>: View {
 }
 
 #Preview {
-	FacilityConnectionView(CityCenter(), { _ in Circle().fill() })
+	FacilityConnectionView(Christof(), { _ in Circle().fill() })
 	.background(Color.mint)
 }
