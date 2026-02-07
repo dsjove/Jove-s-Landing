@@ -18,13 +18,13 @@ public struct TrainDetection {
 }
 
 enum DockDetection: UInt8, BTSerializable {
-	init() {
-		self = .none
-	}
-	
 	case none
 	case detectPassive
 	case dectactCharable
+	
+	init() {
+		self = .none
+	}
 }
 
 @Observable
@@ -108,19 +108,13 @@ public final class TrainStation: Facility, RFIDProducing {
 			let train = TrainDetection(rfid: detection, registration: registration)
 			self.currentTrain = train
 			let sound: SoundPlayer.Source
-			let symbol: ArduinoR4Matrix?
 			if train.rfid.anotherRound {
 				sound = train.registration.sound
-				symbol = train.registration.symbol ?? ArduinoR4Matrix()
 			}
 			else {
 				sound = .system(1306)
-				symbol = nil
 			}
 			SoundPlayer.shared.play(sound)
-			if let symbol {
-				self.logoDisplay.power.control = symbol
-			}
 		}
 		else {
 			self.currentTrain = nil

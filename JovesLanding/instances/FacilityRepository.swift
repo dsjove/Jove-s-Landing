@@ -21,7 +21,7 @@ public struct PFFacilityRegistration: PFFacilityMeta, Comparable, Equatable, Ide
 	public let image: SBJKit.ImageName
 
 	public var sound: SoundPlayer.Source = .none
-	public var symbol: ArduinoR4Matrix? = nil
+	//public var symbol: ArduinoR4Matrix? = nil
 
 	public static func < (lhs: PFFacilityRegistration, rhs: PFFacilityRegistration) -> Bool {
 		let nameOrder = lhs.name.localizedCaseInsensitiveCompare(rhs.name)
@@ -110,8 +110,7 @@ extension Christof {
 				channel: 0,
 				category: FacilityCategory.transportation,
 				name: "Unknown",
-				image: .bundled("Train", SBJLego.Resources.bundle),
-				symbol: try? .init(packed: [0x0f01f811, 0x80180700, 0x60000060])
+				image: .bundled("Train", SBJLego.Resources.bundle)//,
 			),
 			PFFacilityRegistration(
 				id: Data([0xC0, 0x05, 0x1F, 0x3B]),
@@ -119,8 +118,7 @@ extension Christof {
 				category: FacilityCategory.transportation,
 				name: "Maersk",
 				image: .bundled("Train", SBJLego.Resources.bundle),
-				sound: .asset("TrainHorn"),
-				symbol: try? .init(packed: [0xe07f0fd9, 0xbcf3cf3c, 0x63c63c63])
+				sound: .asset("TrainHorn")
 			),
 			PFFacilityRegistration(
 				id: Data([0xF0, 0xBE, 0x1F, 0x3B]),
@@ -129,8 +127,7 @@ extension Christof {
 				category: FacilityCategory.transportation,
 				name: "Bare Necessities",
 				image: .bundled("Train", SBJLego.Resources.bundle),
-				sound: .asset("CatCallWhistle"),
-				symbol: try? .init(packed: [0x20440280, 0x1801a658, 0x6149230c])
+				sound: .asset("CatCallWhistle")
 			),
 			PFFacilityRegistration(
 				id: lightHouseId,
