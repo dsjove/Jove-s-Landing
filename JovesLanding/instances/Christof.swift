@@ -6,85 +6,83 @@
 //
 
 import Foundation
-import SBJKit
-import BLEByJove
-import Combine
 import Observation
+import SBJFoundation
+import BLEByJove
 import SBJLego
 
+@MainActor
 @Observable
-public final class Christof: Facility, PFTransmitter {
-	public static let Service = BTServiceIdentity(name: "Christof")
-	public var id: UUID { device.id }
-	private let device: BTDevice
-	private var sink: Set<AnyCancellable> = []
+public final class Christof: @MainActor Facility, @MainActor PFTransmitter {
+    public static let Service = BTServiceIdentity(name: "Christof")
 
-	public let streetLights: BTLighting
-	public let fpTransmitter: PFBTRransmitter
+    public var id: UUID { device.id }
 
-	public private(set) var connectionState: ConnectionState {
-		didSet {
-			switch connectionState {
-				case .connected:
-					break
-				case .connecting:
-					break
-				case .disconnected:
-					reset()
-			}
-		}
-	}
+    private let device: BTDevice
+    private var observations: [ObserveToken] = []
 
-	public var pfConnectionState: ConnectionState {
-		self.connectionState
-	}
+    public let streetLights: BTLighting
+    public let fpTransmitter: PFBTRransmitter
 
-	public convenience init() {
-		self.init(device: .init(preview: "Sample"))
-	}
+    public private(set) var connectionState: ConnectionState {
+        didSet {
+            if connectionState == .disconnected {
+                reset()
+            }
+        }
+    }
 
-	public init(device: BTDevice) {
-		self.device = device
-		self.connectionState = device.connectionState
-		self.streetLights = BTLighting(device: device)
-		self.fpTransmitter = PFBTRransmitter(
-			device: device,
-			component: FacilityPropComponent.motion,
-			category: FacilityPropCategory.power)
+    public var pfConnectionState: ConnectionState {
+        connectionState
+    }
 
-		device.$connectionState.dropFirst().sink { [weak self] in
-			self?.connectionState = $0
-		}.store(in: &sink)
-	}
+    public convenience init() {
+        self.init(device: .init(preview: "Sample"))
+    }
 
-	public var category: FacilityCategory { .transportation }
-	public var image: ImageName { .system("building") }
-	public var name : String { Christof.Service.name }
+    public init(device: BTDevice) {
+        self.device = device
+        self.connectionState = device.connectionState
+        self.streetLights = BTLighting(device: device)
+        self.fpTransmitter = PFBTRransmitter(
+            device: device,
+            component: FacilityPropComponent.motion,
+            category: FacilityPropCategory.power
+        )
 
-	public func connect() {
-		device.connect()
-	}
+        observations.append(
+            observeValue(
+                of: device,
+                \.connectionState,
+                with: self,
+                initialPush: false
+            ) { _, state, this in
+                this?.connectionState = state
+            }
+        )
+    }
 
-	public func disconnect() {
-		device.disconnect()
-	}
+    public var category: FacilityCategory { .transportation }
+    public var image: ImageReference { .system("building") }
+    public var name: String { Self.Service.name }
 
-	public func transmit(cmd: PFCommand) {
-		self.fpTransmitter.transmit(cmd: cmd)
-	}
+    public func connect() {
+        device.connect()
+    }
 
-	public func reset() {
-		self.streetLights.reset()
-	}
+    public func disconnect() {
+        device.disconnect()
+    }
 
-	public func fullStop() {
-		self.streetLights.fullStop()
-	}
+    public func transmit(cmd: PFCommand) {
+        fpTransmitter.transmit(cmd: cmd)
+    }
+
+    public func reset() {
+        streetLights.reset()
+    }
+
+    public func fullStop() {
+        streetLights.fullStop()
+    }
 }
-
-/*
-
-//					Grid(alignment: .leading, horizontalSpacing: 12) {
-//						LightingControlsView(lighting: facility.streetLights)
-//					}
- */

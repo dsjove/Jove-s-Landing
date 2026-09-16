@@ -15,7 +15,7 @@ struct MotorIndicatorView: View {
 	var body: some View {
 		image
 			.resizable()
-			.foregroundColor(color())
+			.foregroundStyle(color())
 			.aspectRatio(contentMode: .fit)
 	}
 

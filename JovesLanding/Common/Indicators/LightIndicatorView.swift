@@ -14,12 +14,12 @@ struct LightIndicatorView: View {
 			Image(systemName: "lightbulb.fill")
 				.resizable()
 				.aspectRatio(contentMode: .fit)
-				.foregroundColor(
+				.foregroundStyle(
 					Color("Lights/Off"))
 			Image(systemName: "lightbulb.fill")
 				.resizable()
 				.aspectRatio(contentMode: .fit)
-				.foregroundColor(
+				.foregroundStyle(
 					Color("Lights/On").opacity(on))
 		}
 	}

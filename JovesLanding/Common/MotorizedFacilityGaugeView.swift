@@ -1,16 +1,16 @@
 //
-//  MotorizedFacilityGauageView.swift
+//  MotorizedFacilityGaugeView.swift
 //  JovesLanding
 //
 //  Created by David Giovannini on 12/14/22.
 //
 
 import SwiftUI
-import SBJKit
+import SBJFoundation
 import SBJLego
 import SbjGauge
 
-struct MotorizedFacilityGauageView<F: MotorizedFacility> : View {
+struct MotorizedFacilityGaugeView<F: MotorizedFacility> : View {
 	let facility: F
 
 	func indicators() -> GaugeIndicators {
@@ -36,5 +36,5 @@ struct MotorizedFacilityGauageView<F: MotorizedFacility> : View {
 }
 
 #Preview {
-	MotorizedFacilityGauageView(facility: JoveMetroLine())
+	MotorizedFacilityGaugeView(facility: JoveMetroLine())
 }

@@ -6,152 +6,153 @@
 //
 
 import Foundation
-@preconcurrency import BLEByJove
-import SBJKit
-import Combine
+import Observation
+import SBJFoundation
+import BLEByJove
 import SBJLego
 
+@MainActor
 @Observable
-public class JoveMetroLine: MotorizedFacility {
-	public static let Service = CircuitCube.Service
-	public let id: UUID
-	private let cube: CircuitCube
-	private var sink: Set<AnyCancellable> = []
-	var beatCheck: Cancellable = AnyCancellable({})
+public final class JoveMetroLine: @MainActor MotorizedFacility {
+    public static let Service = CircuitCube.Service
 
-	public let heartBeatSpec : (delay: Int, interval: Int) = (1000, 30)
+    public let id: UUID
 
-	public convenience init() {
-		self.init(device: .init(preview: "Sample"))
-	}
+    private let cube: CircuitCube
+    private var observations: [ObserveToken] = []
+    private var heartbeatTask: Task<Void, Never>?
 
-	public init(device: BTDevice) {
-		self.id = device.id
-		self.cube = CircuitCube(device: device)
-		self.connectionState = device.connectionState
-		self.name = device.name
-		self.battery = -1
-		self.motor = CCMotor(cube: cube)
-		self.lighting = CCLighting(cube: cube)
+    public let heartBeatSpec: (delay: Int, interval: Int) = (1000, 30)
 
-		device.$connectionState.dropFirst().sink { [weak self] in
-			self?.connectionState = $0
-		}.store(in: &sink)
+    public convenience init() {
+        self.init(device: .init(preview: "Sample"))
+    }
 
-		device.$name.sink { [weak self] in
-			self?.name = $0
-		}.store(in: &sink)
-	}
+    public init(device: BTDevice) {
+        id = device.id
+        cube = CircuitCube(device: device)
+        connectionState = device.connectionState
+        name = device.name
+        battery = -1
+        motor = CCMotor(cube: cube)
+        lighting = CCLighting(cube: cube)
 
-	deinit {
-		Task { @MainActor [weak self] in
-			self?.beatCheck.cancel()
-		}
-	}
+        observations.append(
+            observeValue(
+                of: device,
+                \.connectionState,
+                with: self,
+                initialPush: false
+            ) { _, state, this in
+                this?.connectionState = state
+            }
+        )
 
-	public var category: FacilityCategory { .transportation }
-	public var image: ImageName { .system("lightrail") }
+        observations.append(
+            observeValue(
+                of: device,
+                \.name,
+                with: self,
+                initialPush: false
+            ) { _, name, this in
+                this?.name = name
+            }
+        )
+    }
 
-	public private(set) var name: String
+    isolated deinit {
+        heartbeatTask?.cancel()
+    }
 
-	public var canSetName: Bool { true }
-	public func change(name: String) {
-		if name != self.name {
-			Task {
-				await cube.name(set: name)
-			}
-		}
-	}
+    public var category: FacilityCategory { .transportation }
+    public var image: ImageReference { .system("lightrail") }
 
-	public private(set) var connectionState: ConnectionState {
-		didSet {
-			switch connectionState {
-				case .connected:
-					Task {
-						await cube.name()
-					}
-					self.startHeartBeat()
-				case .connecting:
-					break
-				case .disconnected:
-					reset()
-				break
-			}
-		}
-	}
+    public private(set) var name: String
 
-	public private(set) var battery: Double?
+    public var canSetName: Bool { true }
 
-	public let motor: CCMotor
+    public func change(name: String) {
+        guard name != self.name else { return }
+        Task {
+            await cube.name(set: name)
+        }
+    }
 
-	public let lighting: CCLighting?
+    public private(set) var connectionState: ConnectionState {
+        didSet {
+            switch connectionState {
+            case .connected:
+                Task {
+                    await cube.name()
+                }
+                startHeartBeat()
+            case .connecting:
+                break
+            case .disconnected:
+                reset()
+            }
+        }
+    }
 
-	public func connect() {
-		Task {
-			await cube.connect()
-		}
-	}
+    public private(set) var battery: Double?
 
-	public func disconnect() {
-		Task {
-			await cube.disconnect()
-		}
-	}
+    public let motor: CCMotor
+    public let lighting: CCLighting?
 
-	@MainActor
-	private func updateBattery() async {
-		let b = await cube.battery()
-		DispatchQueue.main.async {
-			self.battery = b
-		}
-	}
+    public func connect() {
+        Task {
+            cube.connect()
+        }
+    }
 
-	private func reset() {
-		self.motor.reset()
-		self.lighting?.reset()
-		self.beatCheck.cancel()
-		self.heartBeat = -1
-		self.battery = -1
-	}
+    public func disconnect() {
+        Task {
+            cube.disconnect()
+        }
+    }
 
-	private(set) public var heartBeat: Int = -1 {
-		didSet {
-			if self.heartBeat > -1 {
-				Task {
-					await updateBattery()
-				}
-			}
-		}
-	}
+    private func updateBattery() async {
+        battery = await cube.battery()
+    }
 
-	private func connectionStateChanged(connectionState: ConnectionState) {
-		switch connectionState {
-			case .connected:
-				startHeartBeat()
-			case .connecting:
-				break
-			case .disconnected:
-				reset()
-		}
-	}
+    private func reset() {
+        heartbeatTask?.cancel()
+        heartbeatTask = nil
+        motor.reset()
+        lighting?.reset()
+        heartBeat = -1
+        battery = -1
+    }
 
-	private func startHeartBeat() {
-		let (heartBeatInit, heartBeatInterval) = heartBeatSpec
-		if heartBeatInit > 0 {
-			if heartBeatInterval > 0 {
-				self.beatCheck = DispatchQueue.main.schedule(
-					after: DispatchQueue.SchedulerTimeType(.now() + .milliseconds(heartBeatInit)),
-					interval: DispatchQueue.SchedulerTimeType.Stride(.seconds(heartBeatInterval))) { [weak self] in
-							self?.heartBeat += 1
-					}
-			}
-			else {
-				DispatchQueue.main.schedule(
-					after: DispatchQueue.SchedulerTimeType(.now() + .milliseconds(heartBeatInit))) { [weak self] in
-							self?.heartBeat = 0
-					}
-			}
-		}
-	}
+    public private(set) var heartBeat: Int = -1 {
+        didSet {
+            if heartBeat > -1 {
+                Task {
+                    await updateBattery()
+                }
+            }
+        }
+    }
+
+    private func startHeartBeat() {
+        heartbeatTask?.cancel()
+
+        let (delayMilliseconds, intervalSeconds) = heartBeatSpec
+        guard delayMilliseconds > 0 else { return }
+
+        heartbeatTask = Task { [weak self] in
+            try? await Task.sleep(for: .milliseconds(delayMilliseconds))
+            guard !Task.isCancelled else { return }
+
+            if intervalSeconds <= 0 {
+                self?.heartBeat = 0
+                return
+            }
+
+            while !Task.isCancelled {
+                self?.heartBeat += 1
+                try? await Task.sleep(for: .seconds(intervalSeconds))
+            }
+        }
+    }
 }
-

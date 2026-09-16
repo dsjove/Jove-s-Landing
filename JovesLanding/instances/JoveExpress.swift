@@ -6,68 +6,73 @@
 //
 
 import Foundation
-import SBJKit
+import Observation
+import SBJFoundation
 import BLEByJove
-import Combine
 import SBJLego
 
+@MainActor
 @Observable
-public class JoveExpress: MotorizedFacility {
-	public static let Service = BTServiceIdentity(name: "Jove Express")
-	public var id: UUID { device.id }
-	private let device: BTDevice
-	private var sink: Set<AnyCancellable> = []
+public final class JoveExpress: @MainActor MotorizedFacility {
+    public static let Service = BTServiceIdentity(name: "Jove Express")
 
-	public let motor: BTMotor
-	public let lighting: BTLighting?
-	
-	public convenience init() {
-		self.init(device: .init(preview: "Sample"))
-	}
+    public var id: UUID { device.id }
 
-	public init(device: BTDevice) {
-		self.device = device
-		self.connectionState = device.connectionState
-		self.motor = Motor(device: device)
-		self.lighting = BTLighting(device: device)
+    private let device: BTDevice
+    private var observations: [ObserveToken] = []
 
-		device.$connectionState.dropFirst().sink { [weak self] in
-			self?.connectionState = $0
-		}.store(in: &sink)
-	}
+    public let motor: BTMotor
+    public let lighting: BTLighting?
 
-	public var category: FacilityCategory { .transportation }
-	public var image: ImageName { .system("train.side.front.car") }
-	public var name : String {JoveExpress.Service.name}
+    public convenience init() {
+        self.init(device: .init(preview: "Sample"))
+    }
 
-	public func connect() {
-		device.connect()
-	}
+    public init(device: BTDevice) {
+        self.device = device
+        self.connectionState = device.connectionState
+        self.motor = BTMotor(device: device)
+        self.lighting = BTLighting(device: device)
 
-	public func disconnect() {
-		device.disconnect()
-	}
+        observations.append(
+            observeValue(
+                of: device,
+                \.connectionState,
+                with: self,
+                initialPush: false
+            ) { _, state, this in
+                this?.connectionState = state
+            }
+        )
+    }
 
-	public private(set) var connectionState: ConnectionState {
-		didSet {
-			switch connectionState {
-				case .connected:
-					break
-				case .connecting:
-					break
-				case .disconnected:
-					reset()
-			}
-		}
-	}
+    public var category: FacilityCategory { .transportation }
+    public var image: ImageReference { .system("train.side.front.car") }
+    public var name: String { Self.Service.name }
 
-	public func reset() {
-		self.motor.reset()
-		self.lighting?.reset()
-	}
+    public func connect() {
+        device.connect()
+    }
 
-	public func fullStop() {
-		self.motor.fullStop()
-		self.lighting?.fullStop()
-	}
+    public func disconnect() {
+        device.disconnect()
+    }
+
+    public private(set) var connectionState: ConnectionState {
+        didSet {
+            if connectionState == .disconnected {
+                reset()
+            }
+        }
+    }
+
+    public func reset() {
+        motor.reset()
+        lighting?.reset()
+    }
+
+    public func fullStop() {
+        motor.fullStop()
+        lighting?.fullStop()
+    }
 }

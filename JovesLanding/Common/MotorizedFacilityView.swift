@@ -29,7 +29,7 @@ struct MotorizedFacilityView<Facility: MotorizedFacility, FacilitySpecialization
 				.ignoresSafeArea()
 			HVStack(spacing: 8) {
 				FacilityConnectionView(facility) { facility in
-					MotorizedFacilityGauageView(facility: facility)
+					MotorizedFacilityGaugeView(facility: facility)
 				}
 				VStack {
 					MotorizedFacilityControlsView(facility: facility)

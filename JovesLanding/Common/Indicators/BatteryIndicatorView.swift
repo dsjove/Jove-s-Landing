@@ -23,7 +23,7 @@ struct BatteryIndicatorView: View {
 					.font(.system(size: geom.size.height * 0.25))
 					.lineLimit(1)
 					.allowsTightening(true)
-					.foregroundColor(Color("Battery/Text"))
+					.foregroundStyle(Color("Battery/Text"))
 					.frame(alignment: .leading)
 					*/
 			}

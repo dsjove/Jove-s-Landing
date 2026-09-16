@@ -5,7 +5,7 @@
 //  Created by David Giovannini on 3/26/25.
 //
 
-import SBJKit
+import SBJFoundation
 import BLEByJove
 import Foundation
 import SBJLego
@@ -18,7 +18,7 @@ public struct PFFacilityRegistration: PFFacilityMeta, Comparable, Equatable, Ide
 
 	public let category: FacilityCategory
 	public let name: String
-	public let image: SBJKit.ImageName
+	public let image: ImageReference
 
 	public var sound: SoundPlayer.Source = .none
 	//public var symbol: ArduinoR4Matrix? = nil
@@ -110,14 +110,14 @@ extension Christof {
 				channel: 0,
 				category: FacilityCategory.transportation,
 				name: "Unknown",
-				image: .bundled("Train", SBJLego.Resources.bundle)//,
+				image: .asset("Train", bundle: SBJLego.Resources.bundle)//,
 			),
 			PFFacilityRegistration(
 				id: Data([0xC0, 0x05, 0x1F, 0x3B]),
 				channel: 1,
 				category: FacilityCategory.transportation,
 				name: "Maersk",
-				image: .bundled("Train", SBJLego.Resources.bundle),
+				image: .asset("Train", bundle: SBJLego.Resources.bundle),
 				sound: .asset("TrainHorn")
 			),
 			PFFacilityRegistration(
@@ -126,7 +126,7 @@ extension Christof {
 				timeout: 30,
 				category: FacilityCategory.transportation,
 				name: "Bare Necessities",
-				image: .bundled("Train", SBJLego.Resources.bundle),
+				image: .asset("Train", bundle: SBJLego.Resources.bundle),
 				sound: .asset("CatCallWhistle")
 			),
 			PFFacilityRegistration(

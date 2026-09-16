@@ -12,7 +12,7 @@ import SBJLego
 typealias JoveMetroLineView = ConductedView<JoveMetroLine>
 //typealias CityCenterView = ConductedView<CityCenter>
 typealias JoveExpressView = ConductedView<JoveExpress>
-typealias PowerFunctionView = ConductedView<PFFacility>
+typealias PowerFunctionView = ConductedView<PFFacility<PFFacilityRegistration>>
 
 struct ESPCamView : View {
 	let facility: ESPCam
@@ -61,7 +61,7 @@ struct ConductedView<F: MotorizedFacility>: View {
 	}
 	
 	var body: some View {
-		MotorizedFacilityGauageView(facility: facility)
+		MotorizedFacilityGaugeView(facility: facility)
 			.onTapGesture(count: 1) {
 				if let lighting = facility.lighting {
 					lighting.power.control = lighting.power.control == 0.0 ? 1.0 : 0.0
