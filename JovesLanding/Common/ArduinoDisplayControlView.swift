@@ -131,7 +131,7 @@ struct ArduinoDisplayControlView: View {
 
                 ToolbarItem(placement: .confirmationAction) {
                     ShareLink(item: exportText) {
-                        Label("Share", systemImage: "square.and.arrow.up")
+                        Label("Share", image: SBJSemanticImageReference.share)
                     }
                     .disabled(exportText.isEmpty)
                 }
