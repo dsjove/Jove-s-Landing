@@ -64,6 +64,8 @@
 		55F2846429444DD100047EF5 /* TrainConductor Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 55F2846329444DD100047EF5 /* TrainConductor Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		55F2847029444DD200047EF5 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55F2846F29444DD200047EF5 /* Preview Assets.xcassets */; };
 		55F284892944583100047EF5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55F284882944583100047EF5 /* Assets.xcassets */; };
+		2766C8C930CD487EAE1B4080 /* SBJLocalization in Frameworks */ = {isa = PBXBuildFile; productRef = 04BC995E38874DE0910BB35D /* SBJLocalization */; };
+		B30CDFB3E6E446CE8A366FF5 /* SBJCamera in Frameworks */ = {isa = PBXBuildFile; productRef = ED36748999AC470CBF5893F2 /* SBJCamera */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -145,6 +147,9 @@
 				5508269C2F2289B100D44BBC /* SBJLego in Frameworks */,
 				5575135A2DA87BA800E73784 /* BLEByJove in Frameworks */,
 				557513512DA8531800E73784 /* SbjGauge in Frameworks */,
+			
+				2766C8C930CD487EAE1B4080 /* SBJLocalization in Frameworks */,
+				B30CDFB3E6E446CE8A366FF5 /* SBJCamera in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -156,6 +161,9 @@
 				5575135C2DA87BB400E73784 /* BLEByJove in Frameworks */,
 				5534ECE12F22886C0076FF29 /* SBJLego in Frameworks */,
 				557513532DA8532C00E73784 /* SbjGauge in Frameworks */,
+			
+				2766C8C930CD487EAE1B4080 /* SBJLocalization in Frameworks */,
+				B30CDFB3E6E446CE8A366FF5 /* SBJCamera in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -317,6 +325,9 @@
 				557513592DA87BA800E73784 /* BLEByJove */,
 				557A2E062EFD90550052A30F /* SBJFoundation */,
 				5508269B2F2289B100D44BBC /* SBJLego */,
+			
+				04BC995E38874DE0910BB35D /* SBJLocalization */,
+				ED36748999AC470CBF5893F2 /* SBJCamera */,
 			);
 			productName = JovesLanding;
 			productReference = 55F284182944452700047EF5 /* JovesLanding.app */;
@@ -357,6 +368,9 @@
 				5575135B2DA87BB400E73784 /* BLEByJove */,
 				557A2E082EFD90600052A30F /* SBJFoundation */,
 				5534ECE02F22886C0076FF29 /* SBJLego */,
+			
+				04BC995E38874DE0910BB35D /* SBJLocalization */,
+				ED36748999AC470CBF5893F2 /* SBJCamera */,
 			);
 			productName = "TrainConductor Watch App";
 			productReference = 55F2846329444DD100047EF5 /* TrainConductor Watch App.app */;
@@ -400,6 +414,9 @@
 				557513562DA87B8500E73784 /* XCLocalSwiftPackageReference "../../../GitHub/BLEByJove" */,
 				557A2E052EFD90460052A30F /* XCLocalSwiftPackageReference "../../SBJFoundation" */,
 				5534ECDF2F22886C0076FF29 /* XCLocalSwiftPackageReference "../../SBJLego" */,
+				89BEACCBDC5E49498FD4233C /* XCLocalSwiftPackageReference "../../SBJFoundation/Packages/SBJLocalization" */,
+				89BEACCBDC5E49498FD4233C /* XCLocalSwiftPackageReference "../../SBJFoundation/Packages/SBJLocalization" */,
+				A553F43CD34A486296FC7128 /* XCLocalSwiftPackageReference "../../SBJFoundation/Packages/SBJCamera" */,
 			);
 			productRefGroup = 55F284192944452700047EF5 /* Products */;
 			projectDirPath = "";
@@ -864,6 +881,8 @@
 			isa = XCLocalSwiftPackageReference;
 			relativePath = ../../SBJFoundation;
 		};
+		89BEACCBDC5E49498FD4233C /* XCLocalSwiftPackageReference "../../SBJFoundation/Packages/SBJLocalization" */ = {isa = XCLocalSwiftPackageReference; relativePath = ../../SBJFoundation/Packages/SBJLocalization; };
+		A553F43CD34A486296FC7128 /* XCLocalSwiftPackageReference "../../SBJFoundation/Packages/SBJCamera" */ = {isa = XCLocalSwiftPackageReference; relativePath = ../../SBJFoundation/Packages/SBJCamera; };
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCRemoteSwiftPackageReference section */
@@ -917,6 +936,8 @@
 			package = 557A2E052EFD90460052A30F /* XCLocalSwiftPackageReference "../../SBJFoundation" */;
 			productName = SBJFoundation;
 		};
+		04BC995E38874DE0910BB35D /* SBJLocalization */ = {isa = XCSwiftPackageProductDependency; package = 89BEACCBDC5E49498FD4233C /* XCLocalSwiftPackageReference "../../SBJFoundation/Packages/SBJLocalization" */; productName = SBJLocalization; };
+		ED36748999AC470CBF5893F2 /* SBJCamera */ = {isa = XCSwiftPackageProductDependency; package = A553F43CD34A486296FC7128 /* XCLocalSwiftPackageReference "../../SBJFoundation/Packages/SBJCamera" */; productName = SBJCamera; };
 /* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 55F284102944452700047EF5 /* Project object */;
