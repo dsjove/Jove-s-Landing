@@ -7,9 +7,9 @@
 
 import Foundation
 import Observation
-import SBJFoundation
 import BLEByJove
 import SBJLego
+import SBJLocalization
 
 public struct TrainDetection {
     let rfid: SampledRFIDDetection
@@ -87,7 +87,7 @@ public final class TrainStation: @MainActor Facility, @MainActor RFIDProducing {
     }
 
     public var category: FacilityCategory { .transportation }
-    public var image: ImageReference { .system("tram.fill.tunnel") }
+    public var image: SBJSymbol { .system("tram.fill.tunnel") }
     public var name: String { Self.Service.name }
 
     public func connect() {

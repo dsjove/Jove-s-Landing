@@ -52,7 +52,7 @@ struct RegistrationListView: View {
 						rail.receive(detection)
 					}) {
 						HStack {
-							Image(reg.image)
+							Image(symbol: reg.image)
 								.resizable()
 								.scaledToFit()
 								.frame(width: 20, height: 20)

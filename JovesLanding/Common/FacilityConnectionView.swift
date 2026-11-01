@@ -32,7 +32,7 @@ public struct FacilityConnectionView<Content: View, F: Facility>: View {
 								facility.disconnect()
 							}
 						}) {
-							Image(facility.connectionState.imageReference)
+							Image(symbol: facility.connectionState.symbol)
 								.resizable()
 								.aspectRatio(contentMode: .fit)
 						}

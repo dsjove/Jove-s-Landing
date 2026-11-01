@@ -7,9 +7,9 @@
 
 import Foundation
 import Observation
-import SBJFoundation
 import BLEByJove
 import SBJLego
+import SBJLocalization
 
 @MainActor
 @Observable
@@ -65,7 +65,7 @@ public final class JoveMetroLine: @MainActor MotorizedFacility {
     }
 
     public var category: FacilityCategory { .transportation }
-    public var image: ImageReference { .system("lightrail") }
+    public var image: SBJSymbol { .system("lightrail") }
 
     public private(set) var name: String
 

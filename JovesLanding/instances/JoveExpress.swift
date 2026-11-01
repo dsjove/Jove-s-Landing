@@ -7,9 +7,9 @@
 
 import Foundation
 import Observation
-import SBJFoundation
 import BLEByJove
 import SBJLego
+import SBJLocalization
 
 @MainActor
 @Observable
@@ -47,7 +47,7 @@ public final class JoveExpress: @MainActor MotorizedFacility {
     }
 
     public var category: FacilityCategory { .transportation }
-    public var image: ImageReference { .system("train.side.front.car") }
+    public var image: SBJSymbol { .system("train.side.front.car") }
     public var name: String { Self.Service.name }
 
     public func connect() {

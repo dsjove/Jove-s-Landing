@@ -13,6 +13,8 @@ typealias JoveMetroLineView = ConductedView<JoveMetroLine>
 //typealias CityCenterView = ConductedView<CityCenter>
 typealias JoveExpressView = ConductedView<JoveExpress>
 typealias PowerFunctionView = ConductedView<PFFacility<PFFacilityRegistration>>
+//MotorizedFacilityView
+//FacilityConnectionView
 
 struct ESPCamView : View {
 	let facility: ESPCam

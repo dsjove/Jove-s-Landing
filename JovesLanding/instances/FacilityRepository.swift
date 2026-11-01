@@ -5,10 +5,10 @@
 //  Created by David Giovannini on 3/26/25.
 //
 
-import SBJFoundation
 import BLEByJove
 import Foundation
 import SBJLego
+import SBJLocalization
 
 public struct PFFacilityRegistration: PFFacilityMeta, Comparable, Equatable, Identifiable {
 	public let id: Data
@@ -18,7 +18,7 @@ public struct PFFacilityRegistration: PFFacilityMeta, Comparable, Equatable, Ide
 
 	public let category: FacilityCategory
 	public let name: String
-	public let image: ImageReference
+	public let image: SBJSymbol
 
 	public var sound: SoundPlayer.Source = .none
 	//public var symbol: ArduinoR4Matrix? = nil

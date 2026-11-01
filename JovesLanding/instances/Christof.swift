@@ -7,9 +7,9 @@
 
 import Foundation
 import Observation
-import SBJFoundation
 import BLEByJove
 import SBJLego
+import SBJLocalization
 
 @MainActor
 @Observable
@@ -63,7 +63,7 @@ public final class Christof: @MainActor Facility, @MainActor PFTransmitter {
     }
 
     public var category: FacilityCategory { .transportation }
-    public var image: ImageReference { .system("building") }
+    public var image: SBJSymbol { .system("building") }
     public var name: String { Self.Service.name }
 
     public func connect() {

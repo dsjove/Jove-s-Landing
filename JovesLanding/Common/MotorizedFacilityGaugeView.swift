@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import SBJFoundation
 import SBJLego
 import SbjGauge
 
@@ -14,7 +13,7 @@ struct MotorizedFacilityGaugeView<F: MotorizedFacility> : View {
 	let facility: F
 
 	func indicators() -> GaugeIndicators {
-		var indicators = GaugeIndicators(image: Image(facility.image))
+		var indicators = GaugeIndicators(image: Image(symbol: facility.image))
 		indicators.battery = facility.battery
 		indicators.light = facility.lighting?.power.feedback ?? 0
 		indicators.motorState = MotorState(power: facility.motor.power.feedback)

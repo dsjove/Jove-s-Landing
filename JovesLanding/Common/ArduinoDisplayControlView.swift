@@ -7,7 +7,6 @@
 
 import SwiftUI
 import SBJLocalization
-import SBJFoundation
 import BLEByJove
 import SBJLego
 
@@ -132,7 +131,7 @@ struct ArduinoDisplayControlView: View {
 
                 ToolbarItem(placement: .confirmationAction) {
                     ShareLink(item: exportText) {
-                        Label("Share", image: .symbol(SBJSymbology.share))
+                        Label("Share", symbol: SBJSymbology.share)
                     }
                     .disabled(exportText.isEmpty)
                 }

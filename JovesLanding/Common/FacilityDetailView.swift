@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import SBJFoundation
 import BLEByJove
 import SBJLego
 
@@ -15,10 +14,10 @@ struct FacilityHeaderView<F: Facility>: View {
 
 	var body: some View {
 		HStack(spacing: 8) {
-			Image(facility.connectionState.imageReference)
+			Image(symbol: facility.connectionState.symbol)
 				.symbolRenderingMode(.hierarchical)
 				.foregroundStyle(.secondary)
-			Label(facility.name, image: facility.image)
+			Label(facility.name, symbol: facility.image)
 		}
 		.frame(height: 44, alignment: .center)
 	}
